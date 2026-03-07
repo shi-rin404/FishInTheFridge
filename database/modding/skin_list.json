@@ -1,0 +1,484 @@
+{
+    "Antiquarian Original": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_gd/h55_survivor_w_gd.gim",
+        "item": "chr/prop/h55_pendant_wushu_xiao/h55_pendant_wushu_xiao.gim"
+    },
+    "\"Divergent Spectrum\"": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_gjs/separate_dir/gjs_e_sl/gjs_e_sl.gim"
+    },
+    "Archer Original": {
+        "item": "chr/prop/h55_pendant_bow/h55_pendant_bow.gim",
+        "extra_item_1": "chr/prop/h55_pendant_crossbow/h55_pendant_crossbow.gim",
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_gjs/h55_survivor_w_gjs.gim"
+    },
+    "Barmaid Original": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_tiaojiu/h55_survivor_w_tiaojiu.gim",
+        "item": "chr/prop/h55_pendant_jiutong/h55_pendant_jiuping.gim",
+        "extra_item_1": "chr/prop/h55_pendant_jiutong/h55_pendant_jiutong.gim"
+    },
+    "Fragile": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_tiaojiu/separate_dir/tiaojiu_e_fula/tiaojiu_e_fula.gim",
+        "item": "chr/prop/h55_pendant_jiutong/separate_dir/tiaojiu_e_fula/tiaojiu_e_fula_jiuping.gim",
+        "extra_item_1": "chr/prop/h55_pendant_jiutong/separate_dir/tiaojiu_e_fula/tiaojiu_e_fula_jiutong.gim"
+    },
+    "Batter Original": {
+        "skin": "chr/player/dm65_survivor_m/h55_survivor_m_jiqiu/h55_survivor_m_jiqiu.gim"
+    },
+    "Amethyst Duchess": {
+        "extra_item_1": "chr/boss/redqueen/separate_dir/redqueen_e_liezhuang/redqueen_e_liezhuang_mirror.gim",
+        "item": "chr/boss/redqueen/separate_dir/redqueen_e_liezhuang/redqueen_e_liezhuang_weapon.gim",
+        "skin": "chr/boss/redqueen/separate_dir/redqueen_e_liezhuang/redqueen_e_liezhuang.gim"
+    },
+    "Bloodbath": {
+        "item": "chr/boss/redqueen/separate_dir/redqueen_e_queen/redqueen_e_queen_weapon.gim",
+        "extra_item_1": "chr/boss/redqueen/separate_dir/redqueen_e_queen/redqueen_e_queen_mirror.gim",
+        "skin": "chr/boss/redqueen/separate_dir/redqueen_e_queen/redqueen_e_queen.gim"
+    },
+    "Bloody Queen Original": {
+        "skin": "chr/boss/redqueen/redqueen.gim",
+        "item": "chr/boss/redqueen/redqueen_weapon.gim",
+        "extra_item_1": "chr/boss/redqueen/redqueen_mirror.gim",
+        "extra_item_2": "fx/model/redqueen_mirror_model_obj_001.gim"
+    },
+    "Moment of Glory": {
+        "skin": "chr/boss/redqueen/separate_dir/redqueen_d_rg/redqueen_d_rg.gim",
+        "item": "chr/boss/redqueen/redqueen_weapon.gim",
+        "extra_item_1": "chr/boss/redqueen/redqueen_mirror.gim"
+    },
+    "Pipe Dream": {
+        "skin": "chr/boss/redqueen/separate_dir/redqueen_d_suyuan/redqueen_d_suyuan.gim",
+        "item": "chr/boss/redqueen/redqueen_weapon.gim",
+        "extra_item_1": "chr/boss/redqueen/redqueen_mirror.gim"
+    },
+    "Cheerleader Original": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_ll/h55_survivor_w_ll.gim",
+        "item": "chr/prop/h55_pendant_caiqiu_r/h55_pendant_caiqiu_r.gim",
+        "extra_item_1": "chr/prop/h55_pendant_caiqiu_l/h55_pendant_caiqiu_l.gim"
+    },
+    "Black Swan": {
+        "item": "chr/prop/h55_pendant_flaregun/separate_dir/bdz_e_heitiane/bdz_e_heitiane_flaregun.gim",
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_bdz/separate_dir/bdz_e_heitiane/bdz_e_heitiane.gim"
+    },
+    "Coordinator Original": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_bdz/h55_survivor_w_bdz_lv1.gim",
+        "item": "chr/prop/h55_pendant_flaregun/h55_pendant_flaregun.gim"
+    },
+    "Antimony": {
+        "skin": "chr/player/dm65_survivor_w/dm65_survivor_w_yiyaoshi/separate_dir/yiyaoshi_e_xl/yiyaoshi_e_xl.gim",
+        "item": "chr/prop/h55_pendant_inject/separate_dir/yiyaoshi_e_xl/yiyaoshi_e_xl_inject.gim",
+        "toushi": "chr/player/dm65_survivor_w/dm65_survivor_w_yiyaoshi/separate_dir/yiyaoshi_e_xl/yiyaoshi_e_xl_toushi.gim"
+    },
+    "Doctor Original": {
+        "skin": "chr/player/dm65_survivor_w/dm65_survivor_w_yiyaoshi/dm65_survivor_w_yiyaoshi_lv1.gim",
+        "item": "chr/prop/h55_pendant_inject/inject.gim"
+    },
+    "Ethernal Flower": {
+        "item": "chr/prop/h55_pendant_inject/separate_dir/yiyaoshi_e_yongsheng/yiyaoshi_e_yongsheng.gim",
+        "skin": "chr/player/dm65_survivor_w/dm65_survivor_w_yiyaoshi/separate_dir/yiyaoshi_e_yongsheng/yiyaoshi_e_yongsheng.gim"
+    },
+    "Events of the Past": {
+        "item": "chr/prop/h55_pendant_inject/inject.gim",
+        "skin": "chr/player/dm65_survivor_w/dm65_survivor_w_yiyaoshi/separate_dir/yiyaoshi_d_chunzhen/yiyaoshi_d_chunzhen.gim"
+    },
+    "Faithful Pharmacist": {
+        "item": "chr/prop/h55_pendant_inject/inject.gim",
+        "skin": "chr/player/dm65_survivor_w/dm65_survivor_w_yiyaoshi/separate_dir/yiyaoshi_d_yishi/yiyaoshi_d_yishi.gim"
+    },
+    "Field Physician": {
+        "item": "chr/prop/h55_pendant_inject/inject.gim",
+        "skin": "chr/player/dm65_survivor_w/dm65_survivor_w_yiyaoshi/separate_dir/yiyaoshi_d_jiuji/yiyaoshi_d_jiuji.gim"
+    },
+    "Surgeon": {
+        "item": "chr/prop/h55_pendant_inject/inject.gim",
+        "skin": "chr/player/dm65_survivor_w/dm65_survivor_w_yiyaoshi/separate_dir/yiyaoshi_d_muyang/yiyaoshi_d_muyang.gim"
+    },
+    "Dream Witch Original": {
+        "skin": "chr/boss/yidhra/yidhra.gim",
+        "item": "chr/boss/yidhra_xintu/yidhra_xintu_sickle.gim",
+        "extra_item_1": "chr/boss/yidhra_xintu/yidhra_xintu.gim"
+    },
+    "Tomie Kawakami": {
+        "skin": "chr/boss/yidhra/separate_dir/yidhra_e_tomie2/yidhra_e_tomie2.gim",
+        "extra_item_1": "chr/boss/yidhra_xintu/separate_dir/yidhra_e_tomie2_xintu/yidhra_e_tomie2_xintu.gim",
+        "item": "chr/boss/yidhra_xintu/separate_dir/yidhra_e_tomie2_xintu/yidhra_e_tomie2_xintu_weapon.gim"
+    },
+    "Water Mirage": {
+        "skin": "chr/boss/yidhra/separate_dir/yidhra_d_huanyin/yidhra_d_huanyin.gim",
+        "extra_item_1": "chr/boss/yidhra_xintu/separate_dir/yidhra_d_huanyin_xintu/yidhra_d_huanyin_xintu.gim",
+        "item": "chr/boss/yidhra_xintu/yidhra_xintu_sickle.gim"
+    },
+    "Enchantress Original": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_zhoushu/h55_survivor_w_zhoushu.gim",
+        "item": "chr/prop/h55_pendant_zhoushu_houtou/h55_pendant_zhoushu_houtou_01.gim"
+    },
+    "Hopeless Dove": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_zhoushu/separate_dir/zhoushu_d_gz/zhoushu_d_gz.gim",
+        "item": "chr/prop/h55_pendant_zhoushu_houtou/h55_pendant_zhoushu_houtou_01.gim"
+    },
+    "Horror Tooth": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_zhoushu/separate_dir/zhoushu_e_yiyu/zhoushu_e_yiyu.gim",
+        "item": "chr/prop/h55_pendant_zhoushu_houtou/separate_dir/zhoushu_e_yiyu/zhoushu_e_yiyu_weapon01.gim"
+    },
+    "Cony": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_kunchong/separate_dir/kunchong_e_cony/kunchong_e_cony.gim",
+        "item": "chr/prop/h55_pendant_kunchong_wang/separate_dir/kunchong_e_cony_wang/kunchong_e_cony_wang.gim"
+    },
+    "Entomologist Original": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_kunchong/h55_survivor_w_kunchong.gim",
+        "item": "chr/prop/h55_pendant_kunchong_wang/h55_pendant_kunchong_wang.gim"
+    },
+    "The Wicked Witch": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_kunchong/separate_dir/kunchong_e_nvwu/kunchong_e_nvwu.gim",
+        "item": "chr/prop/h55_pendant_kunchong_wang/separate_dir/kunchong_e_nvwu_wang/kunchong_e_nvwu_wang.gim"
+    },
+    "Drifting Moonlight": {
+        "item": "chr/prop/h55_pendant_musicbox/separate_dir/wht_e_gongzhu/wht_e_gongzhu_music_box.gim",
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_wht/separate_dir/wht_e_gongzhu/wht_e_gongzhu.gim"
+    },
+    "Female Dancer Original": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_wht/h55_survivor_w_wht_lv1.gim",
+        "item": "chr/prop/h55_pendant_musicbox/h55_pendant_musicbox.gim",
+        "extra_item_1": "chr/prop/h55_pendant_musicbox/h55_pendant_musicbox02.gim"
+    },
+    "Safflower": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_wht/separate_dir/wht_d_honghua/wht_d_honghua.gim"
+    },
+    "Swan": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_wht/separate_dir/wht_d_xiaofu/wht_d_xiaofu.gim"
+    },
+    "Fire Investigator Original": {
+        "skin": "chr/player/dm65_survivor_m/h55_survivor_m_xf/h55_survivor_m_xf.gim",
+        "item": "chr/prop/h55_pendant_xf/h55_survivor_m_xf_daoju.gim"
+    },
+    "Forward Original": {
+        "skin": "chr/player/dm65_survivor_m/h55_survivor_m_ydy/separate_dir/ydy_lv1_en/survivor_m_ydy_lv1.gim",
+        "item": "chr/prop/h55_pendant_football/football.gim"
+    },
+    "Gardener Original": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_hlz/h55_survivor_w_hlz_lv1.gim",
+        "item": "chr/prop/h55_pendant_gjx/h55_pendant_gjx.gim"
+    },
+    "Ghost Girl": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_hlz/separate_dir/hlz_e_ghostnew/hlz_e_ghostnew.gim",
+        "item": "chr/prop/h55_pendant_gjx/separate_dir/hlz_e_ghostgongzhu/hlz_e_ghostgongzhu_gjx.gim"
+    },
+    "Hello Kitty": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_hlz/separate_dir/hlz_e_hellokitty/hlz_e_hellokitty.gim",
+        "item": "chr/prop/h55_pendant_gjx/separate_dir/hlz_e_hellokitty/hlz_e_hellokitty_gjx.gim"
+    },
+    "Lady Truth": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_hlz/separate_dir/hlz_e_zhentan/hlz_e_zhentan.gim",
+        "item": "chr/prop/h55_pendant_gjx/separate_dir/hlz_e_zhentan/hlz_e_zhentan_gjx.gim"
+    },
+    "Snake Island Companion": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_hlz/separate_dir/hlz_d_tcs/hlz_d_tcs.gim",
+        "item": "chr/prop/h55_pendant_gjx/h55_pendant_gjx.gim"
+    },
+    "Wesser of Halfling": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_hlz/separate_dir/hlz_d_hafolin/hlz_d_hafolin.gim",
+        "item": "chr/prop/h55_pendant_gjx/h55_pendant_gjx.gim"
+    },
+    "Geisha Original": {
+        "item": "chr/boss/banshee/h55_banshee_fan.gim",
+        "skin": "chr/boss/banshee/h55_banshee.gim"
+    },
+    "Porcelain Doll": {
+        "skin": "chr/boss/banshee/separate_dir/banshee_d_suici/banshee_d_suici.gim",
+        "item": "chr/boss/banshee/h55_banshee_fan.gim"
+    },
+    "Journalist Original": {
+        "item": "chr/prop/h55_pendant_dls_camera/h55_pendant_dls_camera.gim",
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_deluosi/h55_survivor_w_deluosi.gim"
+    },
+    "Journalist Shirt": {
+        "skin": "chr/guanjia/guanjia_deluosi/guanjia_deluosi_shirt.gim"
+    },
+    "Npc Journalist": {
+        "skin": "chr/guanjia/guanjia_deluosi/separate_dir/npc_deluosi/npc_deluosi.gim"
+    },
+    "Storyjacket": {
+        "skin": "chr/guanjia/guanjia_deluosi/guanjia_deluosi.gim"
+    },
+    "Knight Original": {
+        "skin": "chr/player/dm65_survivor_m/h55_survivor_m_dxzh/h55_survivor_m_dxzh.gim",
+        "extra_item_1": "chr/player/dm65_survivor_m/h55_survivor_m_dxzh/h55_survivor_m_dxzh_head.gim",
+        "extra_item_2": "chr/player/dm65_survivor_m/h55_survivor_m_dxzh/h55_survivor_m_dxzh_head01.gim",
+        "item": "chr/prop/h55_pendant_dxzh_toukui/h55_pendant_dxzh_toukui.gim"
+    },
+    "Lanternist Original": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_hds/h55_survivor_w_hds.gim",
+        "item": "chr/prop/h55_pendant_hds_kaiguan/h55_pendant_hds_kaiguan.gim"
+    },
+    "Aging": {
+        "skin": "chr/player/dm65_survivor_girl/separate_dir/girl_e_niansui/girl_e_niansui.gim",
+        "item": "chr/player/dm65_survivor_girl/separate_dir/girl_e_niansui/girl_e_niansui_page.gim"
+    },
+    "Dorothy": {
+        "skin": "chr/player/dm65_survivor_girl/separate_dir/girl_e_taolesi/girl_e_taolesi.gim",
+        "item": "chr/player/dm65_survivor_girl/separate_dir/girl_e_taolesi/girl_e_taolesi_page.gim"
+    },
+    "Fall Trip": {
+        "skin": "chr/player/dm65_survivor_girl/separate_dir/girl_d_qiuyou/girl_d_qiuyou.gim",
+        "item": "chr/player/dm65_survivor_girl/dm65_survivor_girl_page02.gim"
+    },
+    "Guiding Faerie": {
+        "skin": "chr/player/dm65_survivor_girl/separate_dir/girl_d_xianzi/girl_d_xianzi.gim",
+        "item": "chr/player/dm65_survivor_girl/dm65_survivor_girl_page02.gim"
+    },
+    "Little Girl Original": {
+        "skin": "chr/player/dm65_survivor_girl/dm65_survivor_girl.gim",
+        "item": "chr/player/dm65_survivor_girl/dm65_survivor_girl_page02.gim"
+    },
+    "\"Lock Core\"": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_tqz/separate_dir/tqz_e_heixin/tqz_e_heixin.gim",
+        "item": "chr/prop/h55_pendant_controller/separate_dir/tqz_e_heixin/tqz_e_heixin_controller.gim",
+        "robot": "chr/player/h55_survivor_puppet/h55_survivor_puppet.gim"
+    },
+    "Angled Edge": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_tqz/separate_dir/tqz_d_xiaofu/tqz_d_xiaofu.gim",
+        "item": "chr/prop/h55_pendant_controller/h55_pendant_controller.gim",
+        "robot": "chr/player/h55_survivor_puppet/h55_survivor_puppet.gim"
+    },
+    "Bear Girl": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_tqz/separate_dir/tqz_d_xiongnv/tqz_d_xiongnv.gim",
+        "item": "chr/prop/h55_pendant_controller/h55_pendant_controller.gim",
+        "robot": "chr/player/h55_survivor_puppet/h55_survivor_puppet.gim"
+    },
+    "Dormant Koi": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_tqz/separate_dir/tqz_e_yulong/tqz_e_yulong.gim",
+        "item": "chr/prop/h55_pendant_controller/separate_dir/tqz_e_yulong/tqz_e_yulong_controller.gim",
+        "robot": "chr/player/h55_survivor_puppet/h55_survivor_puppet.gim"
+    },
+    "Fine-Tuning": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_tqz/separate_dir/tqz_e_yiqian/tqz_e_yiqian.gim",
+        "item": "chr/prop/h55_pendant_controller/separate_dir/tqz_e_yiqian/tqz_e_yiqian_controller.gim",
+        "robot": "chr/player/h55_survivor_puppet/h55_survivor_puppet.gim"
+    },
+    "Futaba Sakura": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_tqz/separate_dir/tqz_e_sakura/tqz_e_sakura.gim",
+        "robot": "chr/player/h55_survivor_puppet/h55_survivor_puppet.gim"
+    },
+    "Gothic": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_tqz/separate_dir/tqz_d_halloween/tqz_d_halloween.gim",
+        "item": "chr/prop/h55_pendant_controller/h55_pendant_controller.gim",
+        "robot": "chr/player/h55_survivor_puppet/h55_survivor_puppet.gim"
+    },
+    "Just Around The Corner": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_tqz/separate_dir/tqz_e_tianya/tqz_e_tianya.gim",
+        "item": "chr/prop/h55_pendant_controller/separate_dir/tqz_e_tianya/tqz_e_tianya_controller.gim",
+        "robot": "chr/player/h55_survivor_puppet/h55_survivor_puppet.gim"
+    },
+    "Lockheart": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_tqz/separate_dir/tqz_e_xinsuo/tqz_e_xinsuo.gim",
+        "item": "chr/prop/h55_pendant_controller/separate_dir/tqz_e_xinsuo/tqz_e_xinsuo_controller.gim",
+        "robot": "chr/player/h55_survivor_puppet/h55_survivor_puppet.gim"
+    },
+    "Mechanic Original": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_fxt/h55_survivor_w_fxt_lv1.gim",
+        "item": "chr/prop/h55_pendant_controller/h55_pendant_controller.gim",
+        "robot": "chr/player/h55_survivor_puppet/h55_survivor_puppet.gim"
+    },
+    "Paper Queen": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_tqz/separate_dir/tqz_e_paperqueen/tqz_e_paperqueen.gim",
+        "item": "chr/prop/h55_pendant_controller/separate_dir/tqz_e_paperqueen/tqz_e_paperqueen_controller.gim",
+        "robot": "chr/player/h55_survivor_puppet/h55_survivor_puppet.gim"
+    },
+    "Pawnshop Apprentice": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_fxt/separate_dir/fxt_d_xuetu/fxt_d_xuetu.gim",
+        "item": "chr/prop/h55_pendant_controller/h55_pendant_controller.gim",
+        "robot": "chr/player/h55_survivor_puppet/h55_survivor_puppet.gim"
+    },
+    "Red Riding Hood": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_tqz/separate_dir/tqz_e_hongmao/tqz_e_hongmao.gim",
+        "item": "chr/prop/h55_pendant_controller/separate_dir/tqz_e_hongmao/tqz_e_hongmao_controller.gim",
+        "robot": "chr/player/h55_survivor_puppet/h55_survivor_puppet.gim"
+    },
+    "Reswim": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_tqz/separate_dir/tqz_e_youyong/tqz_e_youyong.gim",
+        "item": "chr/prop/h55_pendant_controller/separate_dir/tqz_e_youyong/tqz_e_youyong_controller.gim",
+        "robot": "chr/player/h55_survivor_puppet/h55_survivor_puppet.gim"
+    },
+    "Sally": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_tqz/separate_dir/tqz_e_linef/tqz_e_linef.gim",
+        "item": "chr/prop/h55_pendant_controller/separate_dir/tqz_e_linef/tqz_e_linef_controller.gim",
+        "robot": "chr/player/h55_survivor_puppet/h55_survivor_puppet.gim"
+    },
+    "The Returned": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_tqz/separate_dir/tqz_e_guilai/tqz_e_guilai.gim",
+        "item": "chr/prop/h55_pendant_controller/separate_dir/tqz_e_guilai/tqz_e_guilai_controller.gim",
+        "robot": "chr/player/h55_survivor_puppet/h55_survivor_puppet.gim"
+    },
+    "Tuning": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_tqz/separate_dir/tqz_d_shuijing/tqz_d_shuijing.gim",
+        "item": "chr/prop/h55_pendant_controller/h55_pendant_controller.gim",
+        "robot": "chr/player/h55_survivor_puppet/h55_survivor_puppet.gim"
+    },
+    "Worn Clothes (Mechanic)": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_fxt/h55_survivor_w_fxt_lv4.gim",
+        "item": "chr/prop/h55_pendant_controller/h55_pendant_controller.gim",
+        "robot": "chr/player/h55_survivor_puppet/h55_survivor_puppet.gim"
+    },
+    "Meteorologist Original": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_qx/h55_survivor_w_qx.gim",
+        "item": "chr/prop/h55_pendant_qx/h55_pendant_qx.gim"
+    },
+    "Ms. Saucer": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_qx/separate_dir/qx_e_cx/qx_e_cx.gim"
+    },
+    "Deva": {
+        "skin": "chr/player/dm65_survivor_m/h55_survivor_m_cp/separate_dir/cp_e_tianshi/cp_e_tianshi.gim"
+    },
+    "Luminary": {
+        "skin": "chr/player/dm65_survivor_m/h55_survivor_m_cp/separate_dir/cp_e_zhanxing/cp_e_zhanxing.gim"
+    },
+    "Majnun": {
+        "skin": "chr/player/dm65_survivor_m/h55_survivor_m_cp/separate_dir/cp_e_qiutu/cp_e_qiutu.gim"
+    },
+    "Patient Original": {
+        "skin": "chr/player/dm65_survivor_m/h55_survivor_m_cp/h55_survivor_m_cp.gim",
+        "item": "chr/prop/h55_pendant_gouzhua_r/h55_pendant_gouzhua_r.gim",
+        "extra_item_1": "chr/prop/h55_pendant_gouzhua_l/h55_pendant_gouzhua_l.gim"
+    },
+    "Rare Case": {
+        "skin": "chr/player/dm65_survivor_m/h55_survivor_m_cp/separate_dir/cp_e_junsi/cp_e_junsi.gim"
+    },
+    "Romeo": {
+        "skin": "chr/player/dm65_survivor_m/h55_survivor_m_cp/separate_dir/cp_e_luo/cp_e_luo.gim"
+    },
+    "Show Layla": {
+        "skin": "chr\\player\\dm65_survivor_w\\h55_survivor_w_cp\\separate_dir\\cp_e_yeying\\cp_e_qiutu.gim"
+    },
+    "Tracing Light": {
+        "skin": "chr/player/dm65_survivor_m/h55_survivor_m_cp/separate_dir/cp_e_sg/cp_e_sg.gim"
+    },
+    "Mnemosyne'S Dream": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_xiangshuishi/separate_dir/xiangshuishi_e_heijin/xiangshuishi_e_heijin.gim",
+        "item": "chr/prop/h55_pendant_xiangshuiping/separate_dir/xiangshuishi_e_heijin_xsp/xiangshuishi_e_heijin_xsp.gim"
+    },
+    "Perfumer Original": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_xiangshuishi/h55_survivor_w_xiangshuishi.gim",
+        "item": "chr/prop/h55_pendant_xiangshuiping/h55_pendant_xiangshuiping.gim"
+    },
+    "The Red Shoes": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_xiangshuishi/separate_dir/xiangshuishi_e_honglingyan/xiangshuishi_e_honglingyan.gim",
+        "item": "chr/prop/h55_pendant_xiangshuiping/separate_dir/xiangshuishi_e_hly_xsp/xiangshuishi_e_hly_xsp.gim"
+    },
+    "Yearning": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_xiangshuishi/separate_dir/xiangshuishi_d_diaoyan/xiangshuishi_d_diaoyan.gim",
+        "item": "chr/prop/h55_pendant_xiangshuiping/h55_pendant_xiangshuiping.gim"
+    },
+    "Case At Night": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_jisi/separate_dir/jisi_d_yejian/jisi_d_yejian.gim",
+        "item": "chr/prop/h55_pendant_ringofkeys/h55_pendant_ringofkeys.gim"
+    },
+    "Priestess Original": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_jisi/h55_survivor_w_jisi_lv1.gim",
+        "item": "chr/prop/h55_pendant_ringofkeys/h55_pendant_ringofkeys.gim"
+    },
+    "Samara": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_jisi/separate_dir/jisi_e_samara/jisi_e_samara.gim",
+        "item": "chr/prop/h55_pendant_ringofkeys/separate_dir/jisi_e_samara/jisi_e_samara_ringofkeys.gim"
+    },
+    "The Envoy Of Yog-Sothoth": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_jisi/separate_dir/jisi_e_youge/jisi_e_yougebai/jisi_e_yougebai.gim"
+    },
+    "Worn Clothes (Priestess)": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_jisi/h55_survivor_w_jisi_lv4.gim",
+        "item": "chr/prop/h55_pendant_ringofkeys/h55_pendant_ringofkeys.gim"
+    },
+    "Frozen Butterfly": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_jisi/separate_dir/jisi_e_landie/jisi_e_landie.gim"
+    },
+    "Prospector Original": {
+        "skin": "chr/player/dm65_survivor_m/h55_survivor_m_kantan/h55_survivor_m_kantan.gim",
+        "item": "chr/prop/h55_pendant_kantan_citie/h55_pendant_kantan_citie.gim"
+    },
+    "Aasimar": {
+        "item": "chr/prop/h55_pendant_whistle/separate_dir/cp_e_am/cp_e_am_whistle.gim",
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_cp/separate_dir/cp_e_am/cp_e_am.gim",
+        "patient": "chr\\player\\dm65_survivor_m\\h55_survivor_m_cp\\separate_dir\\cp_e_tianshi\\cp_e_tianshi.gim"
+    },
+    "Doomsday Rescuer": {
+        "item": "chr/prop/h55_pendant_whistle/separate_dir/cp_e_sjg/cp_e_sjg.gim",
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_cp/separate_dir/cp_e_sjg/cp_e_sjg.gim"
+    },
+    "Everlasting Dream": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_cp/separate_dir/cp_e_hm/cp_e_hm.gim",
+        "item": "chr/prop/h55_pendant_whistle/separate_dir/cp_e_hm/cp_e_hm_weapon.gim",
+        "patient": "chr/player/dm65_survivor_w/h55_survivor_w_cp/separate_dir/cp_e_hm/cp_e_hm_nan.gim"
+    },
+    "Everlasting Night": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_cp/separate_dir/cp_e_moyao/cp_e_moyao.gim",
+        "item": "chr/prop/h55_pendant_whistle/separate_dir/cp_e_moyao/cp_e_moyao_whistle.gim",
+        "patient": "chr\\player\\dm65_survivor_w\\h55_survivor_w_cp\\separate_dir\\cp_e_moyao\\cp_e_moyao_nan.gim"
+    },
+    "Juliet": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_cp/separate_dir/cp_e_zly/cp_e_zly.gim",
+        "item": "chr/prop/h55_pendant_whistle/separate_dir/cp_e_zly/cp_e_zly.gim"
+    },
+    "Layla": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_cp/separate_dir/cp_e_yeying/cp_e_yeying.gim",
+        "item": "chr/prop/h55_pendant_whistle/separate_dir/cp_e_yeying/cp_e_yeying.gim"
+    },
+    "Layla Show PT": {
+        "skin": "chr\\player\\dm65_survivor_m\\h55_survivor_m_cp\\separate_dir\\cp_e_qiutu\\cp_e_qiutu_cpnv.gim"
+    },
+    "Psychologist Original": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_cp/h55_survivor_w_cp_lv1.gim",
+        "item": "chr/prop/h55_pendant_whistle/h55_pendant_whistle.gim"
+    },
+    "Camera": {
+        "skin": "chr/player/h55_survivor_puppet/h55_survivor_puppet_siwang/h55_survivor_puppet_siwang.gim"
+    },
+    "Pocket Watch": {
+        "skin": "chr/player/h55_survivor_puppet/h55_survivor_puppet_zhongbiaojiang.gim"
+    },
+    "Puppet Original": {
+        "skin": "chr/player/h55_survivor_puppet/h55_survivor_puppet.gim"
+    },
+    "Quiver": {
+        "skin": "chr/player/h55_survivor_puppet/h55_survivor_puppet_hongmao.gim"
+    },
+    "Seer Original": {
+        "skin": "chr/player/dm65_survivor_m/h55_survivor_m_zbs/h55_survivor_m_zbs_lv1.gim",
+        "item": "chr/prop/h55_pendant_owl/h55_pendant_owl.gim"
+    },
+    "Clio": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_jyz/separate_dir/jyz_d_keli/jyz_d_keli.gim",
+        "item": "chr/prop/h55_pendant_quanzhang/h55_pendant_quanzhang.gim"
+    },
+    "The Mind'S Eye Original": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_jyz/h55_survivor_w_jyz_lv1.gim",
+        "item": "chr/prop/h55_pendant_quanzhang/h55_pendant_quanzhang.gim"
+    },
+    "Balloon Tour": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_shangren/separate_dir/shangren_d_feitian/shangren_d_feitian.gim",
+        "item": "chr/player/dm65_survivor_w/h55_survivor_w_shangren/h55_survivor_w_shangren_baoguo.gim",
+        "extra_item_1": "chr/player/dm65_survivor_w/h55_survivor_w_shangren/h55_survivor_w_shangren_plane.gim",
+        "extra_item_2": "chr/player/dm65_survivor_w/h55_survivor_w_shangren/h55_survivor_w_shangren_tiaoban.gim"
+    },
+    "Dollhouse": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_shangren/separate_dir/shangren_d_xiaofu/shangren_d_xiaofu.gim",
+        "item": "chr/player/dm65_survivor_w/h55_survivor_w_shangren/h55_survivor_w_shangren_baoguo.gim",
+        "extra_item_1": "chr/player/dm65_survivor_w/h55_survivor_w_shangren/h55_survivor_w_shangren_plane.gim",
+        "extra_item_2": "chr/player/dm65_survivor_w/h55_survivor_w_shangren/h55_survivor_w_shangren_tiaoban.gim"
+    },
+    "Toy Merchant Original": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_shangren/h55_survivor_w_shangren.gim",
+        "item": "chr/player/dm65_survivor_w/h55_survivor_w_shangren/h55_survivor_w_shangren_baoguo.gim",
+        "extra_item_1": "chr/player/dm65_survivor_w/h55_survivor_w_shangren/h55_survivor_w_shangren_plane.gim",
+        "extra_item_2": "chr/player/dm65_survivor_w/h55_survivor_w_shangren/h55_survivor_w_shangren_tiaoban.gim"
+    },
+    "Swallow Of Deception": {
+        "skin": "chr/player/dm65_survivor_m/h55_survivor_m_spjk/separate_dir/spjk_e_qihuo/spjk_e_qihuo.gim",
+        "item": "chr/prop/h55_pendant_huojian/separate_dir/spjk_e_qihuo/spjk_e_qihuo_huojian.gim"
+    },
+    "The Encroached": {
+        "skin": "chr/player/dm65_survivor_m/h55_survivor_m_spjk/separate_dir/spjk_e_canshi/spjk_e_canshi.gim",
+        "item": "chr/prop/h55_pendant_huojian/separate_dir/spjk_e_canshi/spjk_e_canshi.gim"
+    },
+    "Weeping Clown Original": {
+        "skin": "chr/player/dm65_survivor_m/h55_survivor_m_spjk/h55_survivor_m_spjk.gim",
+        "item": "chr/prop/h55_pendant_huojian/h55_pendant_huojian.gim"
+    }
+}

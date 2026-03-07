@@ -1,6 +1,6 @@
 import json
 
-from ...core.variable_manager import ProgramVariables
+from core.variable_manager import ProgramVariables
 
 class SystemVariables():
     def load_settings(self, path=ProgramVariables.__system_variables_json__):

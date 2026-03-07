@@ -2,17 +2,10 @@ from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout
 from PySide6.QtCore import Qt, QPoint
 
 from .._style import COMMON_STYLE
-from ...core.path_manager import check_game_executable
 from ._top_row import TopRow
 from ._apply_panel import ApplyPanel
 from ._bottom_row import BottomRow
-try:
-    from ...security.generator.session_title import generate_session_title
-except ImportError:
-    import sys
-    from pathlib import Path
-    sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-    from security.generator.session_title import generate_session_title
+from security.generator.session_title import generate_session_title
 
 class MainPage(QWidget):
     main_page = None
@@ -57,6 +50,7 @@ class MainPage(QWidget):
         panel_wrapper.addWidget(self.apply_panel)
         panel_wrapper.addStretch()
         root.addLayout(panel_wrapper)
+        self.apply_panel.hide()
 
         root.addStretch()
 
