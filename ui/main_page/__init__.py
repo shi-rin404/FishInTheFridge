@@ -5,12 +5,14 @@ from .._style import COMMON_STYLE
 from ._top_row import TopRow
 from ._apply_panel import ApplyPanel
 from ._bottom_row import BottomRow
-from security.generator.session_title import generate_session_title
+from error_handler.ensure_exception import ensure_exception
 
-class MainPage(QWidget):
+class MainPage(QWidget):    
     main_page = None
 
     def __init__(self):
+        from security.generator.session_title import generate_session_title
+        
         MainPage.main_page = self
 
         super().__init__()
@@ -35,9 +37,12 @@ class MainPage(QWidget):
         root.setSpacing(0)
 
         # ── Top row ───────────────────────────────────────────
+        from modding.install_mod import install_mod
+
         self.top_row = TopRow()
         self.top_row.minimize_requested.connect(self.showMinimized)
         self.top_row.close_requested.connect(self.close)
+        self.top_row.install_mod_clicked.connect(lambda: ensure_exception(install_mod, ()))
         root.addWidget(self.top_row)
         root.addSpacing(8)
 

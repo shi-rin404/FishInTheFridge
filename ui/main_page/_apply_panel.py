@@ -108,7 +108,7 @@ class ApplyPanel(QFrame):
         ensure_exception(get_items_to_mod, ())
 
         if skin and mod:
-            ensure_exception(apply_mod, ({skin: mod}))
+            ensure_exception(apply_mod, ({skin: mod},))
 
     def toggle(self):
         self.setVisible(not self.isVisible())

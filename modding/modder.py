@@ -16,6 +16,9 @@ from ctypes import windll, byref, sizeof
 from dataclasses import dataclass, field
 from typing import Optional, Callable
 
+# == INSTANCE =================
+skin_modder = None
+
 # ── Windows constants ──────────────────────────────────────────────────────────
 PROCESS_VM_READ        = 0x0010
 PROCESS_VM_WRITE       = 0x0020
@@ -145,6 +148,8 @@ class SkinModder:
     _cache: dict[str, list[int]] = field(default_factory=dict, init=False)
 
     def __post_init__(self):
+        global skin_modder
+        skin_modder = self
         self._pid = _pid_by_name(self.process_name)
         access = PROCESS_VM_READ | PROCESS_VM_WRITE | PROCESS_VM_OPERATION | PROCESS_QUERY_INFO
         self._handle = _k32.OpenProcess(access, False, self._pid)
@@ -378,7 +383,7 @@ class SkinModder:
         - If shorter and pad=False: use mod as-is (caller accepts shorter write).
         """
         if len(mod) > len(placeholder):
-            return None
+            raise ValueError(f"[apply_mod] Replacement '{mod}' is longer than placeholder '{placeholder}'")
         if len(mod) == len(placeholder) or not pad:
             return mod
         return mod.rjust(len(placeholder), "/")
@@ -422,8 +427,8 @@ def apply_mod(
     """
     payload = SkinModder._build_payload(placeholder, mod, is_padding)
     if payload is None:
-        print(f"[apply_mod] Replacement '{mod}' is longer than placeholder. Skipped.")
-        return False
+        print(f"[apply_mod] Replacement '{mod}' is longer than placeholder.")
+        raise ValueError(f"[apply_mod] Replacement '{mod}' is longer than placeholder '{placeholder}'")
 
     raw     = payload.encode("utf-8")
     raw_len = len(raw)

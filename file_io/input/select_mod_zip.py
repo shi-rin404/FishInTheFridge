@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QFileDialog
 
-from ...ui.main_page import MainPage
+from ui.main_page import MainPage
 
 def select_mod_zip() -> str | None:
     path, _ = QFileDialog.getOpenFileName(
