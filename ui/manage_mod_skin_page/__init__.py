@@ -1,11 +1,13 @@
 from PySide6.QtWidgets import (
-    QWidget, QApplication, QPushButton, QLabel, QLineEdit, QCheckBox,
+    QWidget, QPushButton, QLabel, QLineEdit, QCheckBox,
     QHBoxLayout, QVBoxLayout, QComboBox, QStackedWidget
 )
-import sys
+from PySide6.QtCore import Qt, QPoint
 
-from ._style import COMMON_STYLE, set_tab
+from typing import Literal
 
+from .._style import COMMON_STYLE, set_tab
+from .._widgets import WindowControls
 
 class ManageModSkinPage(QWidget):
     """
@@ -15,24 +17,51 @@ class ManageModSkinPage(QWidget):
     Clicking "Edit" in the list forwards to the Add form in save-mode.
     """
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, editor_mode=Literal["skin", "mod"], parent=None):
+        super().__init__(parent, Qt.Window)
         self.setStyleSheet(COMMON_STYLE)
-        self.resize(800, 600)
+        self.resize(500, 300)
+        self.setWindowFlags(Qt.FramelessWindowHint | Qt.Window)
+        self._drag_pos = QPoint()
+        self.editor_mode = editor_mode
         self._build_ui()
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self._drag_pos = event.globalPosition().toPoint() - self.frameGeometry().topLeft()
+
+    def mouseMoveEvent(self, event):
+        if event.buttons() == Qt.LeftButton and not self._drag_pos.isNull():
+            self.move(event.globalPosition().toPoint() - self._drag_pos)
 
     def _build_ui(self):
         root = QVBoxLayout(self)
-        root.setContentsMargins(60, 50, 60, 50)
+        root.setContentsMargins(0,0,0,0)
         root.setSpacing(16)
 
+        # -- Window Controls -----------------------------------
+        window_controls_layout = QHBoxLayout()
+        window_controls_layout.setContentsMargins(0, 10, 10, 0)
+        window_controls_layout.setSpacing(12)
+        self.window_controls = WindowControls()
+        self.window_controls.minimize_requested.connect(self.showMinimized)
+        self.window_controls.close_requested.connect(self.close)
+        window_controls_layout.addStretch()
+        window_controls_layout.addWidget(self.window_controls)
+        root.addLayout(window_controls_layout)
+
         # ── Title ─────────────────────────────────────────────
-        title = QLabel("Manage Mod/Skin")
+        title_layout = QHBoxLayout()
+        title_layout.setContentsMargins(60, 0, 60, 0)
+        title_layout.setSpacing(12)
+        root.addLayout(title_layout)
+        title = QLabel(f"Manage {self.editor_mode.capitalize()}")
         title.setObjectName("title")
-        root.addWidget(title)
+        title_layout.addWidget(title)        
 
         # ── Tab row ───────────────────────────────────────────
         tab_row = QHBoxLayout()
+        tab_row.setContentsMargins(60, 0, 60, 0)
         tab_row.setSpacing(0)
 
         self.edit_tab = QPushButton("Edit")
@@ -62,35 +91,41 @@ class ManageModSkinPage(QWidget):
     def _build_edit_panel(self) -> QWidget:
         panel = QWidget()
         layout = QVBoxLayout(panel)
-        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setContentsMargins(60, 0, 60, 50)
         layout.setSpacing(10)
 
         ms_row = QHBoxLayout()
         ms_row.setSpacing(10)
-        ms_label = QLabel("M/S")
+        ms_label = QLabel(self.editor_mode.capitalize())
         self.ms_combo = QComboBox()
         self.ms_combo.setMinimumWidth(220)
         ms_row.addWidget(ms_label)
         ms_row.addWidget(self.ms_combo)
         ms_row.addStretch()
 
+        edit_delete_row = QVBoxLayout()
+        edit_delete_row.setSpacing(10)
         self.edit_entry_btn = QPushButton("Edit")
         self.delete_entry_btn = QPushButton("Delete")
         self.delete_entry_btn.setObjectName("danger")
+        edit_delete_row.addStretch()
+        edit_delete_row.addWidget(self.edit_entry_btn)
+        edit_delete_row.addWidget(self.delete_entry_btn)
+
 
         # Clicking Edit in the list forwards to the Add form in save-mode
         self.edit_entry_btn.clicked.connect(self._forward_to_edit_form)
 
+        layout.addStretch()      
         layout.addLayout(ms_row)
-        layout.addWidget(self.edit_entry_btn)
-        layout.addWidget(self.delete_entry_btn)
+        ms_row.addLayout(edit_delete_row)
         layout.addStretch()
         return panel
 
     def _build_add_panel(self) -> QWidget:
         panel = QWidget()
         layout = QVBoxLayout(panel)
-        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setContentsMargins(60, 0, 60, 50)
         layout.setSpacing(10)
 
         self.skin_name_input = QLineEdit()
@@ -116,12 +151,16 @@ class ManageModSkinPage(QWidget):
         options_row.addStretch()
         options_row.addWidget(self.save_btn)
 
-        self.quick_grab_btn = QPushButton("Quick Grab Current Skin")
+        self.quick_grab_layout = QHBoxLayout()
+        self.quick_grab_layout.setSpacing(8)            
+        self.quick_grab_btn = QPushButton("Quick Grab Current Skin")                
+        self.quick_grab_layout.addWidget(self.quick_grab_btn)
+        self.quick_grab_layout.addStretch()
 
         layout.addWidget(self.skin_name_input)
         layout.addWidget(self.skin_path_input)
         layout.addLayout(options_row)
-        layout.addWidget(self.quick_grab_btn)
+        layout.addLayout(self.quick_grab_layout)
         layout.addStretch()
         return panel
 

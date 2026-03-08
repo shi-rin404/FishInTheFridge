@@ -68,9 +68,39 @@ class BottomRow(QWidget):
         self.manage_combo.setPlaceholderText("Manage ▲")
         self.manage_combo.setCurrentIndex(-1)
         self.manage_combo.setMinimumWidth(120)
+        self.manage_combo.currentIndexChanged.connect(self.manage_combo_dispatch)
+
 
         for item in (discord_btn, tools_btn, self.manage_combo):
             item.setCursor(Qt.CursorShape.PointingHandCursor)
             icons_row.addWidget(item)
 
         layout.addLayout(icons_row)
+
+    def reset_manage_combo(self):
+        self.manage_combo.setCurrentIndex(-1)
+        self.manage_combo.setPlaceholderText("Manage ▲")
+
+    def manage_combo_dispatch(self):
+        def manage_presets():
+            ... 
+        
+        from typing import Literal
+        def manage_mod_skin(editor_mode_set=Literal["skin", "mod"]):
+            from ui.manage_mod_skin_page import ManageModSkinPage
+            from ui.main_page import MainPage
+            manage_mod_skin_page = ManageModSkinPage(editor_mode=editor_mode_set, parent = MainPage.main_page)
+            manage_mod_skin_page.show()
+
+        def empty_selection():
+            pass
+
+        dispatcher = {
+            -1: empty_selection,
+            0: manage_presets,
+            1: lambda: manage_mod_skin("mod"),
+            2: lambda: manage_mod_skin("skin")
+        }
+
+        dispatcher[self.manage_combo.currentIndex()]()
+        self.reset_manage_combo()
