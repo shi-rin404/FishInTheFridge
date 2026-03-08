@@ -7,6 +7,7 @@ from modding.path_dictionary import skin_dict, mod_dict
 from error_handler.ensure_exception import ensure_exception
 
 from core.variable_manager import program_variables
+from .._style import MUTED
 _SKIN_LIST_PATH = program_variables.skin_list_path
 _MOD_LIST_PATH = program_variables.mod_list_path
 
@@ -65,6 +66,8 @@ class ApplyPanel(QFrame):
         self.skin_combo.lineEdit().textEdited.connect(
             lambda t: (self.skin_combo.completer().setCompletionPrefix(""), self.skin_combo.completer().complete()) if not t else None
         )
+        self.skin_combo.currentIndexChanged.connect(self.unmod_toggle)
+        self.skin_combo.currentTextChanged.connect(self.unmod_toggle)
 
         self.mod_combo = QComboBox()
         load_json_list(self.mod_combo, _MOD_LIST_PATH, mod_dict)
@@ -86,7 +89,10 @@ class ApplyPanel(QFrame):
         action_row = QHBoxLayout()
         action_row.setSpacing(8)
         self.unmod_btn = QPushButton("Unmod")
-        self.unmod_btn.setObjectName("danger")
+        self.unmod_btn.setEnabled(False)
+        self.unmod_btn.setStyleSheet(f"color: {MUTED}; font-size: 13px;")
+        self.unmod_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.unmod_btn.setObjectName("")
         self.action_apply_btn = QPushButton("Apply")
         action_row.addWidget(self.unmod_btn)
         action_row.addStretch()
@@ -112,3 +118,15 @@ class ApplyPanel(QFrame):
 
     def toggle(self):
         self.setVisible(not self.isVisible())
+
+    def unmod_toggle(self):
+        skin_selection_active = self.skin_combo.currentIndex() != -1
+
+        self.unmod_btn.setEnabled(skin_selection_active)
+        
+        if skin_selection_active and self.skin_combo.currentText() in skin_dict.keys():
+            self.unmod_btn.setObjectName("danger")
+            self.unmod_btn.setStyleSheet("")
+        else:
+            self.unmod_btn.setObjectName("")
+            self.unmod_btn.setStyleSheet(f"color: {MUTED}; font-size: 13px;")

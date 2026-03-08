@@ -2,9 +2,7 @@ import json, os
 
 from core.variable_manager import ProgramVariables
 
-class UserVariables():
-    from error_handler.ensure_exception import ensure_exception
-
+class UserVariables():    
     def get_game_executable(self, path=ProgramVariables.__memory_json__):
         with open(path, 'r') as f:
             return json.load(f)["game_executable"]
@@ -32,10 +30,11 @@ class UserVariables():
                 self.game_executable = self.get_game_executable()
 
     def __init__(self):
-        self.game_executable = self.ensure_exception(self.get_game_executable, ())
+        from error_handler.ensure_exception import ensure_exception
+        self.game_executable = ensure_exception(self.get_game_executable, ())
 
         if self.game_executable is None:
-            self.ensure_exception(self.set_game_executable, ())
+            ensure_exception(self.set_game_executable, ())
 
         self.game_dir = os.path.dirname(self.game_executable)
         self.mod_dir = os.path.join(self.game_dir, "Documents", "res", "mod")
