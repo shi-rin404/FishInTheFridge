@@ -38,11 +38,13 @@ class MainPage(QWidget):
 
         # ── Top row ───────────────────────────────────────────
         from modding.install_mod import install_mod
+        from ui.settings_page import SettingsPage
 
         self.top_row = TopRow()
         self.top_row.minimize_requested.connect(self.showMinimized)
         self.top_row.close_requested.connect(self.close)
         self.top_row.install_mod_clicked.connect(lambda: ensure_exception(install_mod, ()))
+        self.top_row.settings_clicked.connect(lambda: SettingsPage(parent=self).show())
         root.addWidget(self.top_row)
         root.addSpacing(8)
 

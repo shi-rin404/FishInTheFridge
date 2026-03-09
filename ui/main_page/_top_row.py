@@ -1,3 +1,5 @@
+import os
+
 from PySide6.QtWidgets import QWidget, QPushButton, QHBoxLayout
 from PySide6.QtCore import Signal, Qt
 
@@ -45,6 +47,8 @@ class TopRow(QWidget):
         logs_btn.setObjectName("icon_btn")
         logs_btn.setFixedSize(32, 32)
         logs_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        from database.user.user_variables import user_variables
+        logs_btn.clicked.connect(lambda: os.startfile(user_variables.game_logs))
         layout.addWidget(logs_btn)
 
         settings_btn = QPushButton("⚙")
