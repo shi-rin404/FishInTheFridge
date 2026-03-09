@@ -57,12 +57,14 @@ def grab_current_skin(search_mode:Literal["CHARACTER", "SURVIVOR", "HUNTER", "IT
         matches = re.findall(patterns[search_mode] if pattern == None else pattern, f.read())
         last_match = matches[-1] if matches else None
 
+    if last_match is None: return "No skin path found"
+
     if (pattern == None and
         not "guajian" in last_match and
                 last_match != None):
                     return fix_item_cases(last_match)
 
-    return last_match if last_match else None
+    return last_match if last_match else "No skin path found"
 
 if __name__ == "__main__":
     print(grab_current_skin())

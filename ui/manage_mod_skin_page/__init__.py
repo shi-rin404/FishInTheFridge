@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import (
     QWidget, QPushButton, QLabel, QLineEdit, QCheckBox,
-    QHBoxLayout, QVBoxLayout, QComboBox, QStackedWidget, QCompleter
+    QHBoxLayout, QVBoxLayout, QComboBox, QStackedWidget, QCompleter, QMessageBox
 )
 from PySide6.QtCore import Qt, QPoint, QObject, QEvent, QTimer
 
@@ -182,16 +182,32 @@ class ManageModSkinPage(QWidget):
         options_row = QHBoxLayout()
         options_row.setSpacing(8)
 
+        checkbox_row = QVBoxLayout()
+        checkbox_row.setSpacing(8)
+
+        backslash_row = QHBoxLayout()
+        backslash_row.setSpacing(8)
+
         self.backslash_check = QCheckBox("Backslash")
+        self.backslash_check.setToolTip("It is needed for some of item mods, don't use it for skin mods")
 
         help_btn = QPushButton("?")
         help_btn.setObjectName("help_btn")
+        help_btn.setToolTip("It is needed for some of item mods, don't use it for skin mods")
+        help_btn.clicked.connect(lambda: QMessageBox.information(self, "Backslash Info", "It is needed for some of item mods, don't use it for skin mods"))
+
+        self.auto_detect_check = QCheckBox("Auto Detect Type")
+        self.auto_detect_check.setToolTip("It tries to detect the path you type is skin, item or accessory")
 
         self.save_btn = QPushButton("Save")
         self.save_btn.setObjectName("success")
-
-        options_row.addWidget(self.backslash_check)
-        options_row.addWidget(help_btn)
+        self.save_btn.clicked.connect(self.save_btn_dispatcher)
+        
+        backslash_row.addWidget(self.backslash_check)
+        backslash_row.addWidget(help_btn)
+        checkbox_row.addLayout(backslash_row)
+        checkbox_row.addWidget(self.auto_detect_check)
+        options_row.addLayout(checkbox_row)
         options_row.addStretch()
         options_row.addWidget(self.save_btn)
 
@@ -203,7 +219,14 @@ class ManageModSkinPage(QWidget):
         from core.automatic_processes.grab_current_skin import grab_current_skin
         self.quick_grab_btn.clicked.connect(lambda: self.skin_path_input.setText(grab_current_skin()))
 
-        layout.addWidget(self.skin_name_input)
+        from .._toggle_pin import TogglePin
+        self.pin_toggle = TogglePin(parent=self, _checked=True)
+        name_row = QHBoxLayout()
+        name_row.setSpacing(8)
+        name_row.addWidget(self.skin_name_input)
+        name_row.addWidget(self.pin_toggle)
+
+        layout.addLayout(name_row)
         layout.addWidget(self.skin_path_input)
         layout.addLayout(options_row)
         layout.addLayout(self.quick_grab_layout)
@@ -226,4 +249,59 @@ class ManageModSkinPage(QWidget):
         set_tab(self.add_tab, self.edit_tab)
         self.stack.setCurrentIndex(1)
         self.save_btn.setText("Save")
-        # TODO: pre-fill form with selected M/S entry data
+
+    def save_for_skin(self):
+        from file_io.output.edit_json import merge_dict_json
+        from core.variable_manager import program_variables
+
+        skin_path = self.skin_path_input.text().replace("/", "\\") if self.backslash_check.isChecked() else self.skin_path_input.text().replace("\\", "/")
+
+        if self.auto_detect_check.isChecked():
+            data_type = self.path_type_detector(skin_path)
+        else:
+            from ._select_data_type_dialog import SelectDataTypeDialog
+            dlg = SelectDataTypeDialog(parent=self)
+            if dlg.exec() != SelectDataTypeDialog.DialogCode.Accepted:
+                return
+            data_type = dlg.result_type
+
+
+        skin_info_dict = {
+            data_type: skin_path
+        }
+
+        merge_dict_json(
+            program_variables.skin_list_path,
+            self.skin_name_input.text(),
+            skin_info_dict
+        )
+
+        from modding.update_ms_lists import update_ms_list
+        update_ms_list("skin")
+
+        if not self.pin_toggle.isChecked():
+            self.skin_name_input.setText("")
+        self.skin_path_input.setText("")
+        self.backslash_check.setChecked(False)
+
+    def save_for_mod(self):
+        pass
+
+    def save_btn_dispatcher(self):
+        if self.editor_mode == "skin":
+            self.save_for_skin()
+
+        elif self.editor_mode == "mod":
+            self.save_for_mod()
+
+    def path_type_detector(self, path: str) -> Literal["skin", "item", "accessory", "other"]:
+        import re
+
+        if (("player" in path) or ("boss" in path)) and re.search(r"\w+_[cde]_[^_]+\.gim$", path):
+            return "skin"
+        elif "prop" in path:
+            return "item"
+        elif "guajian" in path:
+            return "accessory"
+        else:
+            return "other"

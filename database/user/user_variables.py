@@ -13,7 +13,7 @@ class UserVariables():
 
         from file_io.output.edit_json import edit_json
         if auto_game_executable is not None:
-            edit_json(ProgramVariables.__memory_json__, auto_game_executable)
+            edit_json(ProgramVariables.__memory_json__, "game_executable", auto_game_executable)
 
             self.game_executable = auto_game_executable
 
