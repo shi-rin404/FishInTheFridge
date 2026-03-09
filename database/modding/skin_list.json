@@ -480,11 +480,5 @@
     "Weeping Clown Original": {
         "skin": "chr/player/dm65_survivor_m/h55_survivor_m_spjk/h55_survivor_m_spjk.gim",
         "item": "chr/prop/h55_pendant_huojian/h55_pendant_huojian.gim"
-    },
-    "Deneme": {
-        "skin": "chr/player/girl/separate_dir/girl_e_seks.gim",
-        "item": "chr/prop/girl/separate_dir/girl_e_seks.gim",
-        "eben": "chr/eben/bacin.gim",
-        "ehe": "\u015flm"
     }
 }
