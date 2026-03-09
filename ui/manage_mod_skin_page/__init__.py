@@ -1,8 +1,28 @@
 from PySide6.QtWidgets import (
     QWidget, QPushButton, QLabel, QLineEdit, QCheckBox,
-    QHBoxLayout, QVBoxLayout, QComboBox, QStackedWidget
+    QHBoxLayout, QVBoxLayout, QComboBox, QStackedWidget, QCompleter
 )
-from PySide6.QtCore import Qt, QPoint
+from PySide6.QtCore import Qt, QPoint, QObject, QEvent, QTimer
+
+
+class _SelectAllFilter(QObject):
+    def __init__(self, combo, parent=None):
+        super().__init__(parent)
+        self._combo = combo
+
+    def _show_all_completions(self):
+        c = self._combo.completer()
+        c.setCompletionPrefix("")
+        c.complete()
+
+    def eventFilter(self, obj, event):
+        if event.type() == QEvent.Type.FocusIn:
+            QTimer.singleShot(0, obj.selectAll)
+        elif event.type() == QEvent.Type.MouseButtonRelease:
+            obj.selectAll()
+            if not obj.text():
+                self._show_all_completions()
+        return super().eventFilter(obj, event)
 
 from typing import Literal
 
@@ -17,7 +37,9 @@ class ManageModSkinPage(QWidget):
     Clicking "Edit" in the list forwards to the Add form in save-mode.
     """
 
+    manage_mod_skin_page = None
     def __init__(self, editor_mode=Literal["skin", "mod"], parent=None):
+        manage_mod_skin_page = self
         super().__init__(parent, Qt.Window)
         self.setStyleSheet(COMMON_STYLE)
         self.resize(500, 300)
@@ -87,8 +109,17 @@ class ManageModSkinPage(QWidget):
         self._show_add()
 
     # ── Panels ────────────────────────────────────────────────
-
     def _build_edit_panel(self) -> QWidget:
+        from core.variable_manager import program_variables
+        from modding.ui.load_json_lists import load_json_list        
+
+        if self.editor_mode == "skin":
+            from modding.path_dictionary import skin_dict as ms_dict
+            _MS_LIST_PATH = program_variables.skin_list_path
+        else:
+            from modding.path_dictionary import mod_dict as ms_dict
+            _MS_LIST_PATH = program_variables.mod_list_path
+
         panel = QWidget()
         layout = QVBoxLayout(panel)
         layout.setContentsMargins(60, 0, 60, 50)
@@ -98,7 +129,20 @@ class ManageModSkinPage(QWidget):
         ms_row.setSpacing(10)
         ms_label = QLabel(self.editor_mode.capitalize())
         self.ms_combo = QComboBox()
+        load_json_list(self.ms_combo, _MS_LIST_PATH, ms_dict)
+        self.ms_combo.setEditable(True)
+        self.ms_combo.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
+        self.ms_combo.lineEdit().setPlaceholderText(f"Select {self.editor_mode.capitalize()}")
+        self.ms_combo.setCurrentIndex(-1)
         self.ms_combo.setMinimumWidth(220)
+        _ms_completer = QCompleter(self.ms_combo.model(), self.ms_combo)
+        _ms_completer.setFilterMode(Qt.MatchFlag.MatchContains)
+        _ms_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        self.ms_combo.setCompleter(_ms_completer)
+        self.ms_combo.lineEdit().installEventFilter(_SelectAllFilter(self.ms_combo, self))
+        self.ms_combo.lineEdit().textEdited.connect(
+            lambda t: (self.ms_combo.completer().setCompletionPrefix(""), self.ms_combo.completer().complete()) if not t else None
+        )
         ms_row.addWidget(ms_label)
         ms_row.addWidget(self.ms_combo)
         ms_row.addStretch()
@@ -153,9 +197,11 @@ class ManageModSkinPage(QWidget):
 
         self.quick_grab_layout = QHBoxLayout()
         self.quick_grab_layout.setSpacing(8)            
-        self.quick_grab_btn = QPushButton("Quick Grab Current Skin")                
+        self.quick_grab_btn = QPushButton("Quick Grab Current Skin")
         self.quick_grab_layout.addWidget(self.quick_grab_btn)
         self.quick_grab_layout.addStretch()
+        from core.automatic_processes.grab_current_skin import grab_current_skin
+        self.quick_grab_btn.clicked.connect(lambda: self.skin_path_input.setText(grab_current_skin()))
 
         layout.addWidget(self.skin_name_input)
         layout.addWidget(self.skin_path_input)
