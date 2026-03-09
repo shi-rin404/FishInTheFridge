@@ -86,7 +86,7 @@ class ManageModSkinPage(QWidget):
         tab_row.setContentsMargins(60, 0, 60, 0)
         tab_row.setSpacing(0)
 
-        self.edit_tab = QPushButton("Edit")
+        self.edit_tab = QPushButton("Manage")
         self.add_tab = QPushButton("Add")
 
         tab_row.addWidget(self.edit_tab)
@@ -213,7 +213,7 @@ class ManageModSkinPage(QWidget):
 
         self.quick_grab_layout = QHBoxLayout()
         self.quick_grab_layout.setSpacing(8)            
-        self.quick_grab_btn = QPushButton("Quick Grab Current Skin")
+        self.quick_grab_btn = QPushButton("Grab Current Skin")
         self.quick_grab_layout.addWidget(self.quick_grab_btn)
         self.quick_grab_layout.addStretch()
         from core.automatic_processes.grab_current_skin import grab_current_skin
