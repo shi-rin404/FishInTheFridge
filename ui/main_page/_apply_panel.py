@@ -74,13 +74,13 @@ class ApplyPanel(QFrame):
         self.mod_combo.setEditable(True)
         self.mod_combo.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
         self.mod_combo.lineEdit().setPlaceholderText("Select Mod")
-        self.mod_combo.setCurrentIndex(-1)
         self.mod_combo.setMinimumWidth(200)
         self.mod_combo.setStyleSheet(_combo_style)
         _mod_completer = QCompleter(self.mod_combo.model(), self.mod_combo)
         _mod_completer.setFilterMode(Qt.MatchFlag.MatchContains)
         _mod_completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
         self.mod_combo.setCompleter(_mod_completer)
+        QTimer.singleShot(0, lambda: (self.mod_combo.setCurrentIndex(-1), self.mod_combo.lineEdit().clear()))
         self.mod_combo.lineEdit().installEventFilter(_SelectAllFilter(self.mod_combo, self))
         self.mod_combo.lineEdit().textEdited.connect(
             lambda t: (self.mod_combo.completer().setCompletionPrefix(""), self.mod_combo.completer().complete()) if not t else None

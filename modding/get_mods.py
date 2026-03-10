@@ -198,7 +198,7 @@ class OverlapDialog(QDialog):
 
 # ── Main ─────────────────────────────────────────────────────
 
-def get_mods():
+def get_mods(reload_mod_combos_toggle:bool = True):
     from core.variable_manager import program_variables
     import modding.path_dictionary as pd
 
@@ -293,8 +293,9 @@ def get_mods():
         json.dump(merged, f, indent=2, ensure_ascii=False)
 
     # 7. Reload UI combos
-    from error_handler.ensure_exception import ensure_exception
-    ensure_exception(_reload_mod_combos, (program_variables.mod_list_path,))
+    if reload_mod_combos_toggle:
+        from error_handler.ensure_exception import ensure_exception
+        ensure_exception(_reload_mod_combos, (program_variables.mod_list_path,))
 
 
 def _reload_mod_combos(mod_list_path: str):

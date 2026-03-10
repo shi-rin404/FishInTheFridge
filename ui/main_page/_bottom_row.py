@@ -61,8 +61,7 @@ class BottomRow(QWidget):
         tools_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         tools_btn.setObjectName("icon_btn")
         tools_btn.setFixedSize(32, 32)
-        tools_btn.setToolTip("Get Mods (test)")
-        tools_btn.clicked.connect(lambda: __import__("modding.get_mods", fromlist=["get_mods"]).get_mods())
+        tools_btn.setToolTip("Get Mods (test)")        
 
         self.manage_combo = QComboBox()
         self.manage_combo.setCursor(Qt.CursorShape.PointingHandCursor)
