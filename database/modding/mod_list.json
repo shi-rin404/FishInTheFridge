@@ -1,3 +1,10 @@
 {
-    
+  "Tikisha": {
+    "character": "All",
+    "skin": "mod/Tikisha/main.gim"
+  },
+  "Tikisha Kopya": {
+    "character": "All",
+    "skin": "mod/Tikisha/main.gim"
+  }
 }
