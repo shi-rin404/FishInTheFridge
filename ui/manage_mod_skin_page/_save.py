@@ -37,14 +37,23 @@ class _SaveMixin:
                     return
                 data_type = dlg.result_type
 
-        merge_dict_json(
-            program_variables.skin_list_path,
-            self.skin_name_input.text(),
-            {data_type: skin_path}
-        )
+        from modding.path_dictionary import skin_dict as ms_dict
+        if data_type in ms_dict:
+            merge_dict_json(
+                program_variables.skin_list_path,
+                self.skin_name_input.text(),
+                {data_type: skin_path}
+            )
+        else:
+            from file_io.output.edit_json import edit_json
+            edit_json(
+                program_variables.skin_list_path,
+                {self.skin_name_input.text(): {data_type: skin_path}}
+            )
 
-        from modding.update_ms_lists import update_ms_list
-        update_ms_list("skin")
+
+        from core.automatic_processes.update_comboboxes import update_comboboxes
+        update_comboboxes("skin")
 
         if self._is_edit_mode:
             self._edit_paths[data_type] = skin_path

@@ -295,21 +295,12 @@ def get_mods(reload_mod_combos_toggle:bool = True):
     # 7. Reload UI combos
     if reload_mod_combos_toggle:
         from error_handler.ensure_exception import ensure_exception
-        ensure_exception(_reload_mod_combos, (program_variables.mod_list_path,))
+        ensure_exception(_reload_mod_combos, ())
 
 
-def _reload_mod_combos(mod_list_path: str):
-    from modding.path_dictionary import mod_dict
+def _reload_mod_combos():
     from modding.update_ms_lists import update_ms_list
-    from modding.ui.load_json_lists import load_json_list
-    from ui.main_page import MainPage
-    from ui.manage_mod_skin_page import ManageModSkinPage
+    from core.automatic_processes.update_comboboxes import update_comboboxes
 
     update_ms_list("mod")
-
-    if MainPage.main_page is not None:
-        load_json_list(MainPage.main_page.apply_panel.mod_combo, mod_list_path, mod_dict)
-
-    page = ManageModSkinPage.manage_mod_skin_page
-    if page is not None and page.editor_mode == "mod":
-        load_json_list(page.ms_combo, mod_list_path, mod_dict)
+    update_comboboxes("mod")

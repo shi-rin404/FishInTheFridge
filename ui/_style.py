@@ -4,9 +4,10 @@ from PySide6.QtWidgets import QPushButton
 BG      = "#EAE4D5"
 TEXT    = "#5a5549"
 BORDER  = "#5a5549"
-DANGER  = "#cc3333"
-SUCCESS = "#52a852"
-MUTED   = "#9a9585"
+DANGER   = "#cc3333"
+SUCCESS  = "#52a852"
+WARNING  = "#eddd66"
+MUTED    = "#9a9585"
 
 # ── Shared stylesheet ─────────────────────────────────────────
 COMMON_STYLE = f"""
@@ -63,6 +64,13 @@ QPushButton#success {{
 }}
 QPushButton#success:hover {{
     background-color: #dff0df;
+}}
+QPushButton#warning {{
+    border-color: {WARNING};
+    color: {WARNING};
+}}
+QPushButton#warning:hover {{
+    background-color: #faf8dc;
 }}
 QPushButton#icon_btn {{
     border: none;

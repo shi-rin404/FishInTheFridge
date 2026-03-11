@@ -84,7 +84,8 @@ class BottomRow(QWidget):
 
     def manage_combo_dispatch(self):
         def manage_presets():
-            ... 
+            from ui import manage_presets_page
+            manage_presets_page.ManagePresetsPage(self).show()
         
         from typing import Literal
         def manage_mod_skin(editor_mode_set=Literal["skin", "mod"]):
