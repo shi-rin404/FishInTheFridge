@@ -17,6 +17,7 @@ def on_apply_mod(exception: Exception, base_function_name: str):
 
     def on_type_error():
         "A value inside original_to_mod is None — len(None) fails in _build_payload"
+        print(exception)
         _QMB.critical(_MainPage.main_page, "Invalid Mod", "The selected mod path is invalid.\nPlease re-select the mod and try again.")
 
     def on_value_error():

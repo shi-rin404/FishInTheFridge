@@ -52,7 +52,29 @@ def _mod_combos() -> list[tuple]:
     return combos
 
 
-def update_comboboxes(mode: Literal["skin", "mod", "all"] = "all"):
+def _preset_combos() -> None:
+    """Reload all live preset comboboxes from presets.json."""
+    from ui.main_page import MainPage
+    from ui.manage_presets_page import ManagePresetsPage
+    from error_handler.ensure_exception import ensure_exception
+    from modding.preset_manager import read_presets
+
+    data = ensure_exception(read_presets, ()) or {}
+    preset_names = list(data.keys())
+
+    main = MainPage.main_page
+    if main is not None:
+        combo = main.bottom_row.preset_combo
+        combo.clear()
+        combo.addItems(preset_names)
+        combo.setCurrentIndex(-1)
+
+    page = ManagePresetsPage.manage_presets_page
+    if page is not None:
+        page._reload_preset_combos()
+
+
+def update_comboboxes(mode: Literal["skin", "mod", "preset", "all"] = "all"):
     """Reload all registered comboboxes for the given mode from their JSON source."""
     targets: list[tuple] = []
 
@@ -63,3 +85,6 @@ def update_comboboxes(mode: Literal["skin", "mod", "all"] = "all"):
 
     for combo, list_path, path_dict in targets:
         load_json_list(combo, list_path, path_dict)
+
+    if mode in ("preset", "all"):
+        _preset_combos()

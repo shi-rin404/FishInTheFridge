@@ -5,12 +5,14 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, QPoint
 
 from .._style import COMMON_STYLE
+from core.automatic_processes.update_comboboxes import update_comboboxes
 from .._widgets import WindowControls
 from ._panels import _PanelsMixin
+from ._save import _SaveMixin
 from ._tab_logic import _TabLogicMixin
 
 
-class ManagePresetsPage(_TabLogicMixin, _PanelsMixin, QWidget):
+class ManagePresetsPage(_TabLogicMixin, _SaveMixin, _PanelsMixin, QWidget):
     """
     Main tab switch: Edit | Create  (starts on Create)
 
@@ -30,8 +32,8 @@ class ManagePresetsPage(_TabLogicMixin, _PanelsMixin, QWidget):
         self.setStyleSheet(COMMON_STYLE)
         self.resize(500, 380)
         self._drag_pos = QPoint()
-        self._build_ui()
         ManagePresetsPage.manage_presets_page = self
+        self._build_ui()
 
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
@@ -80,3 +82,16 @@ class ManagePresetsPage(_TabLogicMixin, _PanelsMixin, QWidget):
         self.edit_tab.clicked.connect(self._show_edit)
         self.create_tab.clicked.connect(self._show_create)
         self._show_create()
+
+        # Action buttons
+        self.create_preset_btn.clicked.connect(self._on_create_preset)
+        self.add_entry_btn.clicked.connect(self._on_add_entry)
+        self.delete_entry_btn.clicked.connect(self._on_delete)
+
+        # Populate assoc_combo_combo when a preset is selected in Delete tab
+        self.assoc_preset_combo.currentIndexChanged.connect(
+            lambda _: self._reload_assoc_combos(self.assoc_preset_combo.currentText())
+        )
+
+        # Initial load of preset combos
+        update_comboboxes("preset")
