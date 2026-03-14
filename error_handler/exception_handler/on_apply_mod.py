@@ -22,7 +22,12 @@ def on_apply_mod(exception: Exception, base_function_name: str):
 
     def on_value_error():
         "Mod path is longer than placeholder path"
-        _QMB.critical(_MainPage.main_page, "Mod Path Is Too Long", "The mod path is longer than skin path. Select another skin or fix the mod path.")
+        _QMB.critical(
+            _MainPage.main_page, "Mod Path Too Long",
+            "One or more mod paths are longer than their skin placeholders "
+            "and cannot be patched:\n\n"
+            f"{exception}",
+        )
 
     handlers = {
         RuntimeError:    on_runtime_error,

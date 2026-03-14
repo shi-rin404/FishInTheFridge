@@ -1,4 +1,4 @@
-from ..security.generator.session_title import generate_session_title
+from security.generator.session_title import generate_session_title
 from PySide6.QtWidgets import QApplication, QMainWindow
 import sys
 

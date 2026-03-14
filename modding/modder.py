@@ -12,9 +12,14 @@ Architecture:
 
 import ctypes
 import ctypes.wintypes
+import re
 from ctypes import windll, byref, sizeof
 from dataclasses import dataclass, field
 from typing import Optional, Callable
+
+# A live path must (optionally) start with '/' or '\' padding characters,
+# then be rooted at 'chr' or 'mod', and end with '.gim'.
+_LIVE_PATH_RE = re.compile(r'^[/\\]*(chr|mod)[/\\].+\.gim$', re.IGNORECASE)
 
 # == INSTANCE =================
 skin_modder = None
@@ -149,6 +154,9 @@ class SkinModder:
 
     def __post_init__(self):
         global skin_modder
+        # Carry forward the address cache so unmod/re-patch doesn't require a full re-scan
+        if skin_modder is not None:
+            self._cache.update(skin_modder._cache)
         skin_modder = self
         self._pid = _pid_by_name(self.process_name)
         access = PROCESS_VM_READ | PROCESS_VM_WRITE | PROCESS_VM_OPERATION | PROCESS_QUERY_INFO
@@ -349,13 +357,101 @@ class SkinModder:
             {original_path: count_of_patched_addresses}
         """
         results = {}
+        path_errors: list[str] = []
         for original, replacement in mapping.items():
             try:
                 results[original] = self.patch(original, replacement, pad=pad)
-            except (KeyError, ValueError) as e:
+            except KeyError as e:
                 print(f"  [patch_many] Skipped '{original}': {e}")
                 results[original] = 0
+            except ValueError as e:
+                path_errors.append(str(e))
+                results[original] = 0
+        if path_errors:
+            raise ValueError("\n".join(path_errors))
         return results
+
+    def unmod(self, skin_name: str) -> dict[str, list[int]]:
+        """Restore original skin paths for `skin_name` in process memory.
+
+        Steps:
+          1. Resolve all file paths for the skin from skin_dict.
+          2. For each cached path, read memory at every known address:
+               - If the read fails or the memory is zeroed (address freed),
+                 evict that address from the cache.
+          3. Write the original skin path back to every verified live address.
+
+        Args:
+            skin_name: The unique name key from skin_list.json.
+
+        Returns:
+            {skin_path: [successfully_restored_addresses]} for every path touched.
+
+        Raises:
+            KeyError: skin_name not found in skin_list.json.
+        """
+        from modding.path_dictionary import skin_dict
+
+        if skin_name not in skin_dict:
+            raise KeyError(f"Skin '{skin_name}' not found in skin_list.json.")
+
+        skin_record = skin_dict[skin_name]   # {key: original_path, ...}
+        restored: dict[str, list[int]] = {}
+        bytes_read = ctypes.c_size_t(0)
+
+        for original_path in skin_record.values():
+            if original_path not in self._cache:
+                continue
+
+            read_len = len(original_path.encode("utf-8")) + 1   # +1 for null terminator
+            read_buf = (ctypes.c_char * read_len)()
+            live_addrs: list[int] = []
+
+            for addr in self._cache[original_path]:
+                ok = _k32.ReadProcessMemory(
+                    self._handle,
+                    ctypes.c_void_p(addr),
+                    read_buf,
+                    read_len,
+                    byref(bytes_read),
+                )
+                content = bytes(read_buf[:bytes_read.value]).decode("utf-8", errors="replace").rstrip("\x00")
+                if not ok or bytes_read.value == 0 or not _LIVE_PATH_RE.match(content):
+                    print(f"  [unmod] {hex(addr)}: stale/freed — evicted from cache.")
+                    continue
+                live_addrs.append(addr)
+
+            self._cache[original_path] = live_addrs
+
+            if not live_addrs:
+                continue
+
+            # Write the original path back to every live address
+            raw     = original_path.encode("utf-8") + b"\x00"
+            raw_len = len(raw)
+            w_buf   = (ctypes.c_char * raw_len)(*raw)
+            written = ctypes.c_size_t(0)
+            ok_addrs: list[int] = []
+
+            for addr in live_addrs:
+                ok = _k32.WriteProcessMemory(
+                    self._handle,
+                    ctypes.c_void_p(addr),
+                    w_buf,
+                    raw_len,
+                    byref(written),
+                )
+                if ok and written.value == raw_len:
+                    print(f"  [unmod] Restored {hex(addr)}: '{original_path}'")
+                    ok_addrs.append(addr)
+                else:
+                    err = _k32.GetLastError()
+                    print(f"  [unmod] {hex(addr)} ✗ write failed (err={err})")
+
+            if ok_addrs:
+                restored[original_path] = ok_addrs
+
+        return restored
 
     def invalidate_cache(self, *targets: str):
         """Remove specific targets from cache, forcing re-scan on next scan() call."""
@@ -450,3 +546,26 @@ def apply_mod(
         _k32.CloseHandle(handle)
 
     return True
+
+
+def unmod_skin(skin_name: str) -> dict[str, list[int]]:
+    """Module-level convenience wrapper for SkinModder.unmod().
+
+    Opens a fresh process handle (inheriting the existing address cache so no
+    re-scan is needed) and restores the original skin paths for `skin_name`.
+
+    Args:
+        skin_name: The unique name key from skin_list.json.
+
+    Returns:
+        {skin_path: [successfully_restored_addresses]}
+
+    Raises:
+        KeyError:       skin_name not found in skin_list.json.
+        RuntimeError:   game process is not running.
+        PermissionError: cannot open the process (run as administrator).
+    """
+    import base64
+    process_name = base64.decodebytes(b"ZHdyZy5leGU=").decode()
+    with SkinModder(process_name) as modder:
+        return modder.unmod(skin_name)

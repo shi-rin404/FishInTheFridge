@@ -34,7 +34,7 @@ class BottomRow(QWidget):
         load_json_list(self.preset_combo, program_variables.presets_path, preset_dict)
         self.preset_combo.setEditable(True)
         self.preset_combo.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
-        self.preset_combo.lineEdit().setPlaceholderText("No Presets")
+        self.preset_combo.lineEdit().setPlaceholderText("Select Preset" if preset_dict else "No Presets")
         self.preset_combo.setCursor(Qt.CursorShape.PointingHandCursor)
         self.preset_combo.setMinimumWidth(160)
         QTimer.singleShot(0, lambda: (
@@ -90,7 +90,8 @@ class BottomRow(QWidget):
         tools_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         tools_btn.setObjectName("icon_btn")
         tools_btn.setFixedSize(32, 32)
-        tools_btn.setToolTip("Get Mods (test)")
+        tools_btn.setToolTip("Debug Mode")
+        tools_btn.clicked.connect(self.on_tools_clicked)
 
         self.manage_combo = QComboBox()
         self.manage_combo.setCursor(Qt.CursorShape.PointingHandCursor)
@@ -141,3 +142,8 @@ class BottomRow(QWidget):
 
         dispatcher[self.manage_combo.currentIndex()]()
         self.reset_manage_combo()
+
+    def on_tools_clicked(self):
+        from ui import debug_mode_page
+
+        debug_mode_page.DebugModePage(self).show()
