@@ -4,15 +4,15 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt, QPoint
 
-from .._style import COMMON_STYLE
+from .._style import window_style
 from core.automatic_processes.update_comboboxes import update_comboboxes
-from .._widgets import WindowControls
+from .._widgets import WindowControls, StylePaintMixin
 from ._panels import _PanelsMixin
 from ._save import _SaveMixin
 from ._tab_logic import _TabLogicMixin
 
 
-class ManagePresetsPage(_TabLogicMixin, _SaveMixin, _PanelsMixin, QWidget):
+class ManagePresetsPage(StylePaintMixin, _TabLogicMixin, _SaveMixin, _PanelsMixin, QWidget):
     """
     Main tab switch: Edit | Create  (starts on Create)
 
@@ -29,7 +29,8 @@ class ManagePresetsPage(_TabLogicMixin, _SaveMixin, _PanelsMixin, QWidget):
     def __init__(self, parent=None):
         super().__init__(parent, Qt.WindowType.Window)
         self.setWindowFlags(Qt.WindowType.Window | Qt.FramelessWindowHint)
-        self.setStyleSheet(COMMON_STYLE)
+        self.setObjectName("manage_presets_page")
+        self.setStyleSheet(window_style("manage_presets_page"))
         self.resize(500, 380)
         self._drag_pos = QPoint()
         ManagePresetsPage.manage_presets_page = self

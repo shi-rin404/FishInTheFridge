@@ -8,6 +8,7 @@ DANGER   = "#cc3333"
 SUCCESS  = "#52a852"
 WARNING  = "#eddd66"
 MUTED    = "#9a9585"
+ORANGE   = "#C47A00"
 
 # ── Shared stylesheet ─────────────────────────────────────────
 COMMON_STYLE = f"""
@@ -152,6 +153,11 @@ QFrame#h_divider {{
     min-height: 2px;
 }}
 """
+
+
+def window_style(object_name: str, *, element: str = "QWidget") -> str:
+    """Returns COMMON_STYLE + a 1px black outer border for a frameless window."""
+    return COMMON_STYLE + f"{element}#{object_name} {{ border: 1px solid black; }}"
 
 
 def set_tab(active_btn: QPushButton, inactive_btn: QPushButton) -> None:

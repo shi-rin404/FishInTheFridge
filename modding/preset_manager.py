@@ -137,8 +137,7 @@ def apply_preset(preset_name: str) -> bool:
             if key in mod_record:
                 original_to_mod[skin_record[key]] = mod_record[key]
 
-    from error_handler.ensure_exception import ensure_exception
-    return ensure_exception(apply_mod, (original_to_mod, ))
+    return apply_mod(original_to_mod)
 
 
 def add_entry(preset_name: str, skin_name: str, mod_name: str) -> bool:

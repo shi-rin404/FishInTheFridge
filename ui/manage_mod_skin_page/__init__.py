@@ -1,8 +1,8 @@
 from PySide6.QtWidgets import QWidget, QPushButton, QLabel, QHBoxLayout, QVBoxLayout, QComboBox, QStackedWidget
 from PySide6.QtCore import Qt, QPoint
 
-from .._style import COMMON_STYLE
-from .._widgets import WindowControls
+from .._style import window_style
+from .._widgets import WindowControls, StylePaintMixin
 from ._panels import _PanelsMixin
 from ._tab_logic import _TabLogicMixin
 from ._type_combo import _TypeComboMixin
@@ -11,7 +11,7 @@ from ._save import _SaveMixin
 from typing import Literal
 
 
-class ManageModSkinPage(_SaveMixin, _TypeComboMixin, _TabLogicMixin, _PanelsMixin, QWidget):
+class ManageModSkinPage(StylePaintMixin, _SaveMixin, _TypeComboMixin, _TabLogicMixin, _PanelsMixin, QWidget):
     """
     Two modes switched by Manage | Add tabs:
       - Manage mode : lists saved M/S entries (dropdown + Edit + Delete)
@@ -24,7 +24,8 @@ class ManageModSkinPage(_SaveMixin, _TypeComboMixin, _TabLogicMixin, _PanelsMixi
     def __init__(self, editor_mode=Literal["skin", "mod"], parent=None):
         ManageModSkinPage.manage_mod_skin_page = self
         super().__init__(parent, Qt.Window)
-        self.setStyleSheet(COMMON_STYLE)
+        self.setObjectName("manage_mod_skin_page")
+        self.setStyleSheet(window_style("manage_mod_skin_page"))
         self.resize(500, 300)
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.Window)
         self._drag_pos = QPoint()

@@ -56,10 +56,9 @@ def _preset_combos() -> None:
     """Reload all live preset comboboxes from presets.json."""
     from ui.main_page import MainPage
     from ui.manage_presets_page import ManagePresetsPage
-    from error_handler.ensure_exception import ensure_exception
     from modding.preset_manager import read_presets
 
-    data = ensure_exception(read_presets, ()) or {}
+    data = read_presets() or {}
     preset_names = list(data.keys())
 
     main = MainPage.main_page

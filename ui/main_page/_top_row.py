@@ -1,7 +1,9 @@
 import os
 
-from PySide6.QtWidgets import QWidget, QPushButton, QHBoxLayout
-from PySide6.QtCore import Signal, Qt
+from PySide6.QtWidgets import QWidget, QPushButton, QLabel, QHBoxLayout
+from PySide6.QtCore import Signal, Qt, QTimer
+
+from .._style import SUCCESS, ORANGE
 
 from .._widgets import WindowControls
 
@@ -32,18 +34,32 @@ class TopRow(QWidget):
         self.apply_mod_btn.setMinimumWidth(160)
         self.apply_mod_btn.clicked.connect(self.apply_mod_toggled)
 
+        self._apply_feedback_timer = QTimer(self)
+        self._apply_feedback_timer.setSingleShot(True)
+        self._apply_feedback_timer.setInterval(5000)
+
+        self.apply_feedback_label = QLabel()
+        self.apply_feedback_label.hide()
+
+        self._apply_feedback_timer.timeout.connect(self.apply_feedback_label.hide)
+
         layout.addWidget(self.install_btn)
         layout.addWidget(self.apply_mod_btn)
+        layout.addWidget(self.apply_feedback_label)
         layout.addStretch()
 
+        from ui.high_ban_risk_page import HighBanRiskPage
         warn_btn = QPushButton("⚠")
+        warn_btn.setToolTip("3D Migoto Loaders")
         warn_btn.setObjectName("icon_btn")
         warn_btn.setFixedSize(32, 32)
         warn_btn.setStyleSheet("color: #cc3333; font-size: 18px;")
         warn_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        warn_btn.clicked.connect(lambda: HighBanRiskPage(parent=self).show())
         layout.addWidget(warn_btn)
 
         logs_btn = QPushButton("📄")
+        logs_btn.setToolTip("Game Logs")
         logs_btn.setObjectName("icon_btn")
         logs_btn.setFixedSize(32, 32)
         logs_btn.setCursor(Qt.CursorShape.PointingHandCursor)
@@ -52,6 +68,7 @@ class TopRow(QWidget):
         layout.addWidget(logs_btn)
 
         settings_btn = QPushButton("⚙")
+        settings_btn.setToolTip("Loader Settings")
         settings_btn.setObjectName("icon_btn")
         settings_btn.setFixedSize(32, 32)
         settings_btn.setStyleSheet("font-size: 18px;")
@@ -63,3 +80,10 @@ class TopRow(QWidget):
         self.window_controls.minimize_requested.connect(self.minimize_requested)
         self.window_controls.close_requested.connect(self.close_requested)
         layout.addWidget(self.window_controls)
+
+    def set_apply_feedback(self, text: str, *, success: bool = False, error: bool = False):
+        color = SUCCESS if success else ("#CC2200" if error else ORANGE)
+        self.apply_feedback_label.setText(text)
+        self.apply_feedback_label.setStyleSheet(f"color: {color}; font-weight: bold;")
+        self.apply_feedback_label.show()
+        self._apply_feedback_timer.start()  # restarts if already running

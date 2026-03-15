@@ -1,7 +1,6 @@
 import json, os, re, zipfile
 from database.user.user_variables import user_variables
 from file_io.input.select_mod_zip import select_mod_zip
-from error_handler.ensure_exception import ensure_exception
 
 
 def _collect_mod_paths(data) -> list[str]:
@@ -95,7 +94,7 @@ def install_mod(mod_dir:str = user_variables.mod_dir) -> bool | list[str]:
     "single_mod_fix": single_mod_fix: bool
     }
     """
-    validate_info:dict[str, list[str] | bool] = ensure_exception(validate_mod, (selected_mod,))
+    validate_info:dict[str, list[str] | bool] = validate_mod(selected_mod)
 
     with zipfile.ZipFile(selected_mod, 'r') as zip_ref:
         if validate_info["single_mod_fix"]:

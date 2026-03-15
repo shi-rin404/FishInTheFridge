@@ -293,9 +293,8 @@ def get_mods(reload_mod_combos_toggle:bool = True):
         json.dump(merged, f, indent=2, ensure_ascii=False)
 
     # 7. Reload UI combos
-    if reload_mod_combos_toggle:
-        from error_handler.ensure_exception import ensure_exception
-        ensure_exception(_reload_mod_combos, ())
+    if reload_mod_combos_toggle:        
+        _reload_mod_combos()
 
 
 def _reload_mod_combos():

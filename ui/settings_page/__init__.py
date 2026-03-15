@@ -4,14 +4,15 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt, QPoint
 
-from .._style import COMMON_STYLE, MUTED
-from .._widgets import WindowControls
+from .._style import window_style, MUTED
+from .._widgets import WindowControls, StylePaintMixin
 
 
-class SettingsPage(QWidget):
+class SettingsPage(StylePaintMixin, QWidget):
     def __init__(self, parent=None):
         super().__init__(parent, Qt.Window)
-        self.setStyleSheet(COMMON_STYLE)
+        self.setObjectName("settings_page")
+        self.setStyleSheet(window_style("settings_page"))
         self.resize(250, 250)
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.Window)
         self._drag_pos = QPoint()
@@ -101,9 +102,7 @@ class SettingsPage(QWidget):
 
         from file_io.output.edit_json import edit_json
         from core.variable_manager import program_variables
-        from error_handler.ensure_exception import ensure_exception
-
-        ensure_exception(edit_json, (program_variables.__memory_json__, "game_executable", exec_path))
+        edit_json(program_variables.__memory_json__, "game_executable", exec_path)
 
     def on_auto_detect_game_folder(self) -> None:
         from core.automatic_processes.find_game_executable import find_game_executable   

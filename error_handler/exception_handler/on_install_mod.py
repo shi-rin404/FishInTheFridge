@@ -17,9 +17,11 @@ def on_install_mod(exception: Exception, base_function_name: str):
         mkdir(user_variables.mod_dir)
         _QMB.information(_MainPage.main_page, "Mod Directory Created Automaticly", "Please re-select your mod")
                     
-        from ..ensure_exception import ensure_exception
         from modding.install_mod import install_mod
-        ensure_exception(install_mod, ())
+        try:
+            install_mod()
+        except Exception:
+            pass
 
     def on_bad_zip_file():
         _QMB.critical(_MainPage.main_page, "Invalid ZIP",

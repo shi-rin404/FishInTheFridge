@@ -1,5 +1,16 @@
-from PySide6.QtWidgets import QWidget, QPushButton, QHBoxLayout
+from PySide6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QStyleOption
 from PySide6.QtCore import Qt, Signal
+from PySide6.QtGui import QPainter
+
+
+class StylePaintMixin:
+    """Makes QWidget subclasses honour their full stylesheet (borders, bg, etc.).
+    Inherit from this alongside QWidget/QDialog for any frameless window."""
+    def paintEvent(self, _event):
+        opt = QStyleOption()
+        opt.initFrom(self)
+        painter = QPainter(self)
+        self.style().drawPrimitive(self.style().PrimitiveElement.PE_Widget, opt, painter, self)
 
 
 class WindowControls(QWidget):

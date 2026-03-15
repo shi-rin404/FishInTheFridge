@@ -3,12 +3,13 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt
 
-from .._style import COMMON_STYLE
+from .._style import window_style
+from .._widgets import StylePaintMixin
 
 _TYPES = ["skin", "item", "accessory", "other"]
 
 
-class SelectDataTypeDialog(QDialog):
+class SelectDataTypeDialog(StylePaintMixin, QDialog):
     """
     Modal popup to pick a data type.
 
@@ -21,7 +22,8 @@ class SelectDataTypeDialog(QDialog):
 
     def __init__(self, parent=None):
         super().__init__(parent, Qt.WindowType.Dialog)
-        self.setStyleSheet(COMMON_STYLE)
+        self.setObjectName("select_data_type_dialog")
+        self.setStyleSheet(window_style("select_data_type_dialog", element="QDialog"))
         self.setWindowTitle("Select Data Type")
         self.setWindowFlags(Qt.WindowType.Dialog | Qt.WindowType.FramelessWindowHint)
         self.result_type: str = ""

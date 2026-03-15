@@ -5,7 +5,6 @@ from .._style import COMMON_STYLE
 from ._top_row import TopRow
 from ._apply_panel import ApplyPanel
 from ._bottom_row import BottomRow
-from error_handler.ensure_exception import ensure_exception
 
 class MainPage(QWidget):    
     main_page = None
@@ -43,7 +42,7 @@ class MainPage(QWidget):
         self.top_row = TopRow()
         self.top_row.minimize_requested.connect(self.showMinimized)
         self.top_row.close_requested.connect(self.close)
-        self.top_row.install_mod_clicked.connect(lambda: ensure_exception(install_mod, ()))
+        self.top_row.install_mod_clicked.connect(install_mod)
         self.top_row.settings_clicked.connect(lambda: SettingsPage(parent=self).show())
         root.addWidget(self.top_row)
         root.addSpacing(8)

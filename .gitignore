@@ -1,5 +1,6 @@
 # UI References
 !ui_references/
+MEMORY.md
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

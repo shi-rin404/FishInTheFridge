@@ -6,9 +6,8 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, QPoint, QRect, QTimer
 from PySide6.QtGui import QCursor
 
-from .._style import COMMON_STYLE, MUTED, set_tab
-from .._widgets import WindowControls
-from error_handler.ensure_exception import ensure_exception
+from .._style import window_style, MUTED, set_tab
+from .._widgets import WindowControls, StylePaintMixin
 
 
 _DISABLED_STYLE = f"QPushButton:disabled {{ color: {MUTED}; border-color: {MUTED}; }}"
@@ -31,13 +30,14 @@ class _DropdownPopup(QFrame):
         super().hideEvent(event)
 
 
-class DebugModePage(QWidget):
+class DebugModePage(StylePaintMixin, QWidget):
     debug_mode_page = None
 
     def __init__(self, parent=None):
         DebugModePage.debug_mode_page = self
         super().__init__(parent=parent)
-        self.setStyleSheet(COMMON_STYLE)
+        self.setObjectName("debug_mode_page")
+        self.setStyleSheet(window_style("debug_mode_page"))
         self.resize(800, 420)
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.Window)
         self._drag_pos = QPoint()
@@ -228,11 +228,13 @@ class DebugModePage(QWidget):
     def _show_change(self):
         set_tab(self.change_tab, self.manage_tab)
         self.stack.setCurrentIndex(0)
+        self.progress_bar.show()
         self._stop_refresh()
 
     def _show_manage(self):
         set_tab(self.manage_tab, self.change_tab)
         self.stack.setCurrentIndex(1)
+        self.progress_bar.hide()
         self._start_refresh()
 
     def closeEvent(self, event):
@@ -355,10 +357,9 @@ class DebugModePage(QWidget):
             self.progress_bar.setValue(scanned)
             QApplication.processEvents()
 
-        result = ensure_exception(debug_scan, (search, change_to, progress_cb))
-        if result is not None:
-            self.progress_bar.setValue(self.progress_bar.maximum())
-            self._populate_values_list(result)
+        result = debug_scan(search, change_to, progress_cb)
+        self.progress_bar.setValue(self.progress_bar.maximum())
+        self._populate_values_list(result)
 
     def _on_retrieve(self):
         from modding.debug_actions import debug_retrieve
@@ -366,9 +367,7 @@ class DebugModePage(QWidget):
         if not addrs:
             return
         check_length = not self.dont_check_length.isChecked()
-        result = ensure_exception(debug_retrieve, (addrs, check_length))
-        if result is not None:
-            _, skipped = result
+        _, skipped = debug_retrieve(addrs, check_length)
             if skipped and check_length:
                 skipped_strs = "\n".join(f"0x{addr:016X}" for addr in skipped)
                 QMessageBox.warning(
@@ -401,9 +400,7 @@ class DebugModePage(QWidget):
             return
 
         check_length = not self.dont_check_length.isChecked()
-        result = ensure_exception(debug_edit, (addrs, new_value, check_length))
-        if result is not None:
-            patched, skipped = result
+        patched, skipped = debug_edit(addrs, new_value, check_length)
             if skipped and check_length:
                 skipped_strs = "\n".join(f"0x{addr:016X}" for addr in skipped)
                 QMessageBox.warning(

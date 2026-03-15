@@ -30,14 +30,20 @@ class UserVariables():
                 self.game_executable = self.get_game_executable()
 
     def __init__(self):
-        from error_handler.ensure_exception import ensure_exception
-        self.game_executable = ensure_exception(self.get_game_executable, ())
+        self.game_executable = self.get_game_executable()
 
         if self.game_executable is None:
-            ensure_exception(self.set_game_executable, ())
+            self.set_game_executable()
 
         self.game_dir = os.path.dirname(self.game_executable)
         self.mod_dir = os.path.join(self.game_dir, "Documents", "res", "mod")
         self.game_logs = os.path.join(self.game_dir, "log.txt")
+
+        self._3dm = ["d3d11.dll",
+                     "d3dx.ini",
+                     "d3dx_user.ini",
+                     "Mods",
+                     "ShaderCache",
+                     "ShaderFixes"]
 
 user_variables = UserVariables()

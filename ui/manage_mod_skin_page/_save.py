@@ -37,18 +37,28 @@ class _SaveMixin:
                     return
                 data_type = dlg.result_type
 
+        skin_name = self.skin_name_input.text()
+
         from modding.path_dictionary import skin_dict as ms_dict
-        if data_type in ms_dict:
+        if skin_name in ms_dict and data_type in ms_dict[skin_name]:
+            from ._duplicate_dialog import DuplicateDialog
+            dlg = DuplicateDialog(skin_name, data_type, parent=self)
+            if dlg.exec() != DuplicateDialog.DialogCode.Accepted:
+                return
+            skin_name = dlg.new_name
+            data_type = dlg.new_dtype
+
+        if skin_name in ms_dict:
             merge_dict_json(
                 program_variables.skin_list_path,
-                self.skin_name_input.text(),
+                skin_name,
                 {data_type: skin_path}
             )
         else:
             from file_io.output.edit_json import edit_json
             edit_json(
                 program_variables.skin_list_path,
-                {self.skin_name_input.text(): {data_type: skin_path}}
+                {skin_name: {data_type: skin_path}}
             )
 
 

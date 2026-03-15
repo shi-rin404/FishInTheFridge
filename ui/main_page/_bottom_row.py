@@ -3,6 +3,8 @@ from PySide6.QtWidgets import (
     QHBoxLayout, QVBoxLayout, QSizePolicy
 )
 from PySide6.QtCore import Qt, QSize, QTimer
+
+from .._style import SUCCESS, ORANGE
 from PySide6.QtGui import QIcon, QPixmap
 
 from core.variable_manager import program_variables
@@ -66,8 +68,21 @@ class BottomRow(QWidget):
 
         self.apply_preset_btn.clicked.connect(self._on_apply_preset)
 
+        self._preset_feedback_label = QLabel()
+        self._preset_feedback_label.hide()
+        self._preset_feedback_timer = QTimer(self)
+        self._preset_feedback_timer.setSingleShot(True)
+        self._preset_feedback_timer.setInterval(5000)
+        self._preset_feedback_timer.timeout.connect(self._preset_feedback_label.hide)
+
+        apply_preset_row = QHBoxLayout()
+        apply_preset_row.setSpacing(8)
+        apply_preset_row.addWidget(self.apply_preset_btn)
+        apply_preset_row.addWidget(self._preset_feedback_label)
+        apply_preset_row.addStretch()
+
         preset_col.addLayout(preset_row)
-        preset_col.addWidget(self.apply_preset_btn)
+        preset_col.addLayout(apply_preset_row)
 
         layout.addLayout(preset_col)
         layout.addStretch()
@@ -107,12 +122,27 @@ class BottomRow(QWidget):
 
         layout.addLayout(icons_row)
 
+    def _set_preset_feedback(self, text: str, *, success: bool = False, error: bool = False):
+        color = SUCCESS if success else ("#CC2200" if error else ORANGE)
+        self._preset_feedback_label.setText(text)
+        self._preset_feedback_label.setStyleSheet(f"color: {color}; font-weight: bold;")
+        self._preset_feedback_label.show()
+        self._preset_feedback_timer.start()
+
     def _on_apply_preset(self):
-        from error_handler.ensure_exception import ensure_exception
         from modding.preset_manager import apply_preset
         preset_name = self.preset_combo.currentText().strip()
-        if preset_name:
-            ensure_exception(apply_preset, (preset_name,))
+        if not preset_name:
+            return
+        self._set_preset_feedback("Searching for skin pathes..")
+        from PySide6.QtWidgets import QApplication
+        QApplication.processEvents()
+        try:
+            apply_preset(preset_name)
+            self._set_preset_feedback("Preset applied successfully", success=True)
+        except Exception:
+            self._set_preset_feedback("An error occured upon modding", error=True)
+            raise
 
     def reset_manage_combo(self):
         self.manage_combo.setCurrentIndex(-1)

@@ -73,8 +73,7 @@ class _PanelsMixin:
         edit_delete_row.addWidget(self.edit_entry_btn)
         edit_delete_row.addWidget(self.delete_entry_btn)
         self.edit_entry_btn.clicked.connect(self._forward_to_edit_form)
-        from error_handler.ensure_exception import ensure_exception
-        self.delete_entry_btn.clicked.connect(lambda: ensure_exception(self._delete_entry, ()))
+        self.delete_entry_btn.clicked.connect(self._delete_entry)
 
         layout.addStretch()
         layout.addLayout(ms_row)

@@ -1,11 +1,10 @@
-from PySide6.QtWidgets import QFrame, QPushButton, QComboBox, QVBoxLayout, QHBoxLayout, QCompleter, QWidget, QMessageBox
+from PySide6.QtWidgets import QFrame, QPushButton, QComboBox, QVBoxLayout, QHBoxLayout, QCompleter, QWidget, QMessageBox, QApplication
 from PySide6.QtCore import Qt, QObject, QEvent, QRect, QTimer
 from PySide6.QtGui import QCursor
 
 from modding.apply_mod import apply_mod
 from modding.ui.load_json_lists import load_json_list
 from modding.path_dictionary import skin_dict, mod_dict
-from error_handler.ensure_exception import ensure_exception
 
 from core.variable_manager import program_variables
 from .._style import MUTED, COMMON_STYLE
@@ -187,14 +186,30 @@ class ApplyPanel(QFrame):
         }
 
         if original_to_mod:
-            ensure_exception(apply_mod, (original_to_mod,))
+            from ui.main_page import MainPage
+            _feedback = MainPage.main_page.top_row.set_apply_feedback
+            _feedback("Searching for skin pathes..")
+            QApplication.processEvents()
+            try:
+                apply_mod(original_to_mod)
+                _feedback("Modded successfully", success=True)
+            except Exception:
+                _feedback("An error occured upon modding", error=True)
+                raise
 
     def _on_unmod(self):
         skin_name = self.skin_combo.currentText()
         if skin_name not in skin_dict:
             return
         from modding.modder import unmod_skin
-        ensure_exception(unmod_skin, (skin_name,))
+        from ui.main_page import MainPage
+        _feedback = MainPage.main_page.top_row.set_apply_feedback
+        try:
+            unmod_skin(skin_name)
+            _feedback("The mod is removed", success=True)
+        except Exception:
+            _feedback("An error occured upon modding", error=True)
+            raise
 
     def _toggle_force_apply(self):
         if self._force_popup.closed_by_dropdown:
@@ -227,11 +242,7 @@ class ApplyPanel(QFrame):
             if k in mod_record
         }
         if original_to_mod:
-            # Wrapper keeps __name__ == "apply_mod" so ensure_exception dispatches correctly
-            def apply_mod_force(m):
-                return apply_mod(m, force=True)
-            apply_mod_force.__name__ = "apply_mod"
-            ensure_exception(apply_mod_force, (original_to_mod,))
+            apply_mod(original_to_mod, force=True)
 
     def toggle(self):
         self.setVisible(not self.isVisible())
