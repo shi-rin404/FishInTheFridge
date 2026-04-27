@@ -1,7 +1,7 @@
 import sys
 import traceback
 from PySide6.QtWidgets import QApplication
-from ui.main_page import MainPage
+from ui.dispatch_page import DispatchPage
 from error_handler.exception_handler.handler_dispatcher import error_handlers
 
 
@@ -24,11 +24,9 @@ def _exception_hook(exc_type, exc_value, exc_traceback):
 
 sys.excepthook = _exception_hook
 
+DEBUG = True  # set False before building
+
 app = QApplication(sys.argv)
-window = MainPage()
-
-from modding.get_mods import get_mods
-get_mods()
-
+window = DispatchPage(debug=DEBUG)
 window.show()
 sys.exit(app.exec())

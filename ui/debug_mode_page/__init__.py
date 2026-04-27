@@ -6,7 +6,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, QPoint, QRect, QTimer
 from PySide6.QtGui import QCursor
 
-from .._style import window_style, MUTED, set_tab
+from .._style import window_style, MUTED, set_tab, COMMON_STYLE
 from .._widgets import WindowControls, StylePaintMixin
 
 
@@ -366,15 +366,17 @@ class DebugModePage(StylePaintMixin, QWidget):
         addrs = self._get_selected_addrs()
         if not addrs:
             return
+        
         check_length = not self.dont_check_length.isChecked()
         _, skipped = debug_retrieve(addrs, check_length)
-            if skipped and check_length:
-                skipped_strs = "\n".join(f"0x{addr:016X}" for addr in skipped)
-                QMessageBox.warning(
-                    self, "Length Mismatch",
-                    f"The following addresses were skipped — "
-                    f"current memory length does not match the initial value:\n\n{skipped_strs}"
-                )
+
+        if skipped and check_length:
+            skipped_strs = "\n".join(f"0x{addr:016X}" for addr in skipped)
+            QMessageBox.warning(
+                self, "Length Mismatch",
+                f"The following addresses were skipped — "
+                f"current memory length does not match the initial value:\n\n{skipped_strs}"
+            )
 
     def _on_unfollow(self):
         from modding.debug_actions import debug_cache
@@ -401,14 +403,15 @@ class DebugModePage(StylePaintMixin, QWidget):
 
         check_length = not self.dont_check_length.isChecked()
         patched, skipped = debug_edit(addrs, new_value, check_length)
-            if skipped and check_length:
-                skipped_strs = "\n".join(f"0x{addr:016X}" for addr in skipped)
-                QMessageBox.warning(
-                    self, "Length Mismatch",
-                    f"The following addresses were skipped — "
-                    f"new value length does not match the initial value:\n\n{skipped_strs}"
-                )
-            dialog.accept()
+
+        if skipped and check_length:
+            skipped_strs = "\n".join(f"0x{addr:016X}" for addr in skipped)
+            QMessageBox.warning(
+                self, "Length Mismatch",
+                f"The following addresses were skipped — "
+                f"new value length does not match the initial value:\n\n{skipped_strs}"
+            )
+        dialog.accept()
 
 
 class _EditDialog(QDialog):

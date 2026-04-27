@@ -370,6 +370,10 @@
     "item": "mod/Sae/assets/weapon.gim",
     "character": "Geisha"
   },
+  "Shiroi": {
+    "character": "All",
+    "skin": "mod/Shiroi/main.gim"
+  },
   "Source of Evil": {
     "character": "Little Girl",
     "skin": "mod/SOE/girl_e_ezhiyuan.gim",

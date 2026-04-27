@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(robocopy \"s:\\\\Project\\\\Code\\\\FishInTheFridge\" \"s:\\\\Project\\\\Code\\\\FishInTheFridge-alpha_0_9_0\" /E /XD security auth_server .claude dispatch_page discord_oauth /XF PRE_BUILD.md)",
+      "Bash(echo \"Exit: $?\")",
+      "PowerShell(robocopy \"s:\\\\Project\\\\Code\\\\FishInTheFridge\" \"s:\\\\Project\\\\Code\\\\FishInTheFridge-alpha_0_9_0\" /E /XD security auth_server .claude dispatch_page discord_oauth /XF PRE_BUILD.md; Write-Host \"Robocopy exit: $LASTEXITCODE\")",
+      "Read(//s/Project/Code/FishInTheFridge-alpha_0_9_0/**)",
+      "Read(//s/Project/Code/FishInTheFridge-alpha_0_9_0/database/system/**)",
+      "Read(//s/Project/Code/FishInTheFridge-alpha_0_9_0/core/**)",
+      "Read(//s/Project/Code/FishInTheFridge-alpha_0_9_0/ui/main_page/**)"
+    ],
+    "additionalDirectories": [
+      "s:\\Project\\Code\\FishInTheFridge-alpha_0_9_0\\.git"
+    ]
+  }
+}

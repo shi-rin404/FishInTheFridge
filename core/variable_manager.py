@@ -6,6 +6,7 @@ class ProgramVariables():
     skin_list_path = Path(__file__).parent.parent / "database" / "modding" / "skin_list.json"
     mod_list_path = Path(__file__).parent.parent / "database" / "modding" / "mod_list.json"
     presets_path = Path(__file__).parent.parent / "database" / "user" / "presets.json"
+    auth_file    = Path(__file__).parent.parent / "database" / "user" / "auth.dat"
     _3dm_folder_path = Path(__file__).parent.parent / "modding" / "3dm"
 
 program_variables = ProgramVariables()

@@ -173,7 +173,7 @@ class BottomRow(QWidget):
         dispatcher[self.manage_combo.currentIndex()]()
         self.reset_manage_combo()
 
-    def on_tools_clicked(self):
+    def on_tools_clicked(self):        
         from ui import debug_mode_page
 
         debug_mode_page.DebugModePage(self).show()

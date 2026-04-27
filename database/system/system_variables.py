@@ -10,6 +10,6 @@ class SystemVariables():
     def __init__(self):
         system_variables = SystemVariables.load_settings(self)
         self.version = system_variables["version"]
-        self.dev_mode = True # It's not managed by settings.json due to security measures
+        self.mode: str | None = None  # set by DispatchPage after auth ("client" | "developer")
         
 system_variables = SystemVariables()
