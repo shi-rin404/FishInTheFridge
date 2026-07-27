@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import (
     QWidget, QPushButton, QComboBox, QLabel, QCompleter,
-    QHBoxLayout, QVBoxLayout, QSizePolicy, QFrame, QLineEdit
+    QHBoxLayout, QVBoxLayout, QSizePolicy, QFrame, QLineEdit, QFileDialog
 )
 from PySide6.QtCore import Qt, QSize, QTimer, QRect, Signal, QPoint, QRegularExpression
 
@@ -187,6 +187,9 @@ class _BrightnessBar(QWidget):
 
 
 class BottomRow(QWidget):
+    background_image_selected = Signal(str)
+    background_image_removed = Signal()
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self._build()
@@ -204,7 +207,8 @@ class BottomRow(QWidget):
 
         preset_row = QHBoxLayout()
         preset_row.setSpacing(8)
-        preset_label = QLabel("Active Mod Preset")
+        self.preset_label = QLabel("Active Mod Preset")
+        self.preset_label.setObjectName("active_mod_preset_label")
 
         self.preset_combo = QComboBox()
         load_json_list(self.preset_combo, program_variables.presets_path, preset_dict)
@@ -232,7 +236,7 @@ class BottomRow(QWidget):
             ) if not t else None
         )
 
-        [preset_row.addWidget(item) for item in (preset_label, self.preset_combo)]
+        [preset_row.addWidget(item) for item in (self.preset_label, self.preset_combo)]
         preset_row.addStretch()
 
         self._apply_preset_col_widget = QWidget()
@@ -298,14 +302,64 @@ class BottomRow(QWidget):
         icons_row.setSpacing(8)
         icons_row.setAlignment(Qt.AlignRight | Qt.AlignBottom)
 
+        self._background_col_widget = QWidget()
+        self._background_col_widget.setObjectName("background_image_button")
+        self._background_col_widget.setStyleSheet(
+            f"QWidget#background_image_button {{"
+            "border: none;"
+            "border-radius: 8px;"
+            f"background-color: {_style.BG};"
+            "}"
+        )
+        _background_split = QHBoxLayout(self._background_col_widget)
+        _background_split.setSpacing(0)
+        _background_split.setContentsMargins(0, 0, 0, 0)
+
+        self.background_image_btn = QPushButton()
+        self.background_image_btn.setIcon(QIcon("assets/camera.png"))
+        self.background_image_btn.setIconSize(QSize(32, 32))
+        self.background_image_btn.setFixedSize(32, 32)
+        self.background_image_btn.setToolTip("Change Background Image")
+        self.background_image_btn.setAccessibleName("Change Background Image")
+        self.background_image_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.background_image_btn.setStyleSheet(
+            "QPushButton { border: none; border-radius: 8px; background: transparent; padding: 0px; }"
+            "QPushButton:hover { background: rgba(255, 255, 255, 36); }"
+        )
+        self.background_image_btn.clicked.connect(self._choose_background_image)
+
+        self._background_dropdown_btn = QPushButton("▼")
+        self._background_dropdown_btn.setFixedWidth(18)
+        self._background_dropdown_btn.setFixedHeight(32)
+        self._background_dropdown_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self._background_dropdown_btn.setStyleSheet(
+            "QPushButton { border: none; border-radius: 8px; background: transparent; padding: 0px; font-size: 10px; }"
+            "QPushButton:hover { background: rgba(255, 255, 255, 36); }"
+        )
+        self._background_dropdown_btn.clicked.connect(self._toggle_background_popup)
+
+        _background_split.addWidget(self.background_image_btn)
+        _background_split.addWidget(self._background_dropdown_btn)
+
+        self._background_popup = _ColorPickerPopup(self._background_dropdown_btn)
+        self._background_popup.setStyleSheet(_style.COMMON_STYLE)
+        _background_popup_layout = QVBoxLayout(self._background_popup)
+        _background_popup_layout.setContentsMargins(0, 0, 0, 0)
+        _background_popup_layout.setSpacing(0)
+        self.remove_background_btn = QPushButton("Remove Background Image")
+        self.remove_background_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.remove_background_btn.setStyleSheet("QPushButton { border: none; font-size: 11px; padding: 8px 6px; }")
+        self.remove_background_btn.clicked.connect(self._remove_background_image)
+        _background_popup_layout.addWidget(self.remove_background_btn)
+
         self.color_picker_btn = QPushButton()
         self.color_picker_btn.setIcon(QIcon("assets/color-picker.png"))
         self.color_picker_btn.setIconSize(QSize(32, 32))
-        self.color_picker_btn.setFixedSize(32, 32)
+        self.color_picker_btn.setFixedSize(42, 42)
         self.color_picker_btn.setToolTip("Background Color")
         self.color_picker_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         self.color_picker_btn.setStyleSheet(
-            "QPushButton { border: none; background: transparent; padding: 0px; }"
+            "QPushButton { border: none; border-radius: 8px; padding: 6px; }"
         )
         self._build_color_picker_popup()
 
@@ -324,7 +378,9 @@ class BottomRow(QWidget):
         self.manage_combo.setMinimumWidth(120)
         self.manage_combo.currentIndexChanged.connect(self.manage_combo_dispatch)
 
-        for item in (self.color_picker_btn, tools_btn, self.manage_combo):
+        self.sync_background_image_button()
+
+        for item in (self._background_col_widget, self.color_picker_btn, tools_btn, self.manage_combo):
             item.setCursor(Qt.CursorShape.PointingHandCursor)
             icons_row.addWidget(item)
 
@@ -605,6 +661,54 @@ QLineEdit#hex_input {
 
         dispatcher[self.manage_combo.currentIndex()]()
         self.reset_manage_combo()
+
+    def sync_background_image_button(self):
+        from ._background_image import custom_background_path
+        self._background_dropdown_btn.setVisible(custom_background_path() is not None)
+        self._sync_preset_label_background()
+
+    def _sync_preset_label_background(self):
+        from core.options_memory import read_memory
+
+        if read_memory().get("custom_bg"):
+            bg = QColor(_style.BG)
+            self.preset_label.setStyleSheet(
+                "QLabel#active_mod_preset_label {"
+                f"background-color: rgba({bg.red()}, {bg.green()}, {bg.blue()}, 166);"
+                "border-radius: 8px;"
+                "padding: 6px 8px;"
+                "font-weight: 600;"
+                "}"
+            )
+        else:
+            self.preset_label.setStyleSheet("")
+
+    def _choose_background_image(self):
+        path, _ = QFileDialog.getOpenFileName(
+            self,
+            "Change Background Image",
+            "",
+            "Images (*.png *.jpg *.jpeg)",
+        )
+        if path:
+            self.background_image_selected.emit(path)
+
+    def _toggle_background_popup(self):
+        if not self._background_dropdown_btn.isVisible():
+            return
+        if self._background_popup.closed_by_trigger:
+            self._background_popup.closed_by_trigger = False
+            return
+        button_top_left = self._background_col_widget.mapToGlobal(
+            self._background_col_widget.rect().bottomLeft()
+        )
+        self._background_popup.adjustSize()
+        self._background_popup.move(button_top_left.x(), button_top_left.y() + 4)
+        self._background_popup.show()
+
+    def _remove_background_image(self):
+        self._background_popup.hide()
+        self.background_image_removed.emit()
 
     def on_tools_clicked(self):        
         from ui import debug_mode_page

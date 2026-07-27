@@ -51,6 +51,8 @@ def _arc_name(rel_posix: str) -> str | None:
         return None
     if rel_posix.startswith("database/user/") and rel_posix.endswith(".json"):
         return None
+    if rel_posix.startswith("database/user/custom_bg_image."):
+        return None
     if rel_posix == "database/modding/mod_list.json":
         return None
     return rel_posix

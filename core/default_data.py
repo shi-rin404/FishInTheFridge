@@ -9,6 +9,9 @@ DEFAULT_MEMORY = {
     "load_mods_on_launch": False,
     "load_mods_on_launch_preset": "",
     "background_color": "#EAE4D5",
+    "custom_bg": False,
+    "custom_bg_ext": None,
+    "custom_bg_oppacity": None,
 }
 
 DEFAULT_PRESETS = {}

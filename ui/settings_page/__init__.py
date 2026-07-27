@@ -100,7 +100,6 @@ class SettingsPage(StylePaintMixin, QWidget):
         self.check_updates_btn = QPushButton("Check for Updates")
         self.check_updates_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         self.check_updates_btn.clicked.connect(self.check_for_updates)
-        self.check_updates_btn.setStyleSheet(f"color: {MUTED}; font-size: 13px;")
 
         from database.system.system_variables import system_variables
         self.version_label = QLabel(system_variables.version)

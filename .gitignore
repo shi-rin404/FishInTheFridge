@@ -184,5 +184,6 @@ cython_debug/
 .claude/
 dist/
 database/user/*.json
+database/user/custom_bg_image.*
 database/modding/mod_list.json
 modding/3dm/

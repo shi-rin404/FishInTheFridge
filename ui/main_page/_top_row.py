@@ -4,7 +4,7 @@ from PySide6.QtWidgets import QWidget, QPushButton, QLabel, QHBoxLayout, QFrame,
 from PySide6.QtCore import Signal, Qt, QTimer, QRect
 from PySide6.QtGui import QCursor
 
-from .._style import SUCCESS, ORANGE, COMMON_STYLE
+from .._style import DANGER, SUCCESS, ORANGE, COMMON_STYLE
 from .._widgets import WindowControls
 
 
@@ -27,6 +27,8 @@ class TopRow(QWidget):
     minimize_requested         = Signal()
     close_requested            = Signal()
     install_mod_clicked        = Signal()
+    background_apply_requested = Signal()
+    background_cancel_requested = Signal()
 
     settings_clicked           = Signal()
 
@@ -106,6 +108,51 @@ class TopRow(QWidget):
         warn_btn.setStyleSheet("color: #cc3333; font-size: 18px;")
         warn_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         warn_btn.clicked.connect(lambda: HighBanRiskPage(parent=self).show())
+
+        self._background_apply_col_widget = QWidget()
+        _background_apply_split = QHBoxLayout(self._background_apply_col_widget)
+        _background_apply_split.setSpacing(0)
+        _background_apply_split.setContentsMargins(0, 0, 0, 0)
+
+        self.background_apply_btn = QPushButton("Apply")
+        self.background_apply_btn.setToolTip("Apply Background Image")
+        self.background_apply_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.background_apply_btn.setStyleSheet(
+            f"QPushButton {{ background-color: {SUCCESS}; color: white; border-color: {SUCCESS};"
+            " border-top-right-radius: 0; border-bottom-right-radius: 0; }}"
+            f"QPushButton:hover {{ background-color: {SUCCESS}; color: white; }}"
+        )
+        self.background_apply_btn.clicked.connect(self.background_apply_requested)
+        self._background_apply_dropdown_btn = QPushButton("▼")
+        self._background_apply_dropdown_btn.setFixedWidth(22)
+        self._background_apply_dropdown_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self._background_apply_dropdown_btn.setStyleSheet(
+            f"QPushButton {{ background-color: {SUCCESS}; color: white; border-color: {SUCCESS};"
+            " border-left: none; padding: 8px 4px;"
+            " border-top-left-radius: 0; border-bottom-left-radius: 0; }}"
+            f"QPushButton:hover {{ background-color: {SUCCESS}; color: white; }}"
+        )
+        _background_apply_split.addWidget(self.background_apply_btn)
+        _background_apply_split.addWidget(self._background_apply_dropdown_btn)
+
+        self._background_apply_popup = _InstallPopup(self._background_apply_dropdown_btn)
+        self._background_apply_popup.setStyleSheet(COMMON_STYLE)
+        _background_apply_popup_layout = QVBoxLayout(self._background_apply_popup)
+        _background_apply_popup_layout.setContentsMargins(0, 0, 0, 0)
+        _background_apply_popup_layout.setSpacing(0)
+        self.background_cancel_btn = QPushButton("Cancel")
+        self.background_cancel_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.background_cancel_btn.setStyleSheet(
+            f"QPushButton {{ background-color: {DANGER}; color: white; border-color: {DANGER};"
+            " font-size: 11px; padding: 8px 6px; }}"
+            f"QPushButton:hover {{ background-color: {DANGER}; color: white; }}"
+        )
+        _background_apply_popup_layout.addWidget(self.background_cancel_btn)
+        self._background_apply_dropdown_btn.clicked.connect(self._toggle_background_apply_popup)
+        self.background_cancel_btn.clicked.connect(self._on_background_cancel)
+
+        self._background_apply_col_widget.hide()
+        layout.addWidget(self._background_apply_col_widget)
         layout.addWidget(warn_btn)
 
         logs_btn = QPushButton("📄")
@@ -154,3 +201,24 @@ class TopRow(QWidget):
         self.apply_feedback_label.setStyleSheet(f"color: {color}; font-weight: bold;")
         self.apply_feedback_label.show()
         self._apply_feedback_timer.start()
+
+    def set_background_apply_visible(self, visible: bool):
+        self._background_apply_col_widget.setVisible(visible)
+        if not visible:
+            self._background_apply_popup.hide()
+
+    def _toggle_background_apply_popup(self):
+        if self._background_apply_popup.closed_by_dropdown:
+            self._background_apply_popup.closed_by_dropdown = False
+            return
+        col_global = self._background_apply_col_widget.mapToGlobal(
+            self._background_apply_col_widget.rect().bottomLeft()
+        )
+        self._background_apply_popup.adjustSize()
+        self._background_apply_popup.setFixedWidth(self._background_apply_col_widget.width())
+        self._background_apply_popup.move(col_global.x(), col_global.y() + 4)
+        self._background_apply_popup.show()
+
+    def _on_background_cancel(self):
+        self._background_apply_popup.hide()
+        self.background_cancel_requested.emit()
