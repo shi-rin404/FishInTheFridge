@@ -179,3 +179,10 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+# Local tool/user data
+.claude/
+database/user/*.json
+database/modding/mod_list.json
+modding/3dm/
+modding/*.zip

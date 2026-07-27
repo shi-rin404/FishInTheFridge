@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(grep -n \"^def get_mods\" \"s:\\\\\\\\Project\\\\\\\\Code\\\\\\\\FishInTheFridge-alpha_0_9_0\\\\\\\\modding\\\\\\\\get_mods.py\")"
-    ]
-  }
-}

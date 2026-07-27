@@ -1,13 +1,8 @@
 import json
 from typing import Any
 
+from core.default_data import DEFAULT_MEMORY
 from core.variable_manager import program_variables
-
-DEFAULT_MEMORY = {
-    "game_executable": None,
-    "load_mods_on_launch": False,
-    "load_mods_on_launch_preset": "",
-}
 
 
 def read_memory() -> dict[str, Any]:
