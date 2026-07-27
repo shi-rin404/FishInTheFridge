@@ -32,7 +32,7 @@ class UserVariables():
     def __init__(self):
         self.game_executable = self.get_game_executable()
 
-        if self.game_executable is None:
+        if self.game_executable is None or self.game_executable.strip() == "":
             self.set_game_executable()
 
         self.game_dir = os.path.dirname(self.game_executable)

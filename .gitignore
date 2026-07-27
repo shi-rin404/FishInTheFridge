@@ -1,19 +1,3 @@
-# UI References
-!ui_references/
-
-# AI
-MEMORY.md
-
-# Personal
-modding/_3dm
-modding/3dm/d3d11_log.txt
-modding/3dm/Mods/*
-
-# Auth — never commit session tokens
-database/user/auth.dat
-auth_server/sessions.json
-auth_server/state.json
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

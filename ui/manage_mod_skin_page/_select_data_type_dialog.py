@@ -20,13 +20,14 @@ class SelectDataTypeDialog(StylePaintMixin, QDialog):
         data_type = dlg.result_type   # str
     """
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, initial_type: str = ""):
         super().__init__(parent, Qt.WindowType.Dialog)
         self.setObjectName("select_data_type_dialog")
         self.setStyleSheet(window_style("select_data_type_dialog", element="QDialog"))
         self.setWindowTitle("Select Data Type")
         self.setWindowFlags(Qt.WindowType.Dialog | Qt.WindowType.FramelessWindowHint)
         self.result_type: str = ""
+        self._initial_type = initial_type
         self._build_ui()
 
     def _build_ui(self):
@@ -38,6 +39,8 @@ class SelectDataTypeDialog(StylePaintMixin, QDialog):
 
         self.combo = QComboBox()
         self.combo.addItems(_TYPES)
+        if self._initial_type in _TYPES:
+            self.combo.setCurrentText(self._initial_type)
         self.combo.currentTextChanged.connect(self._on_type_changed)
         layout.addWidget(self.combo)
 

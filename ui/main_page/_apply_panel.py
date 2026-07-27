@@ -242,7 +242,16 @@ class ApplyPanel(QFrame):
             if k in mod_record
         }
         if original_to_mod:
-            apply_mod(original_to_mod, force=True)
+            from ui.main_page import MainPage
+            _feedback = MainPage.main_page.top_row.set_apply_feedback
+            _feedback("Searching for skin pathes..")
+            QApplication.processEvents()
+            try:
+                apply_mod(original_to_mod, force=True)
+                _feedback("Force applied successfully", success=True)
+            except Exception:
+                _feedback("An error occured upon modding", error=True)
+                raise
 
     def toggle(self):
         self.setVisible(not self.isVisible())

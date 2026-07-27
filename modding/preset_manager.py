@@ -99,7 +99,12 @@ def delete_entry(preset_name: str, skin_name: str) -> bool:
     return True
 
 
-def apply_preset(preset_name: str) -> bool:
+def apply_preset(
+    preset_name: str,
+    *,
+    force: bool = False,
+    sentinel_targets: list[str] | None = None,
+) -> bool:
     """Apply every skin→mod pair in a preset via in-memory patching.
 
     Raises:
@@ -137,7 +142,7 @@ def apply_preset(preset_name: str) -> bool:
             if key in mod_record:
                 original_to_mod[skin_record[key]] = mod_record[key]
 
-    return apply_mod(original_to_mod)
+    return apply_mod(original_to_mod, force=force, sentinel_targets=sentinel_targets)
 
 
 def add_entry(preset_name: str, skin_name: str, mod_name: str) -> bool:

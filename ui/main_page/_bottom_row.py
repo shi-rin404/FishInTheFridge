@@ -1,15 +1,29 @@
 from PySide6.QtWidgets import (
     QWidget, QPushButton, QComboBox, QLabel, QCompleter,
-    QHBoxLayout, QVBoxLayout, QSizePolicy
+    QHBoxLayout, QVBoxLayout, QSizePolicy, QFrame
 )
-from PySide6.QtCore import Qt, QSize, QTimer
+from PySide6.QtCore import Qt, QSize, QTimer, QRect
 
-from .._style import SUCCESS, ORANGE
-from PySide6.QtGui import QIcon, QPixmap
+from .._style import SUCCESS, ORANGE, COMMON_STYLE
+from PySide6.QtGui import QIcon, QPixmap, QCursor
 
 from core.variable_manager import program_variables
 from modding.ui.load_json_lists import load_json_list
 from modding.path_dictionary import preset_dict
+
+
+class _PresetPopup(QFrame):
+    def __init__(self, dropdown_btn: QPushButton):
+        super().__init__()
+        self.setWindowFlags(Qt.WindowType.Popup | Qt.FramelessWindowHint)
+        self._dropdown_btn = dropdown_btn
+        self.closed_by_dropdown = False
+
+    def hideEvent(self, event):
+        cursor_pos = QCursor.pos()
+        tl = self._dropdown_btn.mapToGlobal(self._dropdown_btn.rect().topLeft())
+        self.closed_by_dropdown = QRect(tl, self._dropdown_btn.size()).contains(cursor_pos)
+        super().hideEvent(event)
 
 
 class BottomRow(QWidget):
@@ -61,12 +75,44 @@ class BottomRow(QWidget):
         [preset_row.addWidget(item) for item in (preset_label, self.preset_combo)]
         preset_row.addStretch()
 
+        self._apply_preset_col_widget = QWidget()
+        _apply_preset_split = QHBoxLayout(self._apply_preset_col_widget)
+        _apply_preset_split.setSpacing(0)
+        _apply_preset_split.setContentsMargins(0, 0, 0, 0)
+
         self.apply_preset_btn = QPushButton("Apply Preset")
         self.apply_preset_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         self.apply_preset_btn.setMinimumWidth(160)
         self.apply_preset_btn.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        self.apply_preset_btn.setStyleSheet(
+            "QPushButton { border-top-right-radius: 0; border-bottom-right-radius: 0; }"
+            "QPushButton:hover { border-top-right-radius: 0; border-bottom-right-radius: 0; }"
+        )
+
+        self._apply_preset_dropdown_btn = QPushButton("▼")
+        self._apply_preset_dropdown_btn.setFixedWidth(22)
+        self._apply_preset_dropdown_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self._apply_preset_dropdown_btn.setStyleSheet(
+            "QPushButton { border-top-left-radius: 0; border-bottom-left-radius: 0; border-left: none; padding: 8px 4px; }"
+            "QPushButton:hover { border-top-left-radius: 0; border-bottom-left-radius: 0; }"
+        )
+
+        _apply_preset_split.addWidget(self.apply_preset_btn)
+        _apply_preset_split.addWidget(self._apply_preset_dropdown_btn)
+
+        self._apply_preset_popup = _PresetPopup(self._apply_preset_dropdown_btn)
+        self._apply_preset_popup.setStyleSheet(COMMON_STYLE)
+        _popup_layout = QVBoxLayout(self._apply_preset_popup)
+        _popup_layout.setContentsMargins(0, 0, 0, 0)
+        _popup_layout.setSpacing(0)
+        self.force_apply_preset_btn = QPushButton("Force Apply Preset")
+        self.force_apply_preset_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.force_apply_preset_btn.setStyleSheet("QPushButton { font-size: 11px; padding: 8px 6px; }")
+        _popup_layout.addWidget(self.force_apply_preset_btn)
 
         self.apply_preset_btn.clicked.connect(self._on_apply_preset)
+        self._apply_preset_dropdown_btn.clicked.connect(self._toggle_force_apply_preset)
+        self.force_apply_preset_btn.clicked.connect(self._on_force_apply_preset)
 
         self._preset_feedback_label = QLabel()
         self._preset_feedback_label.hide()
@@ -77,7 +123,7 @@ class BottomRow(QWidget):
 
         apply_preset_row = QHBoxLayout()
         apply_preset_row.setSpacing(8)
-        apply_preset_row.addWidget(self.apply_preset_btn)
+        apply_preset_row.addWidget(self._apply_preset_col_widget)
         apply_preset_row.addWidget(self._preset_feedback_label)
         apply_preset_row.addStretch()
 
@@ -130,6 +176,25 @@ class BottomRow(QWidget):
         self._preset_feedback_timer.start()
 
     def _on_apply_preset(self):
+        self._apply_preset(force=False)
+
+    def _on_force_apply_preset(self):
+        self._apply_preset_popup.hide()
+        self._apply_preset(force=True)
+
+    def _toggle_force_apply_preset(self):
+        if self._apply_preset_popup.closed_by_dropdown:
+            self._apply_preset_popup.closed_by_dropdown = False
+            return
+        col_global = self._apply_preset_col_widget.mapToGlobal(
+            self._apply_preset_col_widget.rect().bottomLeft()
+        )
+        self._apply_preset_popup.adjustSize()
+        self._apply_preset_popup.setFixedWidth(self._apply_preset_col_widget.width())
+        self._apply_preset_popup.move(col_global.x(), col_global.y() + 4)
+        self._apply_preset_popup.show()
+
+    def _apply_preset(self, *, force: bool = False):
         from modding.preset_manager import apply_preset
         preset_name = self.preset_combo.currentText().strip()
         if not preset_name:
@@ -138,8 +203,9 @@ class BottomRow(QWidget):
         from PySide6.QtWidgets import QApplication
         QApplication.processEvents()
         try:
-            apply_preset(preset_name)
-            self._set_preset_feedback("Preset applied successfully", success=True)
+            apply_preset(preset_name, force=force)
+            message = "Force preset applied successfully" if force else "Preset applied successfully"
+            self._set_preset_feedback(message, success=True)
         except Exception:
             self._set_preset_feedback("An error occured upon modding", error=True)
             raise

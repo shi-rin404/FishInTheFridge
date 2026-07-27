@@ -11,10 +11,15 @@ class _SaveMixin:
         from modding.preset_manager import read_presets
         data = read_presets() or {}
         for combo in (self.entry_preset_combo, self.assoc_preset_combo):
+            current_text = combo.currentText()
+            combo.blockSignals(True)
             combo.clear()
             for name in data:
                 combo.addItem(name)
-            combo.setCurrentIndex(-1)
+            index = combo.findText(current_text)
+            combo.setCurrentIndex(index if index != -1 else -1)
+            combo.blockSignals(False)
+        self._reload_assoc_combos(self.assoc_preset_combo.currentText())
 
     def _reload_assoc_combos(self, preset_name: str) -> None:
         """Populate assoc_combo_combo with 'skin → mod' entries of the selected preset."""
@@ -58,7 +63,7 @@ class _SaveMixin:
             skin_name = combo_text.split(" \u2192 ")[0]
             from modding.preset_manager import delete_entry
             if delete_entry(preset_name, skin_name):
-                self._reload_assoc_combos(preset_name)
+                update_comboboxes("preset")
                 _QMB.information(
                     self, "Entry Deleted",
                     f"'{combo_text}' was removed from preset '{preset_name}'.",
@@ -70,6 +75,7 @@ class _SaveMixin:
         skin_name = self.skin_combo.currentText()
         mod_name = self.mod_combo.currentText()
         if add_entry(preset_name, skin_name, mod_name):
+            update_comboboxes("preset")
             self.skin_combo.setCurrentIndex(-1)
             self.mod_combo.setCurrentIndex(-1)
             _QMB.information(

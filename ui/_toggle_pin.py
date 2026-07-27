@@ -6,17 +6,17 @@ from PySide6.QtGui import QPainter, QColor, QPixmap
 
 _PIN_PATH = os.path.join(os.path.dirname(__file__), "..", "assets", "pin.png")
 
-_GRAY = QColor("#9a9585")
-_BLUE = QColor("#689fda")
+_GRAY = (0x9a, 0x95, 0x85)
+_BLUE = (0x68, 0x9f, 0xda)
 _PAD  = 3
 _W, _H = 60, 30
 
 
-def _lerp_color(a: QColor, b: QColor, t: float) -> QColor:
+def _lerp_color(a: tuple, b: tuple, t: float) -> QColor:
     return QColor(
-        int(a.red()   + t * (b.red()   - a.red())),
-        int(a.green() + t * (b.green() - a.green())),
-        int(a.blue()  + t * (b.blue()  - a.blue())),
+        int(a[0] + t * (b[0] - a[0])),
+        int(a[1] + t * (b[1] - a[1])),
+        int(a[2] + t * (b[2] - a[2])),
     )
 
 

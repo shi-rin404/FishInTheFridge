@@ -13,7 +13,7 @@ class SettingsPage(StylePaintMixin, QWidget):
         super().__init__(parent, Qt.Window)
         self.setObjectName("settings_page")
         self.setStyleSheet(window_style("settings_page"))
-        self.resize(250, 250)
+        self.resize(520, 250)
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.Window)
         self._drag_pos = QPoint()
         self._build_ui()
@@ -76,6 +76,10 @@ class SettingsPage(StylePaintMixin, QWidget):
         update_row = QHBoxLayout()
         update_row.setSpacing(16)
 
+        self.manage_options_btn = QPushButton("Manage Options")
+        self.manage_options_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.manage_options_btn.clicked.connect(self._show_options)
+
         self.check_updates_btn = QPushButton("↻   Check for Updates")
         self.check_updates_btn.setEnabled(False)
         self.check_updates_btn.setStyleSheet(f"color: {MUTED}; font-size: 13px;")
@@ -84,6 +88,7 @@ class SettingsPage(StylePaintMixin, QWidget):
         self.version_label = QLabel(system_variables.version)
         self.version_label.setStyleSheet(f"color: {MUTED}; font-size: 13px;")
 
+        update_row.addWidget(self.manage_options_btn)
         update_row.addWidget(self.check_updates_btn)
         update_row.addWidget(self.version_label)
         update_row.addStretch()
@@ -92,6 +97,11 @@ class SettingsPage(StylePaintMixin, QWidget):
         content.addStretch()
 
         root.addLayout(content)
+
+    def _show_options(self):
+        from ui.options_page import OptionsPage
+        self._options_page = OptionsPage(parent=self)
+        self._options_page.show()
 
     def manual_set_game_exec(self) -> None:
         from file_io.input.select_game_exec import select_game_exec

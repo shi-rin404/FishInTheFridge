@@ -1,4 +1,12 @@
 {
+  "Amelie28": {
+    "character": "All",
+    "skin": "mod/Amelie28/main.gim"
+  },
+  "BLK.MAI": {
+    "skin": "mod/BLK.MAI/banshee_e_dj.gim",
+    "item": "mod/BLK.MAI/banshee_e_dj_fan.gim"
+  },
   "Blk Tracy V2": {
     "item": "mod/BLK.Tracy_2/assets/controller.gim",
     "skin": "mod/BLK.Tracy_2/assets/skin.gim",
@@ -9,6 +17,17 @@
     "skin": "mod/blk_tracy/data/tqz_e_dianjing.gim",
     "item": "mod/blk_tracy/data/tqz_e_dianjing_controller.gim",
     "robot": "mod/blk_tracy/data/h55_survivor_puppet_blk.gim"
+  },
+  "Ballad of the Emrald Lurk": {
+    "skin": "mod/BotEL/bdz_e_yunque.gim",
+    "item": "mod/BotEL/bdz_e_yunque_flaregun.gim"
+  },
+  "Caged Dream": {
+    "skin": "mod/Caged Dream/shangren_e_xzm.gim",
+    "show": "mod/Caged Dream/shangren_e_xzm.gim",
+    "item": "mod/Caged Dream/shangren_e_xzm_boaguo.gim",
+    "extra_item_1": "mod/Caged Dream/shangren_e_xzm_plane.gim",
+    "extra_item_2": "mod/Caged Dream/shangren_e_xzm_tiaoban.gim"
   },
   "Camellya": {
     "skin": "mod/Camellya/files/Body.gim",
@@ -23,20 +42,72 @@
     "skin": "mod/CasualTracy/assets/skin.gim",
     "character": "Mechanic"
   },
+  "Coastel Ease": {
+    "skin": "mod/Coastel Ease/jyz_e_xiari.gim",
+    "item": "mod/Coastel Ease/jyz_e_xiari_quanzhang.gim"
+  },
+  "Citrus Summer": {
+    "skin": "mod/CS/xiari.gim",
+    "item": "mod/CS/weapon.gim"
+  },
+  "Cyanotype": {
+    "skin": "mod/Cyanotype/tqz_e_lan.gim",
+    "item": "mod/Cyanotype/tqz_e_lan_controller.gim"
+  },
+  "Dazai": {
+    "skin": "mod/Dazai/qiutu_e_taizai.gim"
+  },
+  "Dance in the Snow": {
+    "skin": "mod/DitS/bdz_e_hanxiangwu_new.gim",
+    "item": "mod/DitS/bdz_e_hanxiangwu_flaregun.gim"
+  },
   "Emergence": {
     "skin": "mod/Emergence/assets/skin.gim",
     "item": "mod/Emergence/assets/toolbox.gim",
     "character": "Gardener"
+  },
+  "Ethernal Summer Shall Not Fade": {
+    "skin": "mod/EthernalSummer/hlz_e_changxia.gim",
+    "item": "mod/EthernalSummer/hlz_e_changxia_gjx.gim"
+  },
+  "Everlasting Dream": {
+    "skin": "mod/EverlastingDream/cp_e_hm.gim",
+    "item": "mod/EverlastingDream/cp_e_hm_weapon.gim"
+  },
+  "Flufftail Birthday Host": {
+    "skin": "mod/FBH/redqueen_e_sr.gim",
+    "item": "mod/FBH/redqueen_e_sr_weapon.gim",
+    "extra_item_1": "mod/FBH/redqueen_e_sr_mirror.gim"
+  },
+  "Fiona School": {
+    "character": "All",
+    "skin": "mod/Fiona School/main.gim"
+  },
+  "Fiona School (Jacketless)": {
+    "character": "All",
+    "skin": "mod/Fiona School (Jacketless)/main.gim"
   },
   "Frieren": {
     "skin": "mod/Frieren/assets/skin.gim",
     "item": "mod/Frieren/assets/weapon.gim",
     "character": "Meteorologist"
   },
+  "Kyoko Kirigiri": {
+    "skin": "mod/Kirigiri/bdz_e_kyouko.gim",
+    "item": "mod/Kirigiri/bdz_e_kyouko_flaregun.gim"
+  },
+  "Kroto": {
+    "skin": "mod/Kroto/wht_e_bjiao.gim",
+    "item": "mod/Kroto/wht_e_bjiao_musicbox.gim"
+  },
   "Lady K": {
     "item": "mod/Lady_K/assets/perfume.gim",
     "skin": "mod/Lady_K/assets/skin.gim",
     "character": "Perfumer"
+  },
+  "Liane Clement": {
+    "character": "All",
+    "skin": "mod/Liane Clement/main.gim"
   },
   "ll_e_dj": {
     "character": "Cheerleader",
@@ -49,9 +120,21 @@
     "item": "mod/Lockcore/data/tqz_e_heixin_controller.gim",
     "robot": "mod/blk_tracy/data/h55_survivor_puppet_blk.gim"
   },
+  "Lockheart": {
+    "skin": "mod/Lockheart/tqz_e_xinsuo.gim",
+    "item": "mod/Lockheart/tqz_e_xinsuo_controller.gim"
+  },
+  "Loomsong Awekening": {
+    "skin": "mod/LoomsongA/wht_e_cs.gim",
+    "item": "mod/LoomsongA/wht_e_cs_music_box.gim"
+  },
   "MainOC": {
     "character": "All",
     "skin": "mod/MainOC/main.gim"
+  },
+  "Mime S Skin": {
+    "character": "All",
+    "skin": "mod/Mime_s/skin.gim"
   },
   "Art Dealer": {
     "skin": "mod/moli/dxzh_e_moli.gim",
@@ -60,300 +143,19 @@
     "item": "mod/moli/dxzh_e_moli_toukui.gim",
     "character": "Knight"
   },
-  "Amane Misa": {
-    "character": "Mechanic",
-    "skin": "mod/new/AmaneMisa/files/Misa.gim",
-    "item": "mod/new/AmaneMisa/files/Phone.gim"
-  },
-  "Animal Tamer": {
-    "character": "Female Dancer",
-    "skin": "mod/new/AnimalTamer/files/AnimalTamer.gim"
-  },
-  "Ann Takamaki": {
-    "skin": "mod/new/AnnTakamaki/meshes/body.gim",
-    "item": "mod/new/AnnTakamaki/meshes/weapon.gim",
-    "character": "Female Dancer"
-  },
-  "Casual Day": {
-    "character": "Mechanic"
-  },
-  "Chiaki Nanami": {
-    "character": "Mechanic",
-    "skin": "mod/new/chiaki/files/chiaki.gim",
-    "item": "mod/new/chiaki/files/controller.gim"
-  },
-  "Cony": {
-    "skin": "mod/new/cony/files/cony.gim",
-    "item": "mod/new/cony/files/wang.gim",
-    "character": "Entomologist"
-  },
-  "Crimson": {
-    "character": "Priestess",
-    "skin": "mod/new/Crimson/files/Crimson.gim",
-    "item": "mod/new/Crimson/files/Portal.gim",
-    "accessory": "mod/new/Crimson/files/CrimsonAcc.gim"
-  },
-  "Dance in the Snow": {
-    "character": "Coordinator",
-    "skin": "mod/new/dits/files/dits.gim",
-    "item": "mod/new/dits/files/flaregun.gim"
-  },
-  "Envoy": {
-    "skin": "mod/new/Envoy/files/EM.gim",
-    "extra_item_1": "mod/new/Envoy/files/envoybebe.gim",
-    "item": "mod/new/Envoy/files/weapon.gim",
-    "character": "Dream Witch"
-  },
-  "Epheremal": {
-    "character": "Priestess",
-    "skin": "mod/new/Epheremal/files/Epheremal.gim",
-    "item": "mod/new/Epheremal/files/Portal.gim"
-  },
-  "Eurydice": {
-    "character": "Little Girl",
-    "skin": "mod/new/Eurydice2/files/Eurydice.gim",
-    "item": "chr/player/dm65_survivor_girl/separate_dir/girl_e_ningfu/girl_e_ningfu_page.gim"
-  },
-  "Everlasting Dream": {
-    "character": "Psychologist",
-    "skin": "mod/new/EverlastingDream/files/Body.gim",
-    "item": "mod/new/EverlastingDream/files/Item.gim"
-  },
-  "Fate": {
-    "character": "Enchantress",
-    "skin": "mod/new/fate/files/body.gim",
-    "item": "mod/new/fate/files/weapon.gim"
-  },
-  "Firefly": {
-    "character": "Doctor",
-    "skin": "mod/new/firefly/files/Firefly.gim",
-    "item": "mod/new/firefly/files/FireflyInjec.gim",
-    "accessory": "mod/new/firefly/files/FireflyAcc.gim"
-  },
-  "Fury Mechanic": {
-    "skin": "mod/new/FuryMech/files/body.gim",
-    "character": "Mechanic"
-  },
-  "Futaba Sakura": {
-    "character": "Mechanic",
-    "skin": "mod/new/Futaba/files/FutabaBody.gim",
-    "item": "mod/new/Futaba/files/FutabaPad.gim"
-  },
-  "Ghost Candle": {
-    "skin": "mod/new/GhostCandle/files/body.gim",
-    "item": "mod/new/GhostCandle/files/weapon.gim",
-    "character": "Entomologist"
-  },
-  "Haru Okumura": {
-    "skin": "mod/new/HaruNormal/meshes/body.gim",
-    "item": "mod/new/HaruNormal/meshes/toolbox.gim",
-    "character": "Gardener"
-  },
-  "Honorary Chief": {
-    "character": "Priestess",
-    "skin": "mod/new/HonoraryChief/files/Skin.gim",
-    "item": "mod/new/HonoraryChief/files/weapon.gim"
-  },
-  "HumanAliceNoJacket": {
-    "character": "Journalist",
-    "skin": "mod/new/JacketlessAlice/Body.gim"
+  "Moonlit Mirage": {
+    "item": "mod/MoonlitM/girl_e_sj_bai.gim",
+    "skin": "mod/MoonlitM/girl_e_sj_bai_page.gim"
   },
   "Jiuyue": {
     "character": "Mechanic",
     "skin": "mod/new/Jiuyue/files/tqz_e_jiuyue.gim",
     "item": "mod/new/Jiuyue/files/controller.gim"
   },
-  "Jokerp5": {
-    "character": "Acrobat",
-    "skin": "mod/new/jokerp5/files/joker.gim",
-    "item": "mod/new/Jokerp5/files/item1.gim",
-    "extra_item_1": "mod/new/Jokerp5/files/item2.gim",
-    "extra_item_2": "mod/new/Jokerp5/files/item3.gim"
-  },
-  "Enoshima Junko": {
-    "skin": "mod/new/Junko/files/body.gim",
-    "item": "mod/new/Junko/files/jiuping.gim",
-    "extra_item_1": "mod/new/Junko/files/jiutong.gim",
-    "character": "Barmaid"
-  },
-  "Kaede": {
-    "skin": "mod/new/Kaede/Body.gim",
-    "item": "mod/new/Kaede/Camera.gim",
-    "character": "Journalist"
-  },
-  "Kyoko Kirigiri": {
-    "skin": "mod/new/Kirigiri/meshes/body.gim",
-    "item": "mod/new/Kirigiri/meshes/gun.gim",
-    "character": "Coordinator"
-  },
-  "Kroto": {
-    "character": "Female Dancer",
-    "skin": "mod/new/kroto/files/kroto.gim"
-  },
-  "Merry Kuromi": {
-    "skin": "mod/new/kuromi/files/body.gim",
-    "extra_item_1": "mod/new/kuromi/files/mirror.gim",
-    "item": "mod/new/kuromi/files/weapon.gim",
-    "character": "Bloody Queen"
-  },
-  "Lady Truth (ItemOnly)": {
-    "character": "Gardener",
-    "item": "mod/new/LadyTruth/files/toolbox.gim"
-  },
-  "Lady Thirteen": {
-    "character": "Geisha",
-    "skin": "mod/new/lady_th/files/body.gim",
-    "item": "mod/new/lady_th/files/item.gim"
-  },
-  "Lockheart": {
-    "character": "Mechanic",
-    "skin": "mod/new/lockheart/files/lockheart.gim",
-    "item": "mod/new/lockheart/files/lockheartcontroller.gim"
-  },
-  "Master Apothecary": {
-    "skin": "mod/new/MasterApothecary/meshes/body.gim",
-    "item": "mod/new/MasterApothecary/meshes/w.gim",
-    "character": "Doctor"
-  },
-  "McDonald's": {
-    "character": "Prospector",
-    "skin": "mod/new/MCDNorton/files/body.gim"
-  },
-  "Mio": {
-    "character": "Perfumer",
-    "skin": "mod/new/Mio/Body.gim",
-    "item": "mod/new/Mio/Camera.gim"
-  },
-  "Camera": {
-    "character": "Puppet",
-    "skin": "mod/new/MisaRobot/files/Body.gim"
-  },
-  "Archduchess": {
-    "skin": "mod/new/MK_BQ/files/Body.gim",
-    "extra_item_1": "mod/new/MK_BQ/files/mirror.gim",
-    "item": "mod/new/MK_BQ/files/weapon.gim",
-    "character": "Bloody Queen"
-  },
-  "Miss Pomegranate Plate": {
-    "skin": "mod/new/MPP/files/body.gim",
-    "item": "mod/new/MPP/files/page.gim",
-    "character": "Little Girl"
-  },
-  "Ms. Saucer": {
-    "skin": "mod/new/MsSaucer/files/body.gim",
-    "item": "mod/new/MsSaucer/files/item.gim",
-    "character": "Meteorologist"
-  },
-  "Stunning My Melody": {
-    "skin": "mod/new/MyMelody/files/body.gim",
-    "extra_item_1": "mod/new/MyMelody/files/caiqu_l.gim",
-    "item": "mod/new/MyMelody/files/caiqu_r.gim",
-    "character": "Cheerleader"
-  },
-  "Girl In The Roses": {
-    "skin": "mod/new/OGMech/files/base.gim",
-    "item": "mod/new/OGMech/files/controller.gim",
-    "character": "Mechanic"
-  },
-  "OPH.LILY": {
-    "extra_item_1": "mod/new/OPH.LILY/files/pompom_L.gim",
-    "item": "mod/new/OPH.LILY/files/pompom_R.gim",
-    "skin": "mod/new/OPH.LILY/files/skin.gim",
-    "character": "Cheerleader"
-  },
-  "Oph Part 2": {
-    "skin": "mod/new/OPHCheerPT2/files/body.gim",
-    "extra_item_1": "mod/new/OPHCheerPT2/files/item_L.gim",
-    "item": "mod/new/OPHCheerPT2/files/item_R.gim",
-    "character": "Cheerleader"
-  },
-  "OPH.QI": {
-    "item": "mod/new/OPHQi/files/item.gim",
-    "skin": "mod/new/OPHQi/files/skin.gim",
-    "character": "Antiquarian"
-  },
-  "Panda Keeper": {
-    "character": "Gardener",
-    "skin": "mod/new/PandaGardener/files/body.gim",
-    "item": "mod/new/PandaGardener/files/item.gim"
-  },
-  "Panther": {
-    "skin": "mod/new/PANTHER/files/body.gim",
-    "item": "mod/new/PANTHER/files/weapon.gim",
-    "character": "Female Dancer"
-  },
-  "Puppeteer": {
-    "character": "Mechanic",
-    "skin": "mod/new/puppeteer/files/body.gim",
-    "item": "mod/new/puppeteer/files/controller.gim",
-    "accessory": "mod/new/puppeteer/files/acc.gim"
-  },
-  "Risktaker": {
-    "character": "Doctor",
-    "skin": "mod/new/risktaker/files/risktaker.gim",
-    "item": "mod/new/risktaker/files/inject.gim"
-  },
-  "Shipbuilder": {
-    "character": "Mechanic",
-    "skin": "mod/new/shipbuilder/files/shipbuilder.gim"
-  },
-  "Sound Wave": {
-    "character": "The Mind'S Eye",
-    "skin": "mod/new/SoundWave/files/SoundWave.gim",
-    "item": "mod/new/SoundWave/files/Stick.gim"
-  },
-  "False Hope Normal": {
-    "skin": "mod/new/SSBQ/meshes/body.gim",
-    "extra_item_1": "mod/new/SSBQ/meshes/mirror.gim",
-    "item": "mod/new/SSBQ/meshes/weapon.gim",
-    "character": "Bloody Queen"
-  },
-  "(Reversed) False Hope": {
-    "character": "Bloody Queen",
-    "skin": "mod/new/SSBQR/files/SSBQR.gim"
-  },
-  "Mnemosyne'S Dream": {
-    "skin": "mod/new/SSVera/files/body.gim",
-    "item": "mod/new/SSVera/files/item.gim",
-    "character": "Perfumer"
-  },
-  "Tomie Kawakami": {
-    "skin": "mod/new/Tomie/meshes/b.gim",
-    "extra_item_1": "mod/new/Tomie/meshes/leech.gim",
-    "item": "mod/new/Tomie/meshes/weapon.gim",
-    "character": "Dream Witch"
-  },
-  "Whispered Light": {
-    "character": "Toy Merchant",
-    "skin": "mod/new/ToyStar/files/body.gim",
-    "item": "mod/new/ToyStar/files/toy.gim",
-    "extra_item_1": "mod/new/ToyStar/files/plane.gim",
-    "extra_item_2": "mod/new/ToyStar/files/catapult.gim"
-  },
-  "TikTok": {
-    "character": "Perfumer",
-    "skin": "mod/new/TTVera/files/body.gim"
-  },
-  "Vermouth": {
-    "character": "Barmaid",
-    "skin": "mod/new/vermouth/files/body.gim",
-    "item": "mod/new/vermouth/files/dovlin.gim",
-    "extra_item_1": "mod/new/vermouth/files/bucket.gim"
-  },
   "Xiao Yu": {
     "skin": "mod/new/XiaoYu/files/base.gim",
     "item": "mod/new/XiaoYu/files/camera.gim",
     "character": "Journalist"
-  },
-  "The Envoy of Yog-Sothoth": {
-    "character": "Priestess",
-    "skin": "mod/new/youge/files/body.gim",
-    "item": "mod/new/youge/files/item.gim"
-  },
-  "Yuko Ichihara": {
-    "character": "Geisha",
-    "skin": "mod/new/Yuko/files/yuko.gim",
-    "item": "mod/new/Yuko/files/weapon.gim"
   },
   "Noctis": {
     "character": "Geisha",
@@ -365,6 +167,17 @@
     "skin": "mod/Noir/assets/skin.gim",
     "character": "Seer"
   },
+  "PANTHER": {
+    "skin": "mod/PANTHER/wht_e_panther.gim"
+  },
+  "Random": {
+    "character": "All",
+    "skin": "mod/Random/main.gim"
+  },
+  "Risktaker": {
+    "item": "mod/Risktaker/yiyaoshi_e_zhishai_inject.gim",
+    "skin": "mod/Risktaker/yiyaoshi_e_zhishai.gim"
+  },
   "Sae Kurosawa": {
     "skin": "mod/Sae/assets/skin.gim",
     "item": "mod/Sae/assets/weapon.gim",
@@ -373,6 +186,10 @@
   "Shiroi": {
     "character": "All",
     "skin": "mod/Shiroi/main.gim"
+  },
+  "SkeletonTest": {
+    "character": "All",
+    "skin": "mod/SkeletonTest/main.gim"
   },
   "Source of Evil": {
     "character": "Little Girl",
@@ -383,8 +200,24 @@
     "character": "Patient",
     "skin": "mod/SpiritFox/xf_e_huli.gim"
   },
+  "Summer Mary": {
+    "character": "All",
+    "skin": "mod/SummerBQ/main.gim"
+  },
+  "Sway": {
+    "item": "mod/Sway/bdz_e_changpu_flaregun.gim",
+    "skin": "mod/Sway/bdz_e_changpu.gim"
+  },
   "Tikisha": {
     "character": "All",
     "skin": "mod/Tikisha/main.gim"
+  },
+  "Wilis": {
+    "skin": "mod/Wilis/hlz_e_wls.gim",
+    "item": "mod/Wilis/hlz_e_wls_gjx.gim"
+  },
+  "The Envoy of Yog-Sothoth": {
+    "item": "mod/Youge/jisi_e_yougebai_ringofkeys.gim",
+    "skin": "mod/Youge/jisi_e_yougebai.gim"
   }
 }

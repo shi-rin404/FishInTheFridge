@@ -1,16 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(robocopy \"s:\\\\Project\\\\Code\\\\FishInTheFridge\" \"s:\\\\Project\\\\Code\\\\FishInTheFridge-alpha_0_9_0\" /E /XD security auth_server .claude dispatch_page discord_oauth /XF PRE_BUILD.md)",
-      "Bash(echo \"Exit: $?\")",
-      "PowerShell(robocopy \"s:\\\\Project\\\\Code\\\\FishInTheFridge\" \"s:\\\\Project\\\\Code\\\\FishInTheFridge-alpha_0_9_0\" /E /XD security auth_server .claude dispatch_page discord_oauth /XF PRE_BUILD.md; Write-Host \"Robocopy exit: $LASTEXITCODE\")",
-      "Read(//s/Project/Code/FishInTheFridge-alpha_0_9_0/**)",
-      "Read(//s/Project/Code/FishInTheFridge-alpha_0_9_0/database/system/**)",
-      "Read(//s/Project/Code/FishInTheFridge-alpha_0_9_0/core/**)",
-      "Read(//s/Project/Code/FishInTheFridge-alpha_0_9_0/ui/main_page/**)"
-    ],
-    "additionalDirectories": [
-      "s:\\Project\\Code\\FishInTheFridge-alpha_0_9_0\\.git"
+      "Read(//c/Users/Shirin/.claude/projects/s--Project-Code-FishInTheFridge/**)",
+      "Read(//c/Users/Shirin/.claude/**)",
+      "Bash(grep -n \"^_GRAY\\\\|^_BLUE\\\\|^_PIN\" \"s:\\\\\\\\Project\\\\\\\\Code\\\\\\\\FishInTheFridge-alpha_0_9_0\\\\\\\\ui\\\\\\\\_toggle_pin.py\")",
+      "Bash(head -15 \"s:\\\\\\\\Project\\\\\\\\Code\\\\\\\\FishInTheFridge-alpha_0_9_0\\\\\\\\ui\\\\\\\\_toggle_pin.py\")",
+      "Bash(head -32 \"s:\\\\\\\\Project\\\\\\\\Code\\\\\\\\FishInTheFridge-alpha_0_9_0\\\\\\\\main.py\")",
+      "Bash(head -50 \"s:\\\\\\\\Project\\\\\\\\Code\\\\\\\\FishInTheFridge-alpha_0_9_0\\\\\\\\modding\\\\\\\\get_mods.py\")",
+      "Bash(grep -n \"^from ui\\\\|^import ui\" \"s:\\\\\\\\Project\\\\\\\\Code\\\\\\\\FishInTheFridge-alpha_0_9_0\\\\\\\\modding\\\\\\\\get_mods.py\")",
+      "Bash(grep -r \"from.*ui.*import\\\\|import.*ui\" \"s:\\\\\\\\Project\\\\\\\\Code\\\\\\\\FishInTheFridge-alpha_0_9_0\\\\\\\\modding\\\\\\\\\" --include=\"*.py\")"
     ]
   }
 }

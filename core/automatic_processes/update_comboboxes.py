@@ -56,21 +56,37 @@ def _preset_combos() -> None:
     """Reload all live preset comboboxes from presets.json."""
     from ui.main_page import MainPage
     from ui.manage_presets_page import ManagePresetsPage
+    from modding.path_dictionary import preset_dict
     from modding.preset_manager import read_presets
 
     data = read_presets() or {}
     preset_names = list(data.keys())
+    preset_dict.clear()
+    preset_dict.update(data)
+
+    def reload_preset_combo(combo):
+        current_text = combo.currentText()
+        combo.blockSignals(True)
+        combo.clear()
+        combo.addItems(preset_names)
+        index = combo.findText(current_text)
+        combo.setCurrentIndex(index if index != -1 else -1)
+        combo.blockSignals(False)
 
     main = MainPage.main_page
     if main is not None:
-        combo = main.bottom_row.preset_combo
-        combo.clear()
-        combo.addItems(preset_names)
-        combo.setCurrentIndex(-1)
+        reload_preset_combo(main.bottom_row.preset_combo)
 
     page = ManagePresetsPage.manage_presets_page
     if page is not None:
         page._reload_preset_combos()
+
+    try:
+        from ui.options_page import OptionsPage
+    except ImportError:
+        OptionsPage = None
+    if OptionsPage is not None and OptionsPage.options_page is not None:
+        reload_preset_combo(OptionsPage.options_page.launch_preset_combo)
 
 
 def update_comboboxes(mode: Literal["skin", "mod", "preset", "all"] = "all"):

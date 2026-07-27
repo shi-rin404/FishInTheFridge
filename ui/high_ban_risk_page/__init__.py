@@ -2,7 +2,7 @@ from PySide6.QtWidgets import (
     QWidget, QFrame, QPushButton, QLabel, QComboBox,
     QHBoxLayout, QVBoxLayout
 )
-from PySide6.QtCore import Qt, QPoint
+from PySide6.QtCore import Qt, QPoint, QTimer
 
 from core.variable_manager import program_variables
 from database.user.user_variables import user_variables
@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Literal
 import os, shutil, subprocess, threading
 
-from .._style import window_style, MUTED
+from .._style import window_style, MUTED, SUCCESS, ORANGE
 from .._widgets import WindowControls, StylePaintMixin
 
 
@@ -91,7 +91,24 @@ class HighBanRiskPage(StylePaintMixin, QWidget):
         launch_row.addStretch()
 
         root.addLayout(launch_row)
+
+        self._feedback_timer = QTimer(self)
+        self._feedback_timer.setSingleShot(True)
+        self._feedback_timer.setInterval(5000)
+
+        self.feedback_label = QLabel()
+        self.feedback_label.hide()
+        self._feedback_timer.timeout.connect(self.feedback_label.hide)
+        root.addWidget(self.feedback_label)
+
         root.addStretch()
+
+    def set_feedback(self, text: str, *, success: bool = False, error: bool = False):
+        color = SUCCESS if success else ("#CC2200" if error else ORANGE)
+        self.feedback_label.setText(text)
+        self.feedback_label.setStyleSheet(f"color: {color}; font-weight: bold;")
+        self.feedback_label.show()
+        self._feedback_timer.start()
 
     def _on_launch_selected(self, index: int):
         [lambda: self.internal_3dm_dispatcher("action"), self._inject_3dm][index]() if index != -1 else None

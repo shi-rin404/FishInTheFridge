@@ -198,7 +198,7 @@ class OverlapDialog(QDialog):
 
 # ── Main ─────────────────────────────────────────────────────
 
-def get_mods(reload_mod_combos_toggle:bool = True):
+def get_mods(reload_mod_combos_toggle:bool = True):    
     from core.variable_manager import program_variables
     import modding.path_dictionary as pd
 
@@ -206,13 +206,14 @@ def get_mods(reload_mod_combos_toggle:bool = True):
     mod_files: dict[str, dict] = {}
     for dirpath, _, filenames in os.walk(user_variables.mod_dir):
         for fname in filenames:
-            if fnmatch.fnmatchcase(fname, "mod.json"):
-                path = os.path.join(dirpath, fname)
+            if fnmatch.fnmatchcase(fname, "mod.json"):                
+                path = os.path.join(dirpath, fname)                
                 try:
                     with open(path, encoding="utf-8") as f:
                         mod_files[path] = json.load(f)
-                except (json.JSONDecodeError, OSError):
-                    pass
+                except (json.JSONDecodeError, OSError) as e:
+                    print(f"[get_mods] A(n) {type(e)} occurred when reading {path}")
+                
 
     if not mod_files:
         pd.mod_dict.clear()

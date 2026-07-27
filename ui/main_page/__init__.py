@@ -1,25 +1,32 @@
+import random
+import string
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout
-from PySide6.QtCore import Qt, QPoint
+from PySide6.QtCore import Qt, QPoint, QTimer
 
 from .._style import COMMON_STYLE
 from ._top_row import TopRow
 from ._apply_panel import ApplyPanel
 from ._bottom_row import BottomRow
+from ._auto_load import AutoLoadModsController
 
-class MainPage(QWidget):    
+_TITLE_CHARS = (string.digits + string.ascii_uppercase).encode("ascii")
+
+def _session_title() -> str:
+    return ''.join(chr(random.choice(_TITLE_CHARS)) for _ in range(16))
+
+
+class MainPage(QWidget):
     main_page = None
 
     def __init__(self):
-        from security.generator.session_title import generate_session_title
-        
         MainPage.main_page = self
 
         super().__init__()
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setStyleSheet(COMMON_STYLE)
         self.resize(800, 500)
-        self.setWindowTitle(generate_session_title())
-        self._drag_pos = QPoint()        
+        self.setWindowTitle(_session_title())
+        self._drag_pos = QPoint()
         self._build_ui()
 
     def mousePressEvent(self, event):
@@ -63,5 +70,5 @@ class MainPage(QWidget):
         # ── Bottom row ────────────────────────────────────────
         self.bottom_row = BottomRow()
         root.addWidget(self.bottom_row)
-
-
+        self.auto_load_mods = AutoLoadModsController(self)
+        QTimer.singleShot(0, self.auto_load_mods.start_if_enabled)

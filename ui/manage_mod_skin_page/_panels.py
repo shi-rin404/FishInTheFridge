@@ -1,8 +1,11 @@
 from PySide6.QtWidgets import (
     QWidget, QPushButton, QLabel, QLineEdit, QCheckBox,
-    QHBoxLayout, QVBoxLayout, QComboBox, QMessageBox, QCompleter
+    QHBoxLayout, QVBoxLayout, QComboBox, QMessageBox, QCompleter, QFrame
 )
-from PySide6.QtCore import Qt, QObject, QEvent, QTimer
+from PySide6.QtCore import Qt, QObject, QEvent, QTimer, QRect
+from PySide6.QtGui import QCursor
+
+from .._style import COMMON_STYLE
 
 
 class _SelectAllFilter(QObject):
@@ -23,6 +26,20 @@ class _SelectAllFilter(QObject):
             if not obj.text():
                 self._show_all_completions()
         return super().eventFilter(obj, event)
+
+
+class _GrabPopup(QFrame):
+    def __init__(self, dropdown_btn: QPushButton):
+        super().__init__()
+        self.setWindowFlags(Qt.WindowType.Popup | Qt.FramelessWindowHint)
+        self._dropdown_btn = dropdown_btn
+        self.closed_by_dropdown = False
+
+    def hideEvent(self, event):
+        cursor_pos = QCursor.pos()
+        tl = self._dropdown_btn.mapToGlobal(self._dropdown_btn.rect().topLeft())
+        self.closed_by_dropdown = QRect(tl, self._dropdown_btn.size()).contains(cursor_pos)
+        super().hideEvent(event)
 
 
 class _PanelsMixin:
@@ -127,11 +144,45 @@ class _PanelsMixin:
 
         self.quick_grab_layout = QHBoxLayout()
         self.quick_grab_layout.setSpacing(8)
+        self._preferred_data_type = None
+        self._quick_grab_col_widget = QWidget()
+        _quick_grab_split = QHBoxLayout(self._quick_grab_col_widget)
+        _quick_grab_split.setSpacing(0)
+        _quick_grab_split.setContentsMargins(0, 0, 0, 0)
+
         self.quick_grab_btn = QPushButton("Grab Current Skin")
-        self.quick_grab_layout.addWidget(self.quick_grab_btn)
+        self.quick_grab_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.quick_grab_btn.setStyleSheet(
+            "QPushButton { border-top-right-radius: 0; border-bottom-right-radius: 0; }"
+            "QPushButton:hover { border-top-right-radius: 0; border-bottom-right-radius: 0; }"
+        )
+
+        self._quick_grab_dropdown_btn = QPushButton("▼")
+        self._quick_grab_dropdown_btn.setFixedWidth(22)
+        self._quick_grab_dropdown_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self._quick_grab_dropdown_btn.setStyleSheet(
+            "QPushButton { border-top-left-radius: 0; border-bottom-left-radius: 0; border-left: none; padding: 8px 4px; }"
+            "QPushButton:hover { border-top-left-radius: 0; border-bottom-left-radius: 0; }"
+        )
+
+        _quick_grab_split.addWidget(self.quick_grab_btn)
+        _quick_grab_split.addWidget(self._quick_grab_dropdown_btn)
+
+        self._quick_grab_popup = _GrabPopup(self._quick_grab_dropdown_btn)
+        self._quick_grab_popup.setStyleSheet(COMMON_STYLE)
+        _popup_layout = QVBoxLayout(self._quick_grab_popup)
+        _popup_layout.setContentsMargins(0, 0, 0, 0)
+        _popup_layout.setSpacing(0)
+        self.quick_grab_item_btn = QPushButton("Grab Current Item")
+        self.quick_grab_item_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.quick_grab_item_btn.setStyleSheet("QPushButton { font-size: 11px; padding: 8px 6px; }")
+        _popup_layout.addWidget(self.quick_grab_item_btn)
+
+        self.quick_grab_layout.addWidget(self._quick_grab_col_widget)
         self.quick_grab_layout.addStretch()
-        from core.automatic_processes.grab_current_skin import grab_current_skin
-        self.quick_grab_btn.clicked.connect(lambda: self.skin_path_input.setText(grab_current_skin()))
+        self.quick_grab_btn.clicked.connect(self._grab_current_skin)
+        self._quick_grab_dropdown_btn.clicked.connect(self._toggle_quick_grab_popup)
+        self.quick_grab_item_btn.clicked.connect(self._grab_current_item)
 
         from .._toggle_pin import TogglePin
         self.pin_toggle = TogglePin(parent=self, _checked=True)
@@ -146,3 +197,26 @@ class _PanelsMixin:
         layout.addLayout(self.quick_grab_layout)
         layout.addStretch()
         return panel
+
+    def _toggle_quick_grab_popup(self):
+        if self._quick_grab_popup.closed_by_dropdown:
+            self._quick_grab_popup.closed_by_dropdown = False
+            return
+        col_global = self._quick_grab_col_widget.mapToGlobal(
+            self._quick_grab_col_widget.rect().bottomLeft()
+        )
+        self._quick_grab_popup.adjustSize()
+        self._quick_grab_popup.setFixedWidth(self._quick_grab_col_widget.width())
+        self._quick_grab_popup.move(col_global.x(), col_global.y() + 4)
+        self._quick_grab_popup.show()
+
+    def _grab_current_skin(self):
+        from core.automatic_processes.grab_current_skin import grab_current_skin
+        self._preferred_data_type = None
+        self.skin_path_input.setText(grab_current_skin())
+
+    def _grab_current_item(self):
+        from core.automatic_processes.grab_current_skin import grab_current_skin
+        self._quick_grab_popup.hide()
+        self._preferred_data_type = "item"
+        self.skin_path_input.setText(grab_current_skin("ITEM"))

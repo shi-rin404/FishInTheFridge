@@ -1,14 +1,14 @@
 import sys
 import traceback
 from PySide6.QtWidgets import QApplication
-from ui.dispatch_page import DispatchPage
-from error_handler.exception_handler.handler_dispatcher import error_handlers
 
 
 def _exception_hook(exc_type, exc_value, exc_traceback):
     if issubclass(exc_type, KeyboardInterrupt):
         sys.__excepthook__(exc_type, exc_value, exc_traceback)
         return
+
+    from error_handler.exception_handler.handler_dispatcher import error_handlers
 
     frames = traceback.extract_tb(exc_traceback)
     func_name = next(
@@ -24,9 +24,12 @@ def _exception_hook(exc_type, exc_value, exc_traceback):
 
 sys.excepthook = _exception_hook
 
-DEBUG = True  # set False before building
-
 app = QApplication(sys.argv)
-window = DispatchPage(debug=DEBUG)
+
+from ui.main_page import MainPage
+from modding.get_mods import get_mods
+
+get_mods()
+window = MainPage()
 window.show()
 sys.exit(app.exec())

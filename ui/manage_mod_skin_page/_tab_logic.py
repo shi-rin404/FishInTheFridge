@@ -117,7 +117,7 @@ class _TabLogicMixin:
         self.help_btn.setVisible(add_only)
         self.auto_detect_check.setVisible(add_only)
         self.pin_toggle.setVisible(add_only)
-        self.quick_grab_btn.setVisible(add_only)
+        self._quick_grab_col_widget.setVisible(add_only)
         self.type_combo.setVisible(is_edit)
         self.skin_name_input.setReadOnly(is_edit)
         self.add_tab.setText("Edit" if (is_edit or self.editor_mode == "mod") else "Add")

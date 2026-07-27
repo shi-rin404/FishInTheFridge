@@ -53,7 +53,9 @@
     "Cheerleader Original": {
         "skin": "chr/player/dm65_survivor_w/h55_survivor_w_ll/h55_survivor_w_ll.gim",
         "item": "chr/prop/h55_pendant_caiqiu_r/h55_pendant_caiqiu_r.gim",
-        "extra_item_1": "chr/prop/h55_pendant_caiqiu_l/h55_pendant_caiqiu_l.gim"
+        "extra_item_1": "chr/prop/h55_pendant_caiqiu_l/h55_pendant_caiqiu_l.gim",
+        "item2": "chr\\prop\\h55_pendant_caiqiu_r\\h55_pendant_caiqiu_r.gim",
+        "extra_item_2": "chr\\prop\\h55_pendant_caiqiu_l\\h55_pendant_caiqiu_l.gim"
     },
     "Black Swan": {
         "item": "chr/prop/h55_pendant_flaregun/separate_dir/bdz_e_heitiane/bdz_e_heitiane_flaregun.gim",
@@ -480,5 +482,55 @@
     "Weeping Clown Original": {
         "skin": "chr/player/dm65_survivor_m/h55_survivor_m_spjk/h55_survivor_m_spjk.gim",
         "item": "chr/prop/h55_pendant_huojian/h55_pendant_huojian.gim"
+    },
+    "Citizen of Athens": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_jisi/separate_dir/jisi_d_yadian/jisi_d_yadian.gim"
+    },
+    "Mime Artist Original": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_moju/h55_survivor_w_moju.gim"
+    },
+    "Paper Bride Tao Mengyan": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_gd/separate_dir/gd_e_tao/gd_e_tao.gim"
+    },
+    "Naiad Original": {
+        "item": "chr/boss/yunv/yunv_weapon.gim",
+        "skin": "chr/boss/yunv/yunv.gim"
+    },
+    "Prisoner Original": {
+        "skin": "chr/player/dm65_survivor_m/h55_survivor_m_qiutu/h55_survivor_m_qiutu.gim"
+    },
+    "Hidden": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_shangren/separate_dir/shangren_e_cang/shangren_e_cang.gim",
+        "item": "chr/player/dm65_survivor_w/h55_survivor_w_shangren/separate_dir/shangren_e_cang/shangren_e_cang_boaguo.gim",
+        "extra_item_1": "chr/player/dm65_survivor_w/h55_survivor_w_shangren/separate_dir/shangren_e_cang/shangren_e_cang_plane.gim",
+        "extra_item_2": "chr/player/dm65_survivor_w/h55_survivor_w_shangren/separate_dir/shangren_e_cang/shangren_e_cang_tiaoban.gim",
+        "show": "chr/player/dm65_survivor_w/h55_survivor_w_shangren/separate_dir/shangren_e_cang/shangren_e_cang_show/shangren_e_cang_show_1.gim"
+    },
+    "Discipline": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_cp/separate_dir/cp_d_xundao/cp_d_xundao.gim",
+        "item": "chr/prop/h55_pendant_whistle/h55_pendant_whistle.gim"
+    },
+    "\"Mystic Nimbus\"": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_wht/separate_dir/wht_e_wuy/wht_e_wuy.gim"
+    },
+    "Yesterday": {
+        "skin": "chr/player/dm65_survivor_w/dm65_survivor_w_yiyaoshi/separate_dir/yiyaoshi_e_wangxi/yiyaoshi_e_wangxi.gim",
+        "item": "chr/prop/h55_pendant_inject/separate_dir/yiyaoshi_e_wangxi/yiyaoshi_e_wangxi_inject.gim"
+    },
+    "False Innocence": {
+        "skin": "chr/player/dm65_survivor_w/h55_survivor_w_hlz/separate_dir/hlz_d_dn/hlz_d_dn.gim",
+        "item": "chr/prop/h55_pendant_gjx/h55_pendant_gjx.gim"
+    },
+    "Forbidden Crone": {
+        "skin": "chr/boss/yunv/separate_dir/yunv_e_zhi/yunv_e_zhi.gim",
+        "item": "chr/boss/yunv/separate_dir/yunv_e_zhi/yunv_e_zhi_weapon.gim"
+    },
+    "Brimstone": {
+        "skin": "chr/boss/banshee/separate_dir/banshee_e_liuhuo/banshee_e_liuhuo.gim",
+        "item": "chr/boss/banshee/separate_dir/banshee_e_liuhuo/banshee_e_liuhuo_fan.gim"
+    },
+    "Flufftail Birthday Host": {
+        "item": "chr/boss/redqueen/separate_dir/redqueen_e_sr/redqueen_e_sr_weapon.gim",
+        "skin": "chr/boss/redqueen/separate_dir/redqueen_e_sr/redqueen_e_sr.gim"
     }
 }
