@@ -7,13 +7,42 @@ locations when missing.
 
 import os
 import zipfile
+import json
+import argparse
+import re
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent
-OUTPUT_ZIP = PROJECT_ROOT.parent / f"{PROJECT_ROOT.name}_release.zip"
+SYSTEM_VARIABLES = PROJECT_ROOT / "database" / "system" / "system_variables.json"
 
-SKIP_DIRS = {"__pycache__", ".git", ".claude"}
+SKIP_DIRS = {"__pycache__", ".git", ".claude", "dist"}
 SKIP_FILES = {Path(__file__).name, "3dm.zip"}
+VERSION_RE = re.compile(r"^\d+(?:\.\d+)*$")
+
+
+def _load_system_variables() -> dict:
+    with SYSTEM_VARIABLES.open(encoding="utf-8") as f:
+        return json.load(f)
+
+
+def _write_system_variables(system_variables: dict) -> None:
+    with SYSTEM_VARIABLES.open("w", encoding="utf-8") as f:
+        json.dump(system_variables, f, indent=4)
+        f.write("\n")
+
+
+def _set_version(version: str) -> None:
+    system_variables = _load_system_variables()
+    system_variables["version"] = version
+    _write_system_variables(system_variables)
+
+
+def _output_zip_path(system_variables: dict) -> Path:
+    version = str(system_variables["version"]).replace(".", "-")
+    asset_prefix = system_variables.get("release_asset_prefix", "miyou-loader")
+    dist_dir = PROJECT_ROOT / "dist"
+    dist_dir.mkdir(exist_ok=True)
+    return dist_dir / f"{asset_prefix}-{version}.zip"
 
 
 def _arc_name(rel_posix: str) -> str | None:
@@ -27,8 +56,31 @@ def _arc_name(rel_posix: str) -> str | None:
     return rel_posix
 
 
+def _version_arg(value: str) -> str:
+    if not VERSION_RE.fullmatch(value):
+        raise argparse.ArgumentTypeError(
+            "version must use dotted numbers, for example: 1.2.3"
+        )
+    return value
+
+
+def _parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Build the Miyou Loader release zip.")
+    parser.add_argument(
+        "--version",
+        type=_version_arg,
+        help="Update database/system/system_variables.json before packaging.",
+    )
+    return parser.parse_args()
+
+
 def main() -> None:
-    with zipfile.ZipFile(OUTPUT_ZIP, "w", zipfile.ZIP_DEFLATED) as zf:
+    args = _parse_args()
+    if args.version:
+        _set_version(args.version)
+
+    output_zip = _output_zip_path(_load_system_variables())
+    with zipfile.ZipFile(output_zip, "w", zipfile.ZIP_DEFLATED) as zf:
         for dirpath, dirnames, filenames in os.walk(PROJECT_ROOT):
             rel_dir = Path(dirpath).relative_to(PROJECT_ROOT)
             rel_posix = rel_dir.as_posix()
@@ -57,7 +109,7 @@ def main() -> None:
 
                 zf.write(file_path, arc)
 
-    print(f"Packed: {OUTPUT_ZIP}")
+    print(f"Packed: {output_zip}")
 
 
 if __name__ == "__main__":

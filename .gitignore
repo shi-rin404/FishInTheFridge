@@ -182,7 +182,7 @@ cython_debug/
 
 # Local tool/user data
 .claude/
+dist/
 database/user/*.json
 database/modding/mod_list.json
 modding/3dm/
-modding/*.zip
