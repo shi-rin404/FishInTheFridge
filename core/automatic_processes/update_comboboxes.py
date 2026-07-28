@@ -95,7 +95,7 @@ def update_comboboxes(mode: Literal["skin", "mod", "preset", "all"] = "all"):
 
     if mode in ("skin", "all"):
         targets.extend(_skin_combos())
-    if mode in ("mod", "all"):
+    if mode in ("skin", "mod", "all"):
         targets.extend(_mod_combos())
 
     for combo, list_path, path_dict in targets:

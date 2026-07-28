@@ -11,6 +11,10 @@ from PySide6.QtCore import Qt, QPoint
 from PySide6.QtGui import QFont, QTextBlockFormat
 
 from database.user.user_variables import user_variables
+from modding.character_lookup import (
+    character_from_mod_manifest,
+    load_character_keywords,
+)
 
 
 # ── JSON formatting ───────────────────────────────────────────
@@ -202,11 +206,7 @@ def get_mods(reload_mod_combos_toggle:bool = True):
     from core.variable_manager import program_variables
     import modding.path_dictionary as pd
 
-    def _character_name(data: dict) -> str:
-        character = data.get("character")
-        if isinstance(character, str) and character.strip():
-            return character.strip()
-        return pd.NO_CHARACTER_INFO
+    character_keywords = load_character_keywords()
 
     # 1. Walk mod_dir for all mod.json files (case-sensitive)
     mod_files: dict[str, dict] = {}
@@ -223,8 +223,8 @@ def get_mods(reload_mod_combos_toggle:bool = True):
 
     if not mod_files:
         pd.mod_dict.clear()
-        pd.character_dict.clear()
         pd.mod_character_dict.clear()
+        pd.sync_character_group("mods", {})
         return
 
     # 2. Group files by their "name" value; files without "name" are ungrouped
@@ -281,7 +281,11 @@ def get_mods(reload_mod_combos_toggle:bool = True):
         if name not in conflicting_names:
             data = mod_files[files[0]]
             merged[name] = {k: v for k, v in data.items() if k != "name"}
-            mod_characters[name] = _character_name(data)
+            mod_characters[name] = character_from_mod_manifest(
+                data,
+                files[0],
+                character_keywords,
+            )
 
     # Resolved conflicts
     for resolution in conflict_resolution.values():
@@ -291,7 +295,11 @@ def get_mods(reload_mod_combos_toggle:bool = True):
             actual_name = data.get("name")
             if actual_name:
                 merged[actual_name] = {k: v for k, v in data.items() if k != "name"}
-                mod_characters[actual_name] = _character_name(data)
+                mod_characters[actual_name] = character_from_mod_manifest(
+                    data,
+                    filepath,
+                    character_keywords,
+                )
 
     # Files with no "name" key — skip; can't be keyed by name
 
@@ -300,11 +308,7 @@ def get_mods(reload_mod_combos_toggle:bool = True):
     pd.mod_dict.update(merged)
     pd.mod_character_dict.clear()
     pd.mod_character_dict.update(mod_characters)
-    pd.character_dict.clear()
-    for mod_name, character in mod_characters.items():
-        pd.character_dict.setdefault(character, []).append(mod_name)
-    for mod_names in pd.character_dict.values():
-        mod_names.sort(key=str.casefold)
+    pd.sync_character_group("mods", mod_characters)
 
     # 6. Persist to database
     os.makedirs(os.path.dirname(program_variables.mod_list_path), exist_ok=True)

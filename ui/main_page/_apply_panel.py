@@ -364,23 +364,48 @@ class ApplyPanel(QFrame):
         if not self._character_filter_active:
             return list(mod_dict.keys())
         character = self.character_filter_combo.currentText() or NO_CHARACTER_INFO
-        allowed_names = set(character_dict.get(character, []))
+        allowed_names = set(character_dict.get(character, {}).get("mods", []))
         return [name for name in mod_dict.keys() if name in allowed_names]
 
-    def _apply_character_filter(self):
-        current_text = self.mod_combo.currentText()
-        self.mod_combo.blockSignals(True)
-        self.mod_combo.clear()
-        for name in self._filtered_mod_names():
-            self.mod_combo.addItem(name, userData=mod_dict[name])
-        index = self.mod_combo.findText(current_text)
+    def _filtered_skin_names(self) -> list[str]:
+        if not self._character_filter_active:
+            return list(skin_dict.keys())
+        character = self.character_filter_combo.currentText() or NO_CHARACTER_INFO
+        allowed_names = set(character_dict.get(character, {}).get("skins", []))
+        return [name for name in skin_dict.keys() if name in allowed_names]
+
+    def _reload_combo_items(
+        self,
+        combo: QComboBox,
+        records: dict,
+        names: list[str],
+    ) -> None:
+        current_text = combo.currentText()
+        combo.blockSignals(True)
+        combo.clear()
+        for name in names:
+            combo.addItem(name, userData=records[name])
+        index = combo.findText(current_text)
         if index != -1:
-            self.mod_combo.setCurrentIndex(index)
+            combo.setCurrentIndex(index)
         else:
-            self.mod_combo.setCurrentIndex(-1)
-            self.mod_combo.lineEdit().clear()
-        self.mod_combo.blockSignals(False)
-        self.mod_combo.completer().setModel(self.mod_combo.model())
+            combo.setCurrentIndex(-1)
+            combo.lineEdit().clear()
+        combo.blockSignals(False)
+        combo.completer().setModel(combo.model())
+
+    def _apply_character_filter(self):
+        self._reload_combo_items(
+            self.skin_combo,
+            skin_dict,
+            self._filtered_skin_names(),
+        )
+        self._reload_combo_items(
+            self.mod_combo,
+            mod_dict,
+            self._filtered_mod_names(),
+        )
+        self.unmod_toggle()
         self._update_dropdown_btn()
 
     def _on_force_apply(self):

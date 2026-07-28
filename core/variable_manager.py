@@ -6,6 +6,7 @@ class ProgramVariables():
     __memory_json__ = project_root / "database" / "user" / "memory.json"
     __system_variables_json__ = project_root / "database" / "system" / "system_variables.json"
     skin_list_path = project_root / "database" / "modding" / "skin_list.json"
+    character_list_path = project_root / "database" / "modding" / "character_list.json"
     mod_list_path = project_root / "database" / "modding" / "mod_list.json"
     presets_path = project_root / "database" / "user" / "presets.json"
     default_memory_json = defaults_path / "user" / "memory.json"
