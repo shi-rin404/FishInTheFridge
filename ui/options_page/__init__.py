@@ -59,14 +59,7 @@ class OptionsPage(StylePaintMixin, QWidget):
 
         title = QLabel("Options")
         title.setObjectName("title")
-        content.addWidget(title)
-
-        self.check_updates_on_start_check = QCheckBox("Check for updates on start")
-        self.check_updates_on_start_check.setCursor(Qt.CursorShape.PointingHandCursor)
-        self.check_updates_on_start_check.toggled.connect(
-            self._on_check_updates_on_start_toggled
-        )
-        content.addWidget(self.check_updates_on_start_check)
+        content.addWidget(title)        
 
         launch_row = QHBoxLayout()
         launch_row.setSpacing(12)
@@ -85,6 +78,14 @@ class OptionsPage(StylePaintMixin, QWidget):
         launch_row.addWidget(self.launch_preset_combo)
         launch_row.addStretch()
         content.addLayout(launch_row)
+
+        self.check_updates_on_start_check = QCheckBox("Check for updates on start")
+        self.check_updates_on_start_check.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.check_updates_on_start_check.toggled.connect(
+            self._on_check_updates_on_start_toggled
+        )
+        content.addWidget(self.check_updates_on_start_check)
+
         content.addStretch()
 
         root.addLayout(content)
