@@ -1,15 +1,41 @@
-from PySide6.QtWidgets import QFrame, QPushButton, QComboBox, QVBoxLayout, QHBoxLayout, QCompleter, QWidget, QMessageBox, QApplication
-from PySide6.QtCore import Qt, QObject, QEvent, QRect, QTimer
-from PySide6.QtGui import QCursor
+from PySide6.QtWidgets import (
+    QApplication,
+    QComboBox,
+    QCompleter,
+    QFrame,
+    QHBoxLayout,
+    QLabel,
+    QMessageBox,
+    QPushButton,
+    QVBoxLayout,
+    QWidget,
+)
+from PySide6.QtCore import Qt, QObject, QEvent, QRect, QSize, QTimer
+from PySide6.QtGui import QCursor, QIcon
 
 from modding.apply_mod import apply_mod
 from modding.ui.load_json_lists import load_json_list
-from modding.path_dictionary import skin_dict, mod_dict
+from modding.path_dictionary import (
+    NO_CHARACTER_INFO,
+    character_dict,
+    skin_dict,
+    mod_dict,
+)
 
 from core.variable_manager import program_variables
-from .._style import MUTED, COMMON_STYLE
+from .._style import BG, BORDER, MUTED, TEXT, COMMON_STYLE
 _SKIN_LIST_PATH = program_variables.skin_list_path
 _MOD_LIST_PATH = program_variables.mod_list_path
+
+
+def _invert_hex(color: str) -> str:
+    color = color.lstrip("#")
+    if len(color) != 6:
+        return "#000000"
+    return "#" + "".join(
+        f"{255 - int(color[idx:idx + 2], 16):02X}"
+        for idx in range(0, 6, 2)
+    )
 
 
 class _SelectAllFilter(QObject):
@@ -58,7 +84,8 @@ class ApplyPanel(QFrame):
         self.setStyleSheet(
             "QFrame#sub_panel { border: 1.5px solid #5a5549; border-radius: 8px; }"
         )
-        self.setFixedWidth(260)
+        self.setFixedWidth(300)
+        self._character_filter_active = False
         self._build()
         self.hide()
 
@@ -88,6 +115,37 @@ class ApplyPanel(QFrame):
         self.skin_combo.currentIndexChanged.connect(self.unmod_toggle)
         self.skin_combo.currentTextChanged.connect(self.unmod_toggle)
         self.skin_combo.currentTextChanged.connect(self._update_dropdown_btn)
+
+        self._filter_col_widget = QWidget()
+        _filter_split = QHBoxLayout(self._filter_col_widget)
+        _filter_split.setSpacing(0)
+        _filter_split.setContentsMargins(0, 0, 0, 0)
+
+        self.character_filter_btn = QPushButton()
+        self.character_filter_btn.setIcon(QIcon("assets/filter.png"))
+        self.character_filter_btn.setIconSize(QSize(22, 22))
+        self.character_filter_btn.setFixedWidth(34)
+        self.character_filter_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+
+        self.character_filter_dropdown_btn = QPushButton("▼")
+        self.character_filter_dropdown_btn.setFixedWidth(22)
+        self.character_filter_dropdown_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+
+        _filter_split.addWidget(self.character_filter_btn)
+        _filter_split.addWidget(self.character_filter_dropdown_btn)
+
+        self._filter_popup = _ForcePopup(self.character_filter_dropdown_btn)
+        self._filter_popup.setStyleSheet(COMMON_STYLE)
+        _filter_popup_layout = QVBoxLayout(self._filter_popup)
+        _filter_popup_layout.setContentsMargins(8, 8, 8, 8)
+        _filter_popup_layout.setSpacing(6)
+        _filter_popup_layout.addWidget(QLabel("Character:"))
+        self.character_filter_combo = QComboBox()
+        self.character_filter_combo.setMinimumWidth(180)
+        self.character_filter_combo.setStyleSheet(_combo_style)
+        _filter_popup_layout.addWidget(self.character_filter_combo)
+        self._refresh_character_filter_options()
+        self._update_character_filter_btn()
 
         self.mod_combo = QComboBox()
         load_json_list(self.mod_combo, _MOD_LIST_PATH, mod_dict)
@@ -131,7 +189,7 @@ class ApplyPanel(QFrame):
             f"QPushButton:disabled {{ color: {MUTED}; border-top-right-radius: 0; border-bottom-right-radius: 0; }}"
         )
 
-        self._dropdown_btn = QPushButton("▾")
+        self._dropdown_btn = QPushButton("▼")
         self._dropdown_btn.setFixedWidth(22)
         self._dropdown_btn.setEnabled(False)
         self._dropdown_btn.setCursor(Qt.CursorShape.PointingHandCursor)
@@ -164,8 +222,15 @@ class ApplyPanel(QFrame):
         self.unmod_btn.clicked.connect(self._on_unmod)
         self._dropdown_btn.clicked.connect(self._toggle_force_apply)
         self.force_apply_btn.clicked.connect(self._on_force_apply)
+        self.character_filter_btn.clicked.connect(self._on_character_filter_clicked)
+        self.character_filter_dropdown_btn.clicked.connect(self._toggle_filter_popup)
+        self.character_filter_combo.currentTextChanged.connect(self._on_character_filter_changed)
 
-        layout.addWidget(self.skin_combo)
+        skin_row = QHBoxLayout()
+        skin_row.setSpacing(6)
+        skin_row.addWidget(self.skin_combo, stretch=1)
+        skin_row.addWidget(self._filter_col_widget)
+        layout.addLayout(skin_row)
         layout.addWidget(self.mod_combo)
         layout.addLayout(action_row)
 
@@ -214,7 +279,7 @@ class ApplyPanel(QFrame):
     def _toggle_force_apply(self):
         if self._force_popup.closed_by_dropdown:
             # Qt already closed the popup (via Popup mechanism) when the user
-            # pressed ▾ — don't reopen it on the subsequent release/clicked.
+            # pressed the dropdown arrow; skip re-opening on clicked.
             self._force_popup.closed_by_dropdown = False
             return
         col_global = self._apply_col_widget.mapToGlobal(
@@ -224,6 +289,99 @@ class ApplyPanel(QFrame):
         self._force_popup.setFixedWidth(self._apply_col_widget.width())
         self._force_popup.move(col_global.x(), col_global.y() + 4)
         self._force_popup.show()
+
+    def refresh_mod_filter(self):
+        self._refresh_character_filter_options()
+        self._apply_character_filter()
+
+    def _refresh_character_filter_options(self):
+        current_text = self.character_filter_combo.currentText() or NO_CHARACTER_INFO
+        character_names = [NO_CHARACTER_INFO]
+        character_names.extend(
+            sorted(
+                name for name in character_dict.keys()
+                if name != NO_CHARACTER_INFO
+            )
+        )
+        self.character_filter_combo.blockSignals(True)
+        self.character_filter_combo.clear()
+        self.character_filter_combo.addItems(character_names)
+        index = self.character_filter_combo.findText(current_text)
+        self.character_filter_combo.setCurrentIndex(index if index != -1 else 0)
+        self.character_filter_combo.blockSignals(False)
+
+    def _on_character_filter_clicked(self):
+        self._character_filter_active = not self._character_filter_active
+        self._update_character_filter_btn()
+        self._apply_character_filter()
+        if self._character_filter_active:
+            self._show_filter_popup()
+
+    def _on_character_filter_changed(self):
+        if self._character_filter_active:
+            self._apply_character_filter()
+
+    def _toggle_filter_popup(self):
+        if self._filter_popup.closed_by_dropdown:
+            self._filter_popup.closed_by_dropdown = False
+            return
+        self._show_filter_popup()
+
+    def _show_filter_popup(self):
+        col_global = self._filter_col_widget.mapToGlobal(
+            self._filter_col_widget.rect().bottomLeft()
+        )
+        self._filter_popup.adjustSize()
+        self._filter_popup.setFixedWidth(max(self._filter_col_widget.width(), 210))
+        self._filter_popup.move(col_global.x(), col_global.y() + 4)
+        self._filter_popup.show()
+
+    def _update_character_filter_btn(self):
+        active_bg = _invert_hex(BG)
+        active_text = _invert_hex(TEXT)
+        active_border = _invert_hex(BORDER)
+        filter_style = (
+            "QPushButton { border-top-right-radius: 0; border-bottom-right-radius: 0;"
+            " padding: 8px 4px; }"
+            "QPushButton:hover { border-top-right-radius: 0; border-bottom-right-radius: 0; }"
+        )
+        if self._character_filter_active:
+            filter_style = (
+                f"QPushButton {{ background-color: {active_bg}; color: {active_text};"
+                f" border-color: {active_border}; border-top-right-radius: 0;"
+                " border-bottom-right-radius: 0; padding: 8px 4px; }}"
+                f"QPushButton:hover {{ background-color: {active_bg}; }}"
+            )
+        dropdown_style = (
+            "QPushButton { border-top-left-radius: 0; border-bottom-left-radius: 0;"
+            " border-left: none; padding: 8px 4px; }"
+            "QPushButton:hover { border-top-left-radius: 0; border-bottom-left-radius: 0; }"
+        )
+        self.character_filter_btn.setStyleSheet(filter_style)
+        self.character_filter_dropdown_btn.setStyleSheet(dropdown_style)
+
+    def _filtered_mod_names(self) -> list[str]:
+        if not self._character_filter_active:
+            return list(mod_dict.keys())
+        character = self.character_filter_combo.currentText() or NO_CHARACTER_INFO
+        allowed_names = set(character_dict.get(character, []))
+        return [name for name in mod_dict.keys() if name in allowed_names]
+
+    def _apply_character_filter(self):
+        current_text = self.mod_combo.currentText()
+        self.mod_combo.blockSignals(True)
+        self.mod_combo.clear()
+        for name in self._filtered_mod_names():
+            self.mod_combo.addItem(name, userData=mod_dict[name])
+        index = self.mod_combo.findText(current_text)
+        if index != -1:
+            self.mod_combo.setCurrentIndex(index)
+        else:
+            self.mod_combo.setCurrentIndex(-1)
+            self.mod_combo.lineEdit().clear()
+        self.mod_combo.blockSignals(False)
+        self.mod_combo.completer().setModel(self.mod_combo.model())
+        self._update_dropdown_btn()
 
     def _on_force_apply(self):
         self._force_popup.hide()

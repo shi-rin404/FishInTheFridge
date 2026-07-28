@@ -11,6 +11,7 @@ class ProgramVariables():
     default_memory_json = defaults_path / "user" / "memory.json"
     default_presets_path = defaults_path / "user" / "presets.json"
     default_mod_list_path = defaults_path / "modding" / "mod_list.json"
+    default_3dm_zip_path = defaults_path / "3dm.zip"
     default_3dm_folder_path = defaults_path / "3dm"
     _3dm_folder_path = project_root / "modding" / "3dm"
 

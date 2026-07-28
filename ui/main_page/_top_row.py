@@ -56,7 +56,7 @@ class TopRow(QWidget):
         )
         self.install_btn.clicked.connect(self.install_mod_clicked)
 
-        self._install_dropdown_btn = QPushButton("▾")
+        self._install_dropdown_btn = QPushButton("▼")
         self._install_dropdown_btn.setFixedWidth(22)
         self._install_dropdown_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         self._install_dropdown_btn.setStyleSheet(

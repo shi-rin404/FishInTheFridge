@@ -189,7 +189,7 @@ class DebugModePage(StylePaintMixin, QWidget):
             f"QPushButton:disabled {{ color: {MUTED}; border-color: {MUTED}; border-top-right-radius: 0; border-bottom-right-radius: 0; }}"
         )
 
-        self.edit_values_dropdown_btn = QPushButton("▾")
+        self.edit_values_dropdown_btn = QPushButton("▼")
         self.edit_values_dropdown_btn.setFixedWidth(22)
         self.edit_values_dropdown_btn.setEnabled(False)
         self.edit_values_dropdown_btn.setCursor(Qt.CursorShape.PointingHandCursor)

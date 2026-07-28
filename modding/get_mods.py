@@ -202,6 +202,12 @@ def get_mods(reload_mod_combos_toggle:bool = True):
     from core.variable_manager import program_variables
     import modding.path_dictionary as pd
 
+    def _character_name(data: dict) -> str:
+        character = data.get("character")
+        if isinstance(character, str) and character.strip():
+            return character.strip()
+        return pd.NO_CHARACTER_INFO
+
     # 1. Walk mod_dir for all mod.json files (case-sensitive)
     mod_files: dict[str, dict] = {}
     for dirpath, _, filenames in os.walk(user_variables.mod_dir):
@@ -217,6 +223,8 @@ def get_mods(reload_mod_combos_toggle:bool = True):
 
     if not mod_files:
         pd.mod_dict.clear()
+        pd.character_dict.clear()
+        pd.mod_character_dict.clear()
         return
 
     # 2. Group files by their "name" value; files without "name" are ungrouped
@@ -266,12 +274,14 @@ def get_mods(reload_mod_combos_toggle:bool = True):
 
     # 4. Merge: discard "name" key from all entries; resolution takes priority for conflicts
     merged: dict = {}
+    mod_characters: dict[str, str] = {}
 
     # Non-conflicting named files
     for name, files in name_to_files.items():
         if name not in conflicting_names:
             data = mod_files[files[0]]
             merged[name] = {k: v for k, v in data.items() if k != "name"}
+            mod_characters[name] = _character_name(data)
 
     # Resolved conflicts
     for resolution in conflict_resolution.values():
@@ -281,12 +291,20 @@ def get_mods(reload_mod_combos_toggle:bool = True):
             actual_name = data.get("name")
             if actual_name:
                 merged[actual_name] = {k: v for k, v in data.items() if k != "name"}
+                mod_characters[actual_name] = _character_name(data)
 
     # Files with no "name" key — skip; can't be keyed by name
 
     # 5. Update in-memory dict
     pd.mod_dict.clear()
     pd.mod_dict.update(merged)
+    pd.mod_character_dict.clear()
+    pd.mod_character_dict.update(mod_characters)
+    pd.character_dict.clear()
+    for mod_name, character in mod_characters.items():
+        pd.character_dict.setdefault(character, []).append(mod_name)
+    for mod_names in pd.character_dict.values():
+        mod_names.sort(key=str.casefold)
 
     # 6. Persist to database
     os.makedirs(os.path.dirname(program_variables.mod_list_path), exist_ok=True)

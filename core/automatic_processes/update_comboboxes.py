@@ -101,5 +101,14 @@ def update_comboboxes(mode: Literal["skin", "mod", "preset", "all"] = "all"):
     for combo, list_path, path_dict in targets:
         load_json_list(combo, list_path, path_dict)
 
+    if mode in ("mod", "all"):
+        from ui.main_page import MainPage
+
+        if (
+            MainPage.main_page is not None
+            and hasattr(MainPage.main_page, "apply_panel")
+        ):
+            MainPage.main_page.apply_panel.refresh_mod_filter()
+
     if mode in ("preset", "all"):
         _preset_combos()
