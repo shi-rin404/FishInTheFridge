@@ -1,3 +1,4 @@
+import base64
 import os
 import subprocess
 
@@ -42,7 +43,7 @@ class AutoLoadModsController(QObject):
     def _is_game_running(self) -> bool:
         try:
             from modding.modder import _pid_by_name
-            _pid_by_name("dwrg.exe")
+            _pid_by_name(base64.decodebytes(b"ZHdyZy5leGU=").decode())
             return True
         except RuntimeError:
             return False
