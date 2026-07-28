@@ -47,6 +47,8 @@ def _output_zip_path(system_variables: dict) -> Path:
 
 def _arc_name(rel_posix: str) -> str | None:
     """Return the archive path for a relative posix path, or None to skip."""
+    if any(part.startswith(".") for part in rel_posix.split("/") if part):
+        return None
     if rel_posix.startswith("modding/3dm/") or rel_posix == "modding/3dm":
         return None
     if rel_posix == "modding/3dm.zip":
@@ -92,6 +94,7 @@ def main() -> None:
             dirnames[:] = [
                 d for d in dirnames
                 if d not in SKIP_DIRS
+                and not d.startswith(".")
                 and not (rel_posix == "modding" and d == "3dm")
                 and not (rel_posix == "defaults" and d == "3dm")
             ]
@@ -102,7 +105,7 @@ def main() -> None:
                     zf.writestr(zipfile.ZipInfo(arc_dir + "/"), b"")
 
             for fname in filenames:
-                if fname in SKIP_FILES:
+                if fname in SKIP_FILES or fname.startswith("."):
                     continue
 
                 file_path = Path(dirpath) / fname

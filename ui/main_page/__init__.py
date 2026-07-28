@@ -97,7 +97,28 @@ class MainPage(QWidget):
         root.addWidget(self.bottom_row)
         self.background_editor = BackgroundImageEditor(self)
         self.auto_load_mods = AutoLoadModsController(self)
+        self._startup_update_controller = None
+        QTimer.singleShot(0, self._check_updates_on_start)
         QTimer.singleShot(0, self.auto_load_mods.start_if_enabled)
+
+    def _check_updates_on_start(self):
+        from core.options_memory import check_updates_on_start
+        from ui.update_controller import UpdateController
+
+        if not check_updates_on_start():
+            return
+        self._startup_update_controller = UpdateController(
+            self,
+            show_no_updates=False,
+            show_errors=False,
+        )
+        self._startup_update_controller.finished.connect(
+            self._clear_startup_update_controller
+        )
+        self._startup_update_controller.check_for_updates()
+
+    def _clear_startup_update_controller(self):
+        self._startup_update_controller = None
 
     def resizeEvent(self, event):
         super().resizeEvent(event)

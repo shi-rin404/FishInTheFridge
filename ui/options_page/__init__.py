@@ -20,7 +20,7 @@ class OptionsPage(StylePaintMixin, QWidget):
         super().__init__(parent, Qt.Window)
         self.setObjectName("options_page")
         self.setStyleSheet(window_style("options_page"))
-        self.resize(420, 190)
+        self.resize(460, 230)
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.Window)
         self._drag_pos = QPoint()
         self._build_ui()
@@ -61,6 +61,13 @@ class OptionsPage(StylePaintMixin, QWidget):
         title.setObjectName("title")
         content.addWidget(title)
 
+        self.check_updates_on_start_check = QCheckBox("Check for updates on start")
+        self.check_updates_on_start_check.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.check_updates_on_start_check.toggled.connect(
+            self._on_check_updates_on_start_toggled
+        )
+        content.addWidget(self.check_updates_on_start_check)
+
         launch_row = QHBoxLayout()
         launch_row.setSpacing(12)
         self.load_mods_check = QCheckBox("Load mods on launch")
@@ -84,8 +91,13 @@ class OptionsPage(StylePaintMixin, QWidget):
 
     def _load_settings(self):
         memory = read_memory()
+        check_updates = bool(memory.get("check_updates_on_start", True))
         enabled = bool(memory.get("load_mods_on_launch", False))
         preset_name = str(memory.get("load_mods_on_launch_preset", "") or "")
+
+        self.check_updates_on_start_check.blockSignals(True)
+        self.check_updates_on_start_check.setChecked(check_updates)
+        self.check_updates_on_start_check.blockSignals(False)
 
         self.load_mods_check.blockSignals(True)
         self.load_mods_check.setChecked(enabled)
@@ -109,3 +121,6 @@ class OptionsPage(StylePaintMixin, QWidget):
     def _on_preset_changed(self, preset_name: str):
         if self.load_mods_check.isChecked():
             set_memory_value("load_mods_on_launch_preset", preset_name.strip())
+
+    def _on_check_updates_on_start_toggled(self, checked: bool):
+        set_memory_value("check_updates_on_start", checked)

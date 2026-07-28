@@ -7,6 +7,7 @@ from zipfile import ZipFile
 
 DEFAULT_MEMORY = {
     "game_executable": None,
+    "check_updates_on_start": True,
     "load_mods_on_launch": False,
     "load_mods_on_launch_preset": "",
     "background_color": "#EAE4D5",

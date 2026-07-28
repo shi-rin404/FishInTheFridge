@@ -1,5 +1,6 @@
 {
     "game_executable": null,
+    "check_updates_on_start": true,
     "load_mods_on_launch": false,
     "load_mods_on_launch_preset": "",
     "background_color": "#EAE4D5",

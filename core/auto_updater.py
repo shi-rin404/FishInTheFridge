@@ -19,6 +19,8 @@ class ReleaseAsset:
     version: str
     name: str
     download_url: str
+    release_title: str
+    release_notes: str
 
 
 @dataclass(frozen=True)
@@ -77,7 +79,15 @@ def check_for_updates() -> UpdateCheckResult:
             version = _asset_version(name)
             download_url = asset.get("browser_download_url")
             if version and download_url:
-                candidates.append(ReleaseAsset(version, name, download_url))
+                candidates.append(
+                    ReleaseAsset(
+                        version,
+                        name,
+                        download_url,
+                        release.get("name") or release.get("tag_name") or name,
+                        release.get("body") or "",
+                    )
+                )
 
     if not candidates:
         return UpdateCheckResult(False, system_variables.version, system_variables.version)

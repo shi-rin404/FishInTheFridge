@@ -33,5 +33,9 @@ def load_mods_on_launch() -> bool:
     return bool(read_memory().get("load_mods_on_launch", False))
 
 
+def check_updates_on_start() -> bool:
+    return bool(read_memory().get("check_updates_on_start", True))
+
+
 def launch_preset() -> str:
     return str(read_memory().get("load_mods_on_launch_preset", "") or "")
